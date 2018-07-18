@@ -376,6 +376,7 @@ html,body{
   color: #00a3ad;
   background-color: transparent;
   border: solid 1px #00a3ad;
+  text-transform: capitalize;
 }
 .pmd-btn-outline.btn-info:hover, .pmd-btn-outline.btn-info:focus {
   color: #fff;
