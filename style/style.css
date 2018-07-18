@@ -3,11 +3,25 @@ Copyright (c) 2017-2017 Hexaware Technologies
 This file is part of the Innovation LAB - Offline Bot.
 ------------------------------------------------------------------- */
 /* Bootstrap css */
-
-
+@font-face {
+font-family: "markpro";
+src: 
+url("../fonts/markpro.woff"),
+}
+@font-face {
+font-family: "markprobold";
+src: 
+url("../fonts/markpro-bold.woff"),
+}
+@font-face {
+font-family: "TradeGothicLTPro-Bold";
+src: 
+url("../fonts/TradeGothicLTPro-Bold.woff"),
+}
 html,body{
     height:100%;
     overflow-y: hidden;
+    font-family: markpro,Verdana !important;
 
 }
 .main-container{
@@ -408,7 +422,7 @@ html,body{
 }
 
 .modal-box-custom{
-    font-family: Roboto;
+    font-family: sans-serif;
     line-height: 1.1;
     font-size: small;
     color: gray;
@@ -441,6 +455,7 @@ html,body{
 .pmd-card-actions .btn:first-child {
   margin-right: 0px;
   padding: 8px;
+
 }
 .pmd-card-actions .btn:last-child {
   margin-right: 0px;
@@ -449,6 +464,12 @@ html,body{
 
 .pmd-card-actions .btn {
   min-width: inherit;
+  margin-right: 0px;
+    padding: 8px;
+    text-transform: capitalize;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: normal;
   /*padding: 10px 8px;*/
 }
 .pmd-card-actions .btn {
