@@ -1,0 +1,2 @@
+define(["underscore"],function(e){"use strict";return e.mixin({deep:function(n,r,t){var i,l=r.replace(/\[(["']?)([^\1]+?)\1?\]/g,".$2").replace(/^\./,"").split("."),u=0,c=l.length;if(arguments.length>2){for(i=n,c--;c>u;)r=l[u++],n=n[r]=e.isObject(n[r])?n[r]:{};n[l[u]]=t,t=i}else{for(;null!=(n=n[l[u++]])&&c>u;);t=c>u?void 0:n}return t}}),e});
+//# sourceMappingURL=underscore.mixins.js.map

@@ -1,0 +1,28 @@
+{
+  "name": "MYRICOH",
+  "productName": "MyRicoh Bot",
+  "version": "0.1.0",
+  "main": "webhook.js",
+  "scripts": {
+    "start": "node webhook.js",
+    "stop": "forever stop ricohbot"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.15.4",
+    "mongoose": "^5.1.6",
+    "redis": "^2.8.0",
+    "request": "^2.87.0"
+  },
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HexaInnovLab/MYRICOH"
+  },
+  "author": "Innovation team Hexaware Technologies",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HexaInnovLab/MYRICOH/issues"
+  },
+  "homepage": ""
+}

@@ -1,0 +1,47 @@
+@media only screen and (min-width: 860px) {
+.chat-wrapper { /*width: 100%;*/ width: 150px; left: 0;position: fixed;top: 0;z-index: 99; transform: translate(0,50px);-webkit-transition: all .3s ease-in-out; -moz-transition: all .3s ease-in-out; -o-transition: all .3s ease-in-out;}
+.chat-wrapper { top:312px; }
+.chat-wrapper ul {overflow:visible; max-width: 150px; width: 54px; margin:0; border-top-right-radius: 0.375em; border-bottom-right-radius: 0.375em !important;background: #000;}
+.chat-wrapper ul li span {color:#fff; }
+.chat-wrapper #chatButton span.left { width:30px; height:30px;background-image: url('http://smb.optus.com.au/opfiles/Shop/Consumer/Assets/Images/widgetIconsNew.png'); background-size: 30px 120px; margin-right: 10px; display: inline-block;}
+.chat-wrapper .feedback span.left {background-position:0 195px; width:30px; height:30px;background-image: url('http://smb.optus.com.au/opfiles/Shop/Consumer/Assets/Images/widgetIconsNew.png'); background-size: 30px 120px; margin-right: 10px; display: inline-block;}
+.chat-wrapper .deals span.left {background-position:0 150px; width:30px; height:30px;background-image: url('http://smb.optus.com.au/opfiles/Shop/Consumer/Assets/Images/widgetIconsNew.png'); background-size: 30px 120px; margin-right: 10px; display: inline-block;}
+.chat-wrapper ul li .sub {color:#ccc !important;font-size: 13px;}
+.chat-wrapper ul li {margin:0; position:relative; width: 54px;background: #000;/* border-top-right-radius: 0.375em; *//* border-bottom-right-radius: 0.375em; */ -webkit-transition:all .1s ease-in-out; -moz-transition:all .1s ease-in-out; -o-transition:all .1s ease-in-out; transition:all .1s ease-in-out; line-height:1;}
+.chat-wrapper ul li .uppercase {opacity:0; transform: translate(-20px,0); font-family: MarkPro-Bold,Arial,Helvetica,sans-serif !important; text-transform:uppercase; font-size: 12px; line-height:1; display:inline-block; vertical-align: top;}
+.chat-wrapper ul li:hover a {width:150px !important; }
+.chat-wrapper ul li:hover {width:150px !important; -webkit-transition:all .1s ease-in-out; -o-transition:all .1s ease-in-out; -moz-transition:all .1s ease-in-out; transition:all .1s ease-in-out;background: #000;/* border-bottom-right-radius: 0.375em !important; *//* border-top-right-radius: 0.375em !important; */}
+.chat-wrapper ul li:hover .uppercase {-webkit-transition:all 0.3s ease-in-out; -o-transition:all 1s ease-in-out; -moz-transition:all 1s ease-in-out; transition:all 0.3s ease-in-out; opacity:1; transform: translate(0,0); }
+.chat-wrapper ul li a {padding: 1em 1.885em 0.885em 0.665em; display:block; margin:0 !important; min-height:4em; max-height:4em; overflow:hidden}
+.chat-wrapper ul li a .ico { font-size: 32px; margin-top:-0.115em }
+.chat-wrapper ul li:first-child{/* border-bottom: 1px solid #fff; */ border-bottom-right-radius: 0;}
+  
+
+.chat-wrapper ul li:last-child{/* border-top: 1px solid #fff; */ border-top-right-radius: 0;}
+.chat-wrapper {transform:translateX(-45px), -webkit-transition:transform .5s ease-in-out; -moz-transition:transform .5s ease-in-out; transition:transform .5s ease-in-out; -o-transition:transform .5s ease-in-out;}
+}
+
+@media only screen and (max-width: 860px) {
+
+#chatButton .sub { display:none; }
+.chat-wrapper {background: #000; z-index:900;  width:100%;}
+.chat-wrapper #chatButton span.left { width: 15px; height: 15px;background-image: url('http://smb.optus.com.au/opfiles/Shop/Consumer/Assets/Images/widgetIconsNew.png'); background-size: 15px 60px; margin-right: 10px; float: left;}
+.chat-wrapper .feedback span.left {background-position: 0 217px; width: 15px; height: 15px;background-image: url('http://smb.optus.com.au/opfiles/Shop/Consumer/Assets/Images/widgetIconsNew.png'); background-size: 15px 60px; margin-right: 10px; float: left;}
+.chat-wrapper .deals span.left {background-position: 0 255px; width: 15px; height: 15px;background-image: url('http://smb.optus.com.au/opfiles/Shop/Consumer/Assets/Images/widgetIconsNew.png'); background-size: 15px 60px; margin-right: 10px; float: left;}
+.chat-wrapper ul { margin:0 auto !important; display:block; text-align:center;  }
+.chat-wrapper ul li a { text-decoration:none; color:#fff; text-transform:uppercase;font-size: 11.5px; font-family: MarkPro-Bold,Arial,Helvetica,sans-serif !important;}
+.chat-wrapper ul li {position:relative; display:inline-block;padding:1em 0.665em ; font-family: MarkPro-Bold,Arial,Helvetica,sans-serif !important; text-align:center; margin-bottom:0 !important; }
+#chatButton.disabled .colorbullet { background: #fff !important;  opacity: 0.5; }
+#chatButton.disabled  a span.left{ opacity: 0.6; }
+#chatButton.disabled  a span.uppercase{ color:#fff ; opacity: 0.5; }
+}
+
+.chat-wrapper .ico:before { font-family: "optus-icons"; display: inline-block; }
+a.no-decoration {text-decoration: none;}
+ul.no-style, .footer-links ul, ol.no-style {list-style: none;padding: 0;margin-left: 0;}
+.colorbullet {width: 6px;height: 6px; display:block; border-radius:1em; position:absolute; top:0.5em; left:0.335em;}
+#chatButton.disabled .colorbullet{ background:#aaa; }
+#chatButton.disabled .uppercase, #chatButton.disabled .ico{ color:#aaa; }
+#chatButton.notavailable .colorbullet{background:#ffd100;}
+#chatButton.busy .colorbullet{background:red}
+#chatButton.available .colorbullet{background:#00a3ad}

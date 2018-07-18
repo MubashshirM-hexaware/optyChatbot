@@ -1,0 +1,112 @@
+.ux-autocomplete {
+  /**
+  * Colour Variables
+  * not to be used directly
+  */
+  /**
+   * Logo
+   */
+  /**
+   * Typography
+   */
+  /**
+   * Quote
+   */
+  /**
+  * QnA
+  */
+  /**
+   * Button colors
+   */
+  /**
+   * Forms
+   */
+  /**
+   * Autocomplete
+   */
+  /**
+   * Sub Header
+   */
+  /**
+   * Feature tiles
+   */
+  /**
+   * Promo tiles
+   */
+  /**
+   * Table colours
+  */
+  /**
+   * Foundation settings
+   */
+  /***************************
+   * THEMES - WIP cleanup    */
+  /**
+   * PERSONAL THEME
+   */
+  /**
+   * BUSINESS THEME
+   */
+  /**
+   * DEFAULT THEME = PERSONAL
+   */
+  /*== Font Family ================================== */
+  /* optus beta bold */
+  /* Trade Gothic Roman */
+  /* Trade Gothic Pro Bold Condensed No 20  */
+  /* Trade Gothic Pro Bold */
+  /* Mark Pro */
+  /* Mark Pro Thin*/
+  /* Mark Pro Medium*/
+  /* Mark Pro Heavy*/
+  /* Mark Pro Black*/
+  /* Mark Pro Bold*/
+  /* Optus Icons Bold */
+  /*== Icons ================================== */
+  /*== Navigation Heading ================================== */
+  /*== Navigation List ================================== */
+  /*== 3rd Level Navigation Heading ======================== */
+  /*== Social links ================================== */
+  /*== Campaign Headings / Mark pro Font ================================== */
+  /*== General Heading / Trade Condensed ================================== */
+  /*== Primary Heading / h1 ================================== */
+  /*== Secondary Heading / h2 ================================== */
+  /*== Tertiary Heading / h3 ================================== */
+  /*== Quaternary Heading / h4 ================================== */
+  /*== Quinary Heading / h5 ================================== */
+  /*==Default Font / h1 ========================================*/
+  /*== Body Copy ================================== */
+  /*== Major article body Copy ================================== */
+  /*== small copy ================================== */
+  /*== Senary Heading / h6 ================================== */
+  /*== Article heading ================================== */
+  /*== Body Copy - Bold ================================== */
+  /*== Quote Box Copy - Bold ================================== */
+  /*== Links ================================== */
+  /*== Fine Print ================================== */
+  /*== Lists ================================== */
+  /* ordered lists */
+  /* Menu item description text */
+  /* breadcrumb */
+  /*== QNA ================================== */
+  /*== Buttons ================================== */
+  /*== Forms ================================== */
+  /*-- Error -- */
+  /*== Foundation Settings ================================== */
+  /*handy helper class for optus button styles */
+  /* Gradient to 90% before switching to secondary color */
+  /* Rem Font Sizing */ }
+  .ux-autocomplete input.typeahead-input {
+    background: transparent;
+    position: relative;
+    z-index: 1; }
+  .ux-autocomplete input.typeahead {
+    background-color: white;
+    color: #999999;
+    position: absolute;
+    border-color: white;
+    z-index: 0; }
+  .ux-autocomplete .autocomplete-suggestive-text ul li.group-title {
+    padding: 20px 15px 10px; }
+    .ux-autocomplete .autocomplete-suggestive-text ul li.group-title h4 {
+      margin: 0; }

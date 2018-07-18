@@ -1,0 +1,1243 @@
+/**
+* Colour Variables
+* not to be used directly
+*/
+/**
+ * Logo
+ */
+/**
+ * Typography
+ */
+/**
+ * Quote
+ */
+/**
+* QnA
+*/
+/**
+ * Button colors
+ */
+/**
+ * Forms
+ */
+/**
+ * Autocomplete
+ */
+/**
+ * Sub Header
+ */
+/**
+ * Feature tiles
+ */
+/**
+ * Promo tiles
+ */
+/**
+ * Table colours
+*/
+/**
+ * Foundation settings
+ */
+/***************************
+ * THEMES - WIP cleanup    */
+/**
+ * PERSONAL THEME
+ */
+/**
+ * BUSINESS THEME
+ */
+/**
+ * DEFAULT THEME = PERSONAL
+ */
+/*== Font Family ================================== */
+/* optus beta bold */
+/* Trade Gothic Roman */
+/* Trade Gothic Pro Bold Condensed No 20  */
+/* Trade Gothic Pro Bold */
+/* Mark Pro */
+/* Mark Pro Thin*/
+/* Mark Pro Medium*/
+/* Mark Pro Heavy*/
+/* Mark Pro Black*/
+/* Mark Pro Bold*/
+/* Optus Icons Bold */
+/*== Icons ================================== */
+/*== Navigation Heading ================================== */
+/*== Navigation List ================================== */
+/*== 3rd Level Navigation Heading ======================== */
+/*== Social links ================================== */
+/*== Campaign Headings / Mark pro Font ================================== */
+/*== General Heading / Trade Condensed ================================== */
+/*== Primary Heading / h1 ================================== */
+/*== Secondary Heading / h2 ================================== */
+/*== Tertiary Heading / h3 ================================== */
+/*== Quaternary Heading / h4 ================================== */
+/*== Quinary Heading / h5 ================================== */
+/*==Default Font / h1 ========================================*/
+/*== Body Copy ================================== */
+/*== Major article body Copy ================================== */
+/*== small copy ================================== */
+/*== Senary Heading / h6 ================================== */
+/*== Article heading ================================== */
+/*== Body Copy - Bold ================================== */
+/*== Quote Box Copy - Bold ================================== */
+/*== Links ================================== */
+/*== Fine Print ================================== */
+/*== Lists ================================== */
+/* ordered lists */
+/* Menu item description text */
+/* breadcrumb */
+/*== QNA ================================== */
+/*== Buttons ================================== */
+/*== Forms ================================== */
+/*-- Error -- */
+/*== Foundation Settings ================================== */
+/*handy helper class for optus button styles */
+/* Gradient to 90% before switching to secondary color */
+/* Rem Font Sizing */
+/*********************************************************
+
+ BASE ICONS
+ These icon classes are the classes to be used moving forwards
+
+ Refer to modules/_icons.scss for deprecated class names
+ which is not recommended but will still be supported.
+
+**********************************************************/
+.ico-3g4g:before {
+  content: "\E001"; }
+
+.ico-4g:before {
+  content: "\E002"; }
+
+.ico-4gplus-stacked:before {
+  content: "\E003"; }
+
+.ico-4gplus:before {
+  content: "\E004"; }
+
+.ico-activate-service:before {
+  content: "\E005"; }
+
+.ico-add-a-second-plan:before {
+  content: "\E006"; }
+
+.ico-addons-purchases:before {
+  content: "\E007"; }
+
+.ico-address-book:before {
+  content: "\E008"; }
+
+.ico-aeroplane:before {
+  content: "\E009"; }
+
+.ico-android:before {
+  content: "\E00A"; }
+
+.ico-apple:before {
+  content: "\E00B"; }
+
+.ico-arrow-down-right-organic-small:before {
+  content: "\E00C"; }
+
+.ico-arrow-down:before {
+  content: "\E00D"; }
+
+.ico-arrow-left-organic:before {
+  content: "\E00E"; }
+
+.ico-arrow-left:before {
+  content: "\E00F"; }
+
+.ico-arrow-right-organic:before {
+  content: "\E010"; }
+
+.ico-arrow-right:before {
+  content: "\E011"; }
+
+.ico-arrow-up-left-organic-small:before {
+  content: "\E012"; }
+
+.ico-arrow-up:before {
+  content: "\E013"; }
+
+.ico-australia-map-outline:before {
+  content: "\E014"; }
+
+.ico-backup-storage:before {
+  content: "\E015"; }
+
+.ico-banking-finance:before {
+  content: "\E016"; }
+
+.ico-battery-empty:before {
+  content: "\E017"; }
+
+.ico-battery-full:before {
+  content: "\E018"; }
+
+.ico-bell:before {
+  content: "\E019"; }
+
+.ico-bill-settings:before {
+  content: "\E01A"; }
+
+.ico-billing:before {
+  content: "\E01B"; }
+
+.ico-building:before {
+  content: "\E01C"; }
+
+.ico-bundles:before {
+  content: "\E01D"; }
+
+.ico-business-builder:before {
+  content: "\E01E"; }
+
+.ico-business-care:before {
+  content: "\E01F"; }
+
+.ico-business-portal:before {
+  content: "\E020"; }
+
+.ico-business-reports:before {
+  content: "\E021"; }
+
+.ico-business-sharing:before {
+  content: "\E022"; }
+
+.ico-business-solutions:before {
+  content: "\E023"; }
+
+.ico-business-think-tank:before {
+  content: "\E024"; }
+
+.ico-calendar:before {
+  content: "\E025"; }
+
+.ico-camera:before {
+  content: "\E026"; }
+
+.ico-cart:before {
+  content: "\E027"; }
+
+.ico-case-studies:before {
+  content: "\E028"; }
+
+.ico-chat-bubble:before {
+  content: "\E029"; }
+
+.ico-cheap-value:before {
+  content: "\E02A"; }
+
+.ico-checkout:before {
+  content: "\E02B"; }
+
+.ico-claim-credit:before {
+  content: "\E02C"; }
+
+.ico-clever-plans:before {
+  content: "\E02D"; }
+
+.ico-clock:before {
+  content: "\E02E"; }
+
+.ico-cloud-data:before {
+  content: "\E02F"; }
+
+.ico-cloud-download:before {
+  content: "\E030"; }
+
+.ico-concierge:before {
+  content: "\E031"; }
+
+.ico-conferencing:before {
+  content: "\E032"; }
+
+.ico-confirm-tick:before {
+  content: "\E033"; }
+
+.ico-convenient-returns:before {
+  content: "\E034"; }
+
+.ico-copyright:before {
+  content: "\E035"; }
+
+.ico-coverage-maps:before {
+  content: "\E036"; }
+
+.ico-credit-card:before {
+  content: "\E037"; }
+
+.ico-credit-transfer:before {
+  content: "\E038"; }
+
+.ico-cross:before {
+  content: "\E039"; }
+
+.ico-customer-support:before {
+  content: "\E03A"; }
+
+.ico-dashboard:before {
+  content: "\E03B"; }
+
+.ico-delivery:before {
+  content: "\E03C"; }
+
+.ico-desktop-computer:before {
+  content: "\E03D"; }
+
+.ico-dollar-magnify:before {
+  content: "\E03E"; }
+
+.ico-dollar:before {
+  content: "\E03F"; }
+
+.ico-down-arrow:before {
+  content: "\E040"; }
+
+.ico-download-pdf:before {
+  content: "\E041"; }
+
+.ico-download:before {
+  content: "\E042"; }
+
+.ico-edit:before {
+  content: "\E043"; }
+
+.ico-education:before {
+  content: "\E044"; }
+
+.ico-eligible:before {
+  content: "\E045"; }
+
+.ico-email:before {
+  content: "\E046"; }
+
+.ico-enterprise-govt:before {
+  content: "\E047"; }
+
+.ico-equals:before {
+  content: "\E048"; }
+
+.ico-error-alert:before {
+  content: "\E049"; }
+
+.ico-error:before {
+  content: "\E04A"; }
+
+.ico-expert-advice:before {
+  content: "\E04B"; }
+
+.ico-extras:before {
+  content: "\E04C"; }
+
+.ico-facebook:before {
+  content: "\E04D"; }
+
+.ico-family-sharing:before {
+  content: "\E04E"; }
+
+.ico-faq:before {
+  content: "\E04F"; }
+
+.ico-fibre-connectivity:before {
+  content: "\E050"; }
+
+.ico-filtering:before {
+  content: "\E051"; }
+
+.ico-fixed-line:before {
+  content: "\E052"; }
+
+.ico-future-bus-reports:before {
+  content: "\E053"; }
+
+.ico-games:before {
+  content: "\E054"; }
+
+.ico-global-international:before {
+  content: "\E055"; }
+
+.ico-googleplus:before {
+  content: "\E056"; }
+
+.ico-handshake:before {
+  content: "\E057"; }
+
+.ico-happy-face:before {
+  content: "\E058"; }
+
+.ico-hash:before {
+  content: "\E059"; }
+
+.ico-headphones:before {
+  content: "\E05A"; }
+
+.ico-healthcare:before {
+  content: "\E05B"; }
+
+.ico-help-support:before {
+  content: "\E05C"; }
+
+.ico-home-wireless-broadband:before {
+  content: "\E05D"; }
+
+.ico-home:before {
+  content: "\E05E"; }
+
+.ico-hosting:before {
+  content: "\E05F"; }
+
+.ico-hourglass:before {
+  content: "\E060"; }
+
+.ico-house-my-medium-team:before {
+  content: "\E061"; }
+
+.ico-inbound:before {
+  content: "\E062"; }
+
+.ico-indent-arrow:before {
+  content: "\E063"; }
+
+.ico-industry-insights:before {
+  content: "\E064"; }
+
+.ico-infinity:before {
+  content: "\E065"; }
+
+.ico-info:before {
+  content: "\E066"; }
+
+.ico-instagram:before {
+  content: "\E067"; }
+
+.ico-instore-appointment:before {
+  content: "\E068"; }
+
+.ico-international-minutes:before {
+  content: "\E069"; }
+
+.ico-internet-data:before {
+  content: "\E06A"; }
+
+.ico-internet:before {
+  content: "\E06B"; }
+
+.ico-ipphone:before {
+  content: "\E06C"; }
+
+.ico-laptop:before {
+  content: "\E06D"; }
+
+.ico-latest-tech:before {
+  content: "\E06E"; }
+
+.ico-link-service:before {
+  content: "\E06F"; }
+
+.ico-linkedin:before {
+  content: "\E070"; }
+
+.ico-loading:before {
+  content: "\E071"; }
+
+.ico-log-in:before {
+  content: "\E072"; }
+
+.ico-logout:before {
+  content: "\E073"; }
+
+.ico-machine-to-machine:before {
+  content: "\E074"; }
+
+.ico-managed-router-services:before {
+  content: "\E075"; }
+
+.ico-managed-services:before {
+  content: "\E076"; }
+
+.ico-member-services:before {
+  content: "\E077"; }
+
+.ico-menu:before {
+  content: "\E078"; }
+
+.ico-micro-sim:before {
+  content: "\E079"; }
+
+.ico-minus:before {
+  content: "\E07A"; }
+
+.ico-mobile-arrow-top-left:before {
+  content: "\E07B"; }
+
+.ico-mobile-broadband-arrow-top-left:before {
+  content: "\E07C"; }
+
+.ico-mobile-devices:before {
+  content: "\E07D"; }
+
+.ico-mobile-email:before {
+  content: "\E07E"; }
+
+.ico-mobile-plans:before {
+  content: "\E07F"; }
+
+.ico-mobile-share:before {
+  content: "\E080"; }
+
+.ico-mobile-tablet-devices:before {
+  content: "\E081"; }
+
+.ico-mobile:before {
+  content: "\E082"; }
+
+.ico-modem:before {
+  content: "\E083"; }
+
+.ico-monitoring:before {
+  content: "\E084"; }
+
+.ico-mouse:before {
+  content: "\E085"; }
+
+.ico-movie-ticket:before {
+  content: "\E086"; }
+
+.ico-music:before {
+  content: "\E087"; }
+
+.ico-my-account:before {
+  content: "\E088"; }
+
+.ico-my-community:before {
+  content: "\E089"; }
+
+.ico-my-plan-plus:before {
+  content: "\E08A"; }
+
+.ico-nano-sim:before {
+  content: "\E08B"; }
+
+.ico-nbn-port-1:before {
+  content: "\E08C"; }
+
+.ico-nbn-port-2:before {
+  content: "\E08D"; }
+
+.ico-nbn-port-3:before {
+  content: "\E08E"; }
+
+.ico-nbn-port-4:before {
+  content: "\E08F"; }
+
+.ico-nbn-port-tick:before {
+  content: "\E090"; }
+
+.ico-nbn-port:before {
+  content: "\E091"; }
+
+.ico-network:before {
+  content: "\E092"; }
+
+.ico-news-weather:before {
+  content: "\E093"; }
+
+.ico-no-sneaky-surprises:before {
+  content: "\E094"; }
+
+.ico-notifications:before {
+  content: "\E095"; }
+
+.ico-officeapps:before {
+  content: "\E096"; }
+
+.ico-online-payment:before {
+  content: "\E097"; }
+
+.ico-optus-community:before {
+  content: "\E098"; }
+
+.ico-optus-community2:before {
+  content: "\E099"; }
+
+.ico-optus-logo:before {
+  content: "\E09A"; }
+
+.ico-optus-rewards:before {
+  content: "\E09B"; }
+
+.ico-other:before {
+  content: "\E09C"; }
+
+.ico-outbound:before {
+  content: "\E09D"; }
+
+.ico-paperless-bills:before {
+  content: "\E09E"; }
+
+.ico-pause:before {
+  content: "\E09F"; }
+
+.ico-phone-satchel:before {
+  content: "\E0A0"; }
+
+.ico-phone-search:before {
+  content: "\E0A1"; }
+
+.ico-pinterest:before {
+  content: "\E0A2"; }
+
+.ico-plans-pricing:before {
+  content: "\E0A3"; }
+
+.ico-play:before {
+  content: "\E0A4"; }
+
+.ico-plug:before {
+  content: "\E0A5"; }
+
+.ico-plus:before {
+  content: "\E0A6"; }
+
+.ico-premium-services:before {
+  content: "\E0A7"; }
+
+.ico-prepay-broadband:before {
+  content: "\E0A8"; }
+
+.ico-prepay-mobile:before {
+  content: "\E0A9"; }
+
+.ico-print:before {
+  content: "\E0AA"; }
+
+.ico-profile:before {
+  content: "\E0AB"; }
+
+.ico-quick-forward:before {
+  content: "\E0AC"; }
+
+.ico-recharge:before {
+  content: "\E0AD"; }
+
+.ico-refresh:before {
+  content: "\E0AE"; }
+
+.ico-reliable-network:before {
+  content: "\E0AF"; }
+
+.ico-roll-over:before {
+  content: "\E0B0"; }
+
+.ico-ruler:before {
+  content: "\E0B1"; }
+
+.ico-safe-secure-2:before {
+  content: "\E0B2"; }
+
+.ico-safe-secure:before {
+  content: "\E0B3"; }
+
+.ico-satellite:before {
+  content: "\E0B4"; }
+
+.ico-satisfaction:before {
+  content: "\E0B5"; }
+
+.ico-search-large:before {
+  content: "\E0B6"; }
+
+.ico-search-small:before, .searchBoxWidget .searchBoxHeaderView .search-form .input-group:before,
+#global_header .searchBoxWidget .searchBoxHeaderView .search-form .input-group:before {
+  content: "\E0B7"; }
+
+.ico-security:before {
+  content: "\E0B8"; }
+
+.ico-settings:before {
+  content: "\E0B9"; }
+
+.ico-seven:before {
+  content: "\E0BA"; }
+
+.ico-shared-data:before {
+  content: "\E0BB"; }
+
+.ico-shared-services:before {
+  content: "\E0BC"; }
+
+.ico-sim-arrow-top-left:before {
+  content: "\E0BD"; }
+
+.ico-small-medium-business:before {
+  content: "\E0BE"; }
+
+.ico-sms-text:before {
+  content: "\E0BF"; }
+
+.ico-solutions:before {
+  content: "\E0C0"; }
+
+.ico-sound-level-1:before {
+  content: "\E0C1"; }
+
+.ico-sound-level-3:before {
+  content: "\E0C2"; }
+
+.ico-sound-mute:before {
+  content: "\E0C3"; }
+
+.ico-sound:before {
+  content: "\E0C4"; }
+
+.ico-speech-bubble:before {
+  content: "\E0C5"; }
+
+.ico-speed:before {
+  content: "\E0C6"; }
+
+.ico-stop:before {
+  content: "\E0C7"; }
+
+.ico-store-locator:before {
+  content: "\E0C8"; }
+
+.ico-subscribe-1:before {
+  content: "\E0C9"; }
+
+.ico-subscribe:before {
+  content: "\E0CA"; }
+
+.ico-success-alert:before {
+  content: "\E0CB"; }
+
+.ico-summary:before {
+  content: "\E0CC"; }
+
+.ico-tablet-usb:before {
+  content: "\E0CD"; }
+
+.ico-tablet:before {
+  content: "\E0CE"; }
+
+.ico-tailor:before {
+  content: "\E0CF"; }
+
+.ico-threat-management:before {
+  content: "\E0D0"; }
+
+.ico-tick:before {
+  content: "\E0D1"; }
+
+.ico-tools-2:before {
+  content: "\E0D2"; }
+
+.ico-tools:before {
+  content: "\E0D3"; }
+
+.ico-tooltip-question-mark:before {
+  content: "\E0D4"; }
+
+.ico-track-order:before {
+  content: "\E0D5"; }
+
+.ico-tradein:before {
+  content: "\E0D6"; }
+
+.ico-tree:before {
+  content: "\E0D7"; }
+
+.ico-tv:before {
+  content: "\E0D8"; }
+
+.ico-twitter:before {
+  content: "\E0D9"; }
+
+.ico-update:before {
+  content: "\E0DA"; }
+
+.ico-upgrade-your-contract:before {
+  content: "\E0DB"; }
+
+.ico-upload:before {
+  content: "\E0DC"; }
+
+.ico-usage:before {
+  content: "\E0DD"; }
+
+.ico-usb:before {
+  content: "\E0DE"; }
+
+.ico-valid-2:before {
+  content: "\E0DF"; }
+
+.ico-view-bill:before {
+  content: "\E0E0"; }
+
+.ico-voice:before {
+  content: "\E0E1"; }
+
+.ico-warning-alert:before {
+  content: "\E0E2"; }
+
+.ico-warning:before {
+  content: "\E0E3"; }
+
+.ico-wholesale:before {
+  content: "\E0E4"; }
+
+.ico-wifi-1:before {
+  content: "\E0E5"; }
+
+.ico-wifi:before {
+  content: "\E0E6"; }
+
+.ico-wishlist:before {
+  content: "\E0E7"; }
+
+.ico-world-globe:before {
+  content: "\E0E8"; }
+
+.ico-youtube:before {
+  content: "\E0E9"; }
+
+.searchBoxWidget,
+#global_header .searchBoxWidget {
+  position: relative;
+  /*Below value is to avoid the mouse hover on tiles 
+  (support page) from overlapping the suggestion*/
+  z-index: 9;
+  /* Autocomplete */
+  /* Header View */ }
+  @media (max-width: 31.1875em) {
+    .searchBoxWidget,
+    #global_header .searchBoxWidget {
+      z-index: 8; }
+      .searchBoxWidget .searchBoxHeaderView,
+      #global_header .searchBoxWidget .searchBoxHeaderView {
+        overflow: hidden;
+        margin-right: 0; } }
+  .searchBoxWidget .autocomplete-suggestive-text ul,
+  #global_header .searchBoxWidget .autocomplete-suggestive-text ul {
+    padding-top: 10px;
+    padding-bottom: 10px; }
+    .searchBoxWidget .autocomplete-suggestive-text ul li,
+    #global_header .searchBoxWidget .autocomplete-suggestive-text ul li {
+      text-align: left; }
+      .searchBoxWidget .autocomplete-suggestive-text ul li.group-title,
+      #global_header .searchBoxWidget .autocomplete-suggestive-text ul li.group-title {
+        padding: 20px 15px 10px; }
+      .searchBoxWidget .autocomplete-suggestive-text ul li a,
+      #global_header .searchBoxWidget .autocomplete-suggestive-text ul li a {
+        padding: 10px 15px;
+        line-height: 1.2; }
+        .searchBoxWidget .autocomplete-suggestive-text ul li a span,
+        #global_header .searchBoxWidget .autocomplete-suggestive-text ul li a span {
+          color: #00a3ad;
+          font-weight: bold; }
+  .searchBoxWidget .searchBoxHeaderView .search-form,
+  #global_header .searchBoxWidget .searchBoxHeaderView .search-form {
+    float: right;
+    position: relative;
+    z-index: 2;
+    width: 65px;
+    width: 4.0625rem; }
+    .searchBoxWidget .searchBoxHeaderView .search-form .input-group,
+    #global_header .searchBoxWidget .searchBoxHeaderView .search-form .input-group {
+      margin-bottom: 0; }
+      .searchBoxWidget .searchBoxHeaderView .search-form .input-group:before,
+      #global_header .searchBoxWidget .searchBoxHeaderView .search-form .input-group:before {
+        font-family: "optus-icons";
+        color: white;
+        position: absolute;
+        z-index: 0;
+        right: 52px;
+        right: 3.25rem;
+        top: 7px;
+        top: 0.4375rem;
+        width: 24px;
+        width: 1.5rem;
+        font-size: 24px;
+        font-size: 1.5rem;
+        line-height: 0; }
+    .searchBoxWidget .searchBoxHeaderView .search-form fieldset,
+    #global_header .searchBoxWidget .searchBoxHeaderView .search-form fieldset {
+      padding: 0;
+      margin: 0;
+      border: 0; }
+    .searchBoxWidget .searchBoxHeaderView .search-form .search-input,
+    #global_header .searchBoxWidget .searchBoxHeaderView .search-form .search-input {
+      position: relative;
+      z-index: 1;
+      height: 42px;
+      height: 2.625rem;
+      line-height: 42px;
+      line-height: 2.625rem;
+      padding: 4px 35px 4px 10px;
+      color: #fff;
+      border: 2px solid #02afba;
+      font-size: 16px;
+      font-size: 1rem;
+      font-family: "markpro-heavy";
+      background-color: transparent;
+      text-transform: uppercase;
+      margin-bottom: 0;
+      border-radius: 0;
+      text-overflow: ellipsis;
+      transition: none; }
+      @media (min-width: 31.25em) {
+        .searchBoxWidget .searchBoxHeaderView .search-form .search-input,
+        #global_header .searchBoxWidget .searchBoxHeaderView .search-form .search-input {
+          line-height: normal;
+          height: auto;
+          padding: 0 0 0 12px;
+          color: white;
+          border: 1px solid transparent;
+          box-shadow: none;
+          font-size: 12px;
+          font-size: 0.75rem; } }
+      .searchBoxWidget .searchBoxHeaderView .search-form .search-input .lt-ie9,
+      #global_header .searchBoxWidget .searchBoxHeaderView .search-form .search-input .lt-ie9 {
+        line-height: normal;
+        height: auto;
+        padding: 0 0 0 12px;
+        color: white;
+        border: 1px solid transparent;
+        box-shadow: none;
+        font-size: 12px;
+        font-size: 0.75rem; }
+      .searchBoxWidget .searchBoxHeaderView .search-form .search-input::-webkit-input-placeholder,
+      #global_header .searchBoxWidget .searchBoxHeaderView .search-form .search-input::-webkit-input-placeholder {
+        color: #fff;
+        text-transform: uppercase; }
+      .searchBoxWidget .searchBoxHeaderView .search-form .search-input:-moz-placeholder,
+      #global_header .searchBoxWidget .searchBoxHeaderView .search-form .search-input:-moz-placeholder {
+        /* Firefox 18- */
+        color: #fff;
+        text-transform: uppercase; }
+      .searchBoxWidget .searchBoxHeaderView .search-form .search-input::-moz-placeholder,
+      #global_header .searchBoxWidget .searchBoxHeaderView .search-form .search-input::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #fff;
+        text-transform: uppercase; }
+      .searchBoxWidget .searchBoxHeaderView .search-form .search-input:-ms-input-placeholder,
+      #global_header .searchBoxWidget .searchBoxHeaderView .search-form .search-input:-ms-input-placeholder {
+        color: #fff;
+        text-transform: uppercase; }
+      .searchBoxWidget .searchBoxHeaderView .search-form .search-input.typeahead,
+      #global_header .searchBoxWidget .searchBoxHeaderView .search-form .search-input.typeahead {
+        position: absolute; }
+    .searchBoxWidget .searchBoxHeaderView .search-form .btn-submit,
+    #global_header .searchBoxWidget .searchBoxHeaderView .search-form .btn-submit {
+      display: none;
+      height: 42px;
+      height: 2.625rem;
+      width: 42px;
+      width: 2.625rem;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 3;
+      opacity: 0;
+      padding: 0;
+      margin: 0; }
+      @media (min-width: 31.25em) {
+        .searchBoxWidget .searchBoxHeaderView .search-form .btn-submit,
+        #global_header .searchBoxWidget .searchBoxHeaderView .search-form .btn-submit {
+          right: 150px;
+          right: 9.375rem;
+          height: 20px;
+          height: 1.25rem;
+          width: 20px;
+          width: 1.25rem; } }
+      .searchBoxWidget .searchBoxHeaderView .search-form .btn-submit .lt-ie9,
+      #global_header .searchBoxWidget .searchBoxHeaderView .search-form .btn-submit .lt-ie9 {
+        right: 150px;
+        right: 9.375rem;
+        height: 20px;
+        height: 1.25rem;
+        width: 20px;
+        width: 1.25rem; }
+  .searchBoxWidget .searchBoxHeaderView.focused .search-input,
+  #global_header .searchBoxWidget .searchBoxHeaderView.focused .search-input {
+    text-transform: none; }
+  .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form,
+  #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form {
+    width: auto; }
+    @media screen and (min-width: 859px) and (max-width: 880px) {
+      .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form,
+      #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form {
+        max-width: 110px; } }
+    @media screen and (min-width: 881px) and (max-width: 910px) {
+      .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form,
+      #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form {
+        max-width: 130px; } }
+    @media screen and (min-width: 911px) and (max-width: 930px) {
+      .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form,
+      #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form {
+        max-width: 150px; } }
+    @media screen and (min-width: 931px) and (max-width: 950px) {
+      .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form,
+      #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form {
+        max-width: 170px; } }
+    @media screen and (min-width: 951px) and (max-width: 970px) {
+      .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form,
+      #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form {
+        max-width: 190px; } }
+    @media screen and (min-width: 971px) and (max-width: 990px) {
+      .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form,
+      #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form {
+        max-width: 210px; } }
+    @media screen and (min-width: 991px) and (max-width: 1010px) {
+      .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form,
+      #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form {
+        max-width: 220px; } }
+    @media screen and (min-width: 1011px) and (max-width: 1030px) {
+      .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form,
+      #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form {
+        max-width: 240px; } }
+    @media screen and (min-width: 1031px) and (max-width: 1050px) {
+      .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form,
+      #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form {
+        max-width: 260px; } }
+    .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form .search-input,
+    #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form .search-input {
+      width: 150px;
+      width: 9.375rem;
+      color: white;
+      font-family: "markpro-heavy";
+      font-weight: normal;
+      border-bottom: 1px solid white;
+      padding: 0;
+      text-transform: none;
+      line-height: normal; }
+      .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form .search-input.typeahead,
+      #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form .search-input.typeahead {
+        color: #999999;
+        z-index: 0; }
+    .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form .btn-submit,
+    #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form .btn-submit {
+      display: inline-block; }
+    .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form .input-group:before,
+    #global_header .searchBoxWidget .searchBoxHeaderView.pc-search.focused .search-form .input-group:before {
+      right: 150px;
+      right: 9.375rem; }
+  .searchBoxWidget .searchBoxHeaderView.error .input-group .search-input,
+  #global_header .searchBoxWidget .searchBoxHeaderView.error .input-group .search-input {
+    border-color: #da3a00; }
+    @media (min-width: 31.25em) {
+      .searchBoxWidget .searchBoxHeaderView.error .input-group .search-input,
+      #global_header .searchBoxWidget .searchBoxHeaderView.error .input-group .search-input {
+        border-color: transparent; } }
+    .searchBoxWidget .searchBoxHeaderView.error .input-group .search-input .lt-ie9,
+    #global_header .searchBoxWidget .searchBoxHeaderView.error .input-group .search-input .lt-ie9 {
+      border-color: transparent; }
+  .searchBoxWidget .searchBoxHeaderView .btn-close,
+  #global_header .searchBoxWidget .searchBoxHeaderView .btn-close {
+    display: none; }
+  .searchBoxWidget .searchBoxHeaderView .mobile-search-trigger,
+  #global_header .searchBoxWidget .searchBoxHeaderView .mobile-search-trigger {
+    display: none; }
+  @media (max-width: 31.1875em) {
+    .searchBoxWidget .searchBoxHeaderView .mobile-search-trigger,
+    #global_header .searchBoxWidget .searchBoxHeaderView .mobile-search-trigger {
+      display: inline-block;
+      cursor: pointer;
+      color: #fff;
+      font-size: 28px;
+      font-size: 1.75rem;
+      margin-top: -1px;
+      margin-top: -0.0625rem;
+      float: right;
+      text-indent: 0 !important; }
+    .searchBoxWidget .searchBoxHeaderView .search-form,
+    #global_header .searchBoxWidget .searchBoxHeaderView .search-form {
+      display: none; } }
+  .searchBoxWidget .searchBoxHeaderView .autocomplete-suggestive-text ul li a,
+  #global_header .searchBoxWidget .searchBoxHeaderView .autocomplete-suggestive-text ul li a {
+    font-size: 14px;
+    font-size: 0.875rem; }
+  .searchBoxWidget .searchBoxLargeView,
+  #global_header .searchBoxWidget .searchBoxLargeView {
+    margin-bottom: 45px;
+    margin-bottom: 2.8125rem; }
+    .searchBoxWidget .searchBoxLargeView .input-group,
+    #global_header .searchBoxWidget .searchBoxLargeView .input-group {
+      margin-bottom: 0; }
+      .searchBoxWidget .searchBoxLargeView .input-group .search-input,
+      #global_header .searchBoxWidget .searchBoxLargeView .input-group .search-input {
+        text-overflow: ellipsis;
+        margin-bottom: 0; }
+        @media (min-width: 31.25em) {
+          .searchBoxWidget .searchBoxLargeView .input-group .search-input,
+          #global_header .searchBoxWidget .searchBoxLargeView .input-group .search-input {
+            height: 75px;
+            height: 4.6875rem;
+            line-height: 75px;
+            line-height: 4.6875rem;
+            padding-right: 85px;
+            padding-right: 5.3125rem;
+            font-size: 24px;
+            font-size: 1.5rem; } }
+        .searchBoxWidget .searchBoxLargeView .input-group .search-input .lt-ie9,
+        #global_header .searchBoxWidget .searchBoxLargeView .input-group .search-input .lt-ie9 {
+          height: 75px;
+          height: 4.6875rem;
+          line-height: 75px;
+          line-height: 4.6875rem;
+          padding-right: 85px;
+          padding-right: 5.3125rem;
+          font-size: 24px;
+          font-size: 1.5rem; }
+        @media (max-width: 31.1875em) {
+          .searchBoxWidget .searchBoxLargeView .input-group .search-input,
+          #global_header .searchBoxWidget .searchBoxLargeView .input-group .search-input {
+            height: 50px;
+            height: 3.125rem;
+            padding-right: 60px;
+            padding-right: 3.75rem; } }
+        .searchBoxWidget .searchBoxLargeView .input-group .search-input.typeahead-input,
+        #global_header .searchBoxWidget .searchBoxLargeView .input-group .search-input.typeahead-input {
+          background: transparent; }
+        .searchBoxWidget .searchBoxLargeView .input-group .search-input.typeahead,
+        #global_header .searchBoxWidget .searchBoxLargeView .input-group .search-input.typeahead {
+          background-color: white; }
+      .searchBoxWidget .searchBoxLargeView .input-group .btn-submit,
+      #global_header .searchBoxWidget .searchBoxLargeView .input-group .btn-submit {
+        margin-bottom: 0;
+        z-index: 8; }
+        @media (min-width: 31.25em) {
+          .searchBoxWidget .searchBoxLargeView .input-group .btn-submit,
+          #global_header .searchBoxWidget .searchBoxLargeView .input-group .btn-submit {
+            height: 75px;
+            height: 4.6875rem;
+            width: 75px;
+            width: 4.6875rem; } }
+        .searchBoxWidget .searchBoxLargeView .input-group .btn-submit .lt-ie9,
+        #global_header .searchBoxWidget .searchBoxLargeView .input-group .btn-submit .lt-ie9 {
+          height: 75px;
+          height: 4.6875rem;
+          width: 75px;
+          width: 4.6875rem; }
+        @media (max-width: 31.1875em) {
+          .searchBoxWidget .searchBoxLargeView .input-group .btn-submit,
+          #global_header .searchBoxWidget .searchBoxLargeView .input-group .btn-submit {
+            height: 50px;
+            height: 3.125rem;
+            z-index: 1; } }
+  @media (max-width: 31.1875em) {
+    .searchBoxWidget.mobile-search,
+    #global_header .searchBoxWidget.mobile-search {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 99999;
+      padding-left: 10px;
+      padding-right: 10px; }
+      .searchBoxWidget.mobile-search .search-form,
+      #global_header .searchBoxWidget.mobile-search .search-form {
+        display: block;
+        margin-top: 50px;
+        width: 100%; }
+        .searchBoxWidget.mobile-search .search-form .search-input,
+        #global_header .searchBoxWidget.mobile-search .search-form .search-input {
+          color: #191919;
+          font-family: "markpro-heavy";
+          background: #fff;
+          font-weight: normal;
+          border-color: #ccc;
+          height: 50px;
+          height: 3.125rem;
+          padding-right: 60px;
+          padding-right: 3.75rem; }
+          .searchBoxWidget.mobile-search .search-form .search-input::-webkit-input-placeholder,
+          #global_header .searchBoxWidget.mobile-search .search-form .search-input::-webkit-input-placeholder {
+            color: #ccc; }
+          .searchBoxWidget.mobile-search .search-form .search-input:-moz-placeholder,
+          #global_header .searchBoxWidget.mobile-search .search-form .search-input:-moz-placeholder {
+            /* Firefox 18- */
+            color: #ccc; }
+          .searchBoxWidget.mobile-search .search-form .search-input::-moz-placeholder,
+          #global_header .searchBoxWidget.mobile-search .search-form .search-input::-moz-placeholder {
+            /* Firefox 19+ */
+            color: #ccc; }
+          .searchBoxWidget.mobile-search .search-form .search-input:-ms-input-placeholder,
+          #global_header .searchBoxWidget.mobile-search .search-form .search-input:-ms-input-placeholder {
+            color: #ccc; }
+          .searchBoxWidget.mobile-search .search-form .search-input.typeahead-input,
+          #global_header .searchBoxWidget.mobile-search .search-form .search-input.typeahead-input {
+            background: transparent; }
+          .searchBoxWidget.mobile-search .search-form .search-input.typeahead,
+          #global_header .searchBoxWidget.mobile-search .search-form .search-input.typeahead {
+            background-color: white;
+            color: #999999;
+            position: absolute;
+            border-color: white;
+            z-index: 0; }
+        .searchBoxWidget.mobile-search .search-form .btn-submit,
+        #global_header .searchBoxWidget.mobile-search .search-form .btn-submit {
+          display: inline-block;
+          opacity: 1;
+          height: 50px;
+          height: 3.125rem;
+          width: 50px;
+          width: 3.125rem; }
+        .searchBoxWidget.mobile-search .search-form:after,
+        #global_header .searchBoxWidget.mobile-search .search-form:after {
+          display: none; }
+      .searchBoxWidget.mobile-search .mobile-search-trigger,
+      #global_header .searchBoxWidget.mobile-search .mobile-search-trigger {
+        display: none !important; }
+      .searchBoxWidget.mobile-search .btn-close,
+      #global_header .searchBoxWidget.mobile-search .btn-close {
+        display: inline-block;
+        padding: 0;
+        position: absolute;
+        cursor: pointer;
+        top: 10px;
+        right: 10px;
+        line-height: 30px;
+        height: 30px;
+        width: 30px;
+        text-align: center;
+        background: #fdcc08;
+        text-indent: 0 !important; }
+      .searchBoxWidget.mobile-search .mobile-search-overlay,
+      #global_header .searchBoxWidget.mobile-search .mobile-search-overlay {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0; }
+      .searchBoxWidget.mobile-search .searchBoxHeaderView,
+      #global_header .searchBoxWidget.mobile-search .searchBoxHeaderView {
+        margin-right: 0;
+        overflow: visible; } }
+
+/*
+ * LIGHTBOX FIX:
+ *
+ * position:fixed doesn't work in Safari when any of the parent element has -webkit-transform.
+ * This is because the transform creates a new local coordinate system
+ *
+ * Issue References:
+ * http://stackoverflow.com/questions/15194313/webkit-css-transform3d-position-fixed-issue
+ * http://meyerweb.com/eric/thoughts/2011/09/12/un-fixing-fixed-elements-with-css-transforms/
+*/
+@media (max-width: 31.1875em) {
+  header.header-only.forward {
+    z-index: 9999; } }
+/* forwarding global search box suggestion */
+@media (min-width: 31.25em) {
+  header.header-only {
+    z-index: 10; } }
+.lt-ie9 header.header-only {
+  z-index: 10; }
