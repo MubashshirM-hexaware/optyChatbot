@@ -23,7 +23,7 @@ app.get('/chat', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
-app.listen(process.env.PORT || 9000);
+app.listen(process.env.PORT || 7000);
 
 
 function callServiceNowApi(url, dataService, type, callback) {
