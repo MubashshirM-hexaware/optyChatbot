@@ -193,16 +193,20 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         //Carousel Response Postback button
         $(document).on('click', '.caroselresponsepayload', function (e) {
             var payloadInput = $(this).data().carouselpayloadbutton;
-            console.log('Button Payload' + payloadInput);
-            processor.askBot(payloadInput, payloadInput, function (error, html) {
-                if (error) {
-                    console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
-                }
-                if (html) {
-                    msg_container.append(html);
-                    utils.scrollSmoothToBottom($('div.chat-body'));
-                }
-            });
+            if (!payloadInput.match(/http/g)) {
+                processor.askBot(payloadInput, payloadInput, function (error, html) {
+                    if (error) {
+                        console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
+                    }
+                    if (html) {
+                        msg_container.append(html);
+                        utils.scrollSmoothToBottom($('div.chat-body'));
+                    }
+                });
+            }
+            else {
+                window.open(payloadInput, '_blank');
+            }
             e.preventDefault();
         });
 
