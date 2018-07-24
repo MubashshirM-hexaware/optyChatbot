@@ -1250,7 +1250,7 @@
 
 			</footer>
 			<script>
-								require(['jquery'],['lpChat'], function ($) {
+								require(['jquery','lpChat'], function ($,lpChat) {
 									require(['bootstrap', 'apiService', 'utils', 'settings', 'Cookies'], function (bootstrap, apiService, utils, settings) {
 
 										var today = Math.round((new Date()).getTime() / 1000);
