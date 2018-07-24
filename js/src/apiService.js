@@ -76,15 +76,15 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         console.log(Liveengage);
                         if(response.result.action == "Optus") {
                             Liveengage = true;
-                            let cardHTML = cards({
-                                "payload": "Hijacked by LE",
-                                "senderName": config.botTitle,
-                                "senderAvatar": config.botAvatar,
-                                "time": utils.currentTime(),
-                                "className": '',
-                            }, "plaintext");
-                            console.log("actual card response --- ",cardHTML);
-                            callback(null, cardHTML, Liveengage);
+                            // let cardHTML = cards({
+                            //     "payload": "Hijacked by LE",
+                            //     "senderName": config.botTitle,
+                            //     "senderAvatar": config.botAvatar,
+                            //     "time": utils.currentTime(),
+                            //     "className": '',
+                            // }, "plaintext");
+                            // console.log("actual card response --- ",cardHTML);
+                             callback(null, "", Liveengage);
                         }
                         if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
