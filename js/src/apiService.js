@@ -6,7 +6,7 @@ This file is part of the Innovation LAB - Offline Bot.
 ------------------------------------------------------------------- */
 
 
-define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
+define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'lpChat'],
     function ($, config, utils, messageTpl, cards, uuidv1) {
 
         class ApiHandler {
@@ -71,7 +71,16 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         //To find Card || Carousel
                         let count = 0;
                         let hasbutton;
-
+                        if(response.result.action == "Optus") {
+                            let cardHTML = cards({
+                                "payload": "Hijacked by LE",
+                                "senderName": config.botTitle,
+                                "senderAvatar": config.botAvatar,
+                                "time": utils.currentTime(),
+                                "className": ''
+                            }, "plaintext");
+                            callback(null, cardHTML);
+                        }
                         if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
                             for (let i in response.result.fulfillment.messages) {
@@ -88,7 +97,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 }
                                 console.log("-----Srini----------------");
                                 console.log(response.result.fulfillment.messages[i]);
-                                console.log("--------------------------")
+                                console.log("--------------------------");
                                 if (response.result.fulfillment.messages[i].type == 1) {
                                     count = count + 1;
                                     hasbutton = (response.result.fulfillment.messages[i].buttons.length > 0) ? true : false;
