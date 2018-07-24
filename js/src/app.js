@@ -459,9 +459,27 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             var div = document.createElement('P');
             div.innerHTML = '<b>' + line.by + '</b>: ';
             if (line.source === 'visitor') {
-                div.appendChild(document.createTextNode(line.text));
+                //div.appendChild(document.createTextNode(line.text));
+                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+                if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                    msg_container.siblings("h1").addClass('hidden');
+                    msg_container.siblings("div.chat-text-para").addClass('hidden');
+                    msg_container.siblings(".header-text-logo").removeClass('hidden');
+                    msg_container.removeClass('hidden');
+                }
+                msg_container.append(html_div);
+                utils.scrollSmoothToBottom($('div.chat-body'));
             } else {
-                div.innerHTML += line.text;
+                //div.innerHTML += line.text;
+                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+                if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                    msg_container.siblings("h1").addClass('hidden');
+                    msg_container.siblings("div.chat-text-para").addClass('hidden');
+                    msg_container.siblings(".header-text-logo").removeClass('hidden');
+                    msg_container.removeClass('hidden');
+                }
+                msg_container.append(html_div);
+                utils.scrollSmoothToBottom($('div.chat-body'));
             }
             return div;
         }
@@ -489,11 +507,11 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             var $textline = chatContainer.find('#textline');
             var text = $textline.val();
             if (text && chat) {
-                var line = createLine({
-                    by: chat.getVisitorName(),
-                    text: text,
-                    source: 'visitor'
-                });
+                // var line = createLine({
+                //     by: chat.getVisitorName(),
+                //     text: text,
+                //     source: 'visitor'
+                // });
 
                 chat.addLine({
                     text: text,
@@ -501,9 +519,20 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         line.className = 'error';
                     }
                 });
-                addLineToDom(line);
-                $textline.val('');
-                scrollToBottom();
+                // addLineToDom(line);
+                
+                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+                if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                    msg_container.siblings("h1").addClass('hidden');
+                    msg_container.siblings("div.chat-text-para").addClass('hidden');
+                    msg_container.siblings(".header-text-logo").removeClass('hidden');
+                    msg_container.removeClass('hidden');
+                }
+                msg_container.append(html_div);
+                utils.scrollSmoothToBottom($('div.chat-body'));
+
+                // $textline.val('');
+                // scrollToBottom();
             }
         }
 
