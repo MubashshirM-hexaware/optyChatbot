@@ -41,9 +41,10 @@
             padding: 0px 0px;
         }
 
-		div.popover {
-			max-width: 350px !important;
-		}
+        div.popover {
+            max-width: 350px !important;
+        }
+
         .pmd-floating-action {
             margin-right: 10em !important;
             margin-bottom: 1em !important;
@@ -135,7 +136,7 @@
             <div class="container-body-dimmer visuallyhidden" aria-hidden="true"></div>
 
             <header class="theme-primary header-only">
-                <div id="global_header" class="header row collapse">
+                <div id="global_header" class="header row">
 
 
                     <style>
@@ -186,7 +187,7 @@
                                     <div class="module  globalHeaderUserMenu moduleManager__controller_initialised" data-controller="Controllers/UserMenuController">
                                         <div>
                                             <div class="hide-for-small">
-                                                <a href="https://www.optus.com.au/my-account" data-toggle-open="myaccount-login-menu" class="myaccount-links">
+                                                <a href="/chatwindow?sessionstate=true" data-toggle-open="myaccount-login-menu" class="myaccount-links">
 						<span class="ico ico-global ico-service-my-account"></span>Login</a>
                                             </div>
                                             <div class="show-for-small">
@@ -290,36 +291,6 @@
 
 
                                 </div>
-                            </li>
-
-                            <li class="right">
-                                <div class="widget-container widget-initialized searchBoxWidget">
-                                    <script type="text/widgetData">{"serviceDataList": [{"id":"searchBox","data":{"answerPage":"/customercentre/search"},"status":"ok","viewName":"searchBoxHeaderView","readUrl":"/1PCCSPortlet/ajax/?id=getSuggestions","linkedModuleContainers":[]}]
-                                        }
-                                    </script>
-                                    <div class="widget-instance">
-                                        <div class="search-box searchBoxHeaderView pc-search  ">
-                                            <div class="mobile-search-overlay"></div> <span class="ico ico-cross btn-close"></span>
-                                            <form action="https://www.optus.com.au/customercentre/search" method="GET" class="search-form" autocomplete="off">
-                                                <fieldset><label for="globalSearchInput" class="hide">Search</label>
-                                                    <div class="input-group">
-                                                        <div class="ux-autocomplete"><input type="text" placeholder="" class="search-input typeahead"
-                                                                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                                                                readonly=""> <input type="text" tabindex="" name="query" placeholder="Search"
-                                                                class="search-input typeahead-input" autocomplete="off" autocorrect="off"
-                                                                autocapitalize="off" spellcheck="false" aria-autocomplete="both">
-                                                            <div class="autocomplete-suggestive-text  ">
-                                                                <ul class="container"> </ul>
-                                                            </div>
-                                                        </div> <input class="button radius ico ico-only ico-search btn-submit" type="submit"
-                                                            title="Search" value="Search"></div>
-                                                </fieldset>
-                                            </form> <span class="ico ico-search mobile-search-trigger"></span></div>
-                                    </div>
-
-                                </div>
-
-
                             </li>
 
                         </ul>
@@ -1586,10 +1557,10 @@
                         </div>
 
                         <script type="text/javascript">
-                                                (function ()
-                                                { var tagjs = document.createElement("script"); var s = document.getElementsByTagName("script")[0]; tagjs.async = true; tagjs.src = "//s.btstatic.com/tag.js#site=fhoTFvg"; s.parentNode.insertBefore(tagjs, s); }
+                            (function ()
+                            { var tagjs = document.createElement("script"); var s = document.getElementsByTagName("script")[0]; tagjs.async = true; tagjs.src = "//s.btstatic.com/tag.js#site=fhoTFvg"; s.parentNode.insertBefore(tagjs, s); }
 
-                                                    ());
+                                ());
                         </script>
                     </div>
 
@@ -1632,10 +1603,14 @@
 
 
                                         let query = searchParam ? searchParam : utilsSearch;
-                                        history.replaceState(null, null, `?query=${query}&update=no`);
+                                        history.replaceState(null, null, `?query=${query}&update=no&sessionstate=false`);
                                         $("div.load-html-file").load('popup.html');
                                         $('[data-toggle="popover"]').popover();
                                         var processor = apiService();
+                                        let url = new URL(window.location.href);
+                                        let params = utils.getURLParameter('sessionstate');
+                                        utils.initiateAjax("/updateSessionState", "POST", params, function (data, err) {
+                                        });
                                         setTimeout(() => {
                                             let msg_container = $("iframe").contents().find('body div.chat-body');
                                             msg_container.find("ul#msg_container").append(`<li class="animated fadeInLeft list-group-item background-color-custom">

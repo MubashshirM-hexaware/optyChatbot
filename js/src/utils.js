@@ -61,18 +61,22 @@ define(['navigation', 'jquery'], function (navigation, $) {
             return 'Good Evening'
         }
     };
-    methods.initiateAjax = (url, type, callback) => {
+    methods.initiateAjax = (url, type, data, callback) => {
 
         $.ajax({
             url: url,
             type: type,
             dataType: "json",
+            data: { type: data },
             success: function (result) {
                 return callback(result, null);
             }, error: function (err) {
                 return callback(null, err);
             }
         });
+    }
+    methods.getURLParameter = (name) => {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
     }
 
 

@@ -2,14 +2,26 @@ var express = require('express'),
   app = express(),
   http = require('http'),
   httpServer = http.Server(app);
+var bodyParser = require('body-parser')
 const requestAPI = require('request');
+app.use(bodyParser.json());
 app.use(express.static(__dirname));
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
 
 app.get('/', function (req, res) {
   res.send("/richowebsites");
 });
+
 app.post('/callPhone', function (req, res) {
   callServiceNowApi("https://dev64379.service-now.com/api/now/table/u_servicerequest?u_string_3=123456789&u_choice_1=in%20progress", null, "GET", function (err, data) {
+    res.send(data);
+  })
+})
+app.post('/updateSessionState', function (req, res) {
+  callServiceNowApi("https://obotintegration.herokuapp.com/updateSession", { type: req.body.type }, "POST", function (err, data) {
+
     res.send(data);
   })
 })
@@ -48,7 +60,7 @@ function callServiceNowApi(url, dataService, type, callback) {
     requestAPI(options, function (error, response, body) {
       if (error) {
         // console.log('API ERROR', JSON.stringify(error));
-        callback(err, null)
+        callback(error, null)
       }
       else {
         // console.log('headers:', JSON.stringify(response.headers));

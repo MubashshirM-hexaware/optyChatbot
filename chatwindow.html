@@ -44,13 +44,12 @@
 		div.popover {
 			max-width: 350px !important;
 		}
-
-	
 	</style>
 
 </head>
 
-<body class="homepage" data-grid-framework="f4" data-grid-color="black" data-grid-opacity="0.2" data-grid-zindex="10" data-gr-c-s-loaded="true">
+<body onbeforeunload="ConfirmClose()" onunload="HandleOnClose()" class="homepage" data-grid-framework="f4" data-grid-color="black"
+ data-grid-opacity="0.2" data-grid-zindex="10" data-gr-c-s-loaded="true">
 
 
 	<ul class="skip-links">
@@ -133,7 +132,7 @@
 			<div class="container-body-dimmer visuallyhidden" aria-hidden="true"></div>
 
 			<header class="theme-primary header-only">
-				<div id="global_header" class="header row collapse">
+				<div id="global_header" class="header row">
 
 
 					<style>
@@ -184,8 +183,8 @@
 									<div class="module  globalHeaderUserMenu moduleManager__controller_initialised" data-controller="Controllers/UserMenuController">
 										<div>
 											<div class="hide-for-small">
-												<a href="https://www.optus.com.au/my-account" data-toggle-open="myaccount-login-menu" class="myaccount-links">
-						<span class="ico ico-global ico-service-my-account"></span>Login</a>
+												<a href="/roaming" data-toggle-open="myaccount-login-menu" style="padding-top:20px;" class="myaccount-links">
+						Logout</a>
 											</div>
 											<div class="show-for-small">
 												<a href="https://www.optus.com.au/my-account" data-toggle-open="myaccount-login-menu" class="button text no-link-decoration business-login-menu"><span class="ico ico-global ico-login"></span><span class="hide-for-small">Login</span></a>
@@ -290,32 +289,6 @@
 								</div>
 							</li>
 
-							<li class="right">
-								<div class="widget-container widget-initialized searchBoxWidget">
-									<script type="text/widgetData">{"serviceDataList": [{"id":"searchBox","data":{"answerPage":"/customercentre/search"},"status":"ok","viewName":"searchBoxHeaderView","readUrl":"/1PCCSPortlet/ajax/?id=getSuggestions","linkedModuleContainers":[]}]
-										}
-									</script>
-									<div class="widget-instance">
-										<div class="search-box searchBoxHeaderView pc-search  ">
-											<div class="mobile-search-overlay"></div> <span class="ico ico-cross btn-close"></span>
-											<form action="https://www.optus.com.au/customercentre/search" method="GET" class="search-form" autocomplete="off">
-												<fieldset><label for="globalSearchInput" class="hide">Search</label>
-													<div class="input-group">
-														<div class="ux-autocomplete"><input type="text" placeholder="" class="search-input typeahead" autocomplete="off" autocorrect="off" autocapitalize="off"
-															 spellcheck="false" readonly=""> <input type="text" tabindex="" name="query" placeholder="Search" class="search-input typeahead-input"
-															 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-autocomplete="both">
-															<div class="autocomplete-suggestive-text  ">
-																<ul class="container"> </ul>
-															</div>
-														</div> <input class="button radius ico ico-only ico-search btn-submit" type="submit" title="Search" value="Search"></div>
-												</fieldset>
-											</form> <span class="ico ico-search mobile-search-trigger"></span></div>
-									</div>
-
-								</div>
-
-
-							</li>
 
 						</ul>
 
@@ -1279,6 +1252,7 @@
 			<script>
 								require(['jquery'], function ($) {
 									require(['bootstrap', 'apiService', 'utils', 'settings', 'Cookies'], function (bootstrap, apiService, utils, settings) {
+
 										var today = Math.round((new Date()).getTime() / 1000);
 										$("a.popover-html1").unbind().click(function (event) {
 											event.preventDefault();
@@ -1286,7 +1260,7 @@
 											if ($("div.popover").css("display") == undefined) {
 
 												$("div[role='navigation'] a").attr("data-content", `<iframe    src='https://optychatbot.herokuapp.com/?popup=1&search=' height='530' width='300' style='border:none'></iframe>`)
-												utils.initiateAjax("/callPhone", "POST", function (data, err) {
+												utils.initiateAjax("/callPhone", "POST","", function (data, err) {
 
 													let statusm = data.result[0];
 
@@ -1325,6 +1299,9 @@
 												});
 
 											}
+											else {
+
+											}
 
 										})
 
@@ -1332,6 +1309,10 @@
 											var today = Math.round((new Date()).getTime() / 1000);
 											$('[data-toggle="popover"]').popover();
 											var processor = apiService();
+											let url = new URL(window.location.href);
+											let params = utils.getURLParameter('sessionstate');
+											utils.initiateAjax("/updateSessionState", "POST", params, function (data, err) {
+											});
 
 										})
 									})
@@ -1460,6 +1441,8 @@
 
 	<div style="background: url(&quot;https://d1af033869koo7.cloudfront.net/psp/optus/v1_0/inviteApp/img/female1aug.png&quot;) 8px 10px no-repeat; display: none;"></div>
 </body>
+<script>
 
+</script>
 
 </html>
