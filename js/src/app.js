@@ -65,7 +65,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                             alert(error); //change into some inline fancy display, show error in chat window.
                         }
                         if (html) {
-                            console.log('html LE check -- ',html['Liveengage']);
+                            console.log('html LE check -- ',html);
                             if(html['Liveengage'] == true)
                             {
                                 globalLpChat = true;
