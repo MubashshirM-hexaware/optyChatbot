@@ -18,10 +18,6 @@ requirejs.config({
             'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min',
             'lib/bootstrap.min'
         ],
-        lpChat: [
-            'https://lpcdn.lpsnmedia.net/api/chat/public/lpChat.min',
-            'lib/lpChat.min'
-        ],
         apiService: 'src/apiService',
         uuid: 'lib/uuidv1',
         propeller: 'lib/propeller.min',
