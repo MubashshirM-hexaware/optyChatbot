@@ -589,24 +589,24 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             chatContainer.find('#sendTranscript').click(sendEmail);
         }
 
-        function console.log(logName, data) {
-            var log = document.createElement('DIV');
-            try {
-                data = typeof data === 'string' ? data : JSON.stringify(data);
-            } catch (exc) {
-                return;
-            }
-            var time = new Date().toTimeString().slice(0, 8);
-            log.innerHTML = time + ' ' + logName + (data ? ' : ' + data : '');
-            if (!logsStarted) {
-                document.getElementById('logs').appendChild(log);
-                logsStarted = true;
-            } else {
-                document.getElementById('logs').insertBefore(log, logsLastChild);
-            }
-            logsLastChild = log;
+        // function console.log(logName, data) {
+        //     var log = document.createElement('DIV');
+        //     try {
+        //         data = typeof data === 'string' ? data : JSON.stringify(data);
+        //     } catch (exc) {
+        //         return;
+        //     }
+        //     var time = new Date().toTimeString().slice(0, 8);
+        //     log.innerHTML = time + ' ' + logName + (data ? ' : ' + data : '');
+        //     if (!logsStarted) {
+        //         document.getElementById('logs').appendChild(log);
+        //         logsStarted = true;
+        //     } else {
+        //         document.getElementById('logs').insertBefore(log, logsLastChild);
+        //     }
+        //     logsLastChild = log;
 
-        }
+        // }
 
         function offline() {
             var line = createLine({
