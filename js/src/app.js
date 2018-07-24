@@ -7,7 +7,7 @@ This file is part of the Innovation LAB - Offline Bot.
 
 define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiService, utils) {
     $(function () {
-
+        var globalLpChat;
         /* Web Popup Adjustment header hiding */
         function adjustPopups() {
             let msgboxh = $("div.header-popup").next().height();
@@ -50,12 +50,13 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
 
         function sendMessage(refr, ev, textsm) {
-            var globalLpChat;
+            
             var text = refr.val() || textsm;
             if (text !== "") {
                 refr.val('');
                 refr.text('');
                 //Calling ApiaiService call
+                console.log('globalLpChat',globalLpChat);
                 if(globalLpChat) {
                     initDemo();
                 } else {
@@ -64,7 +65,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                             alert(error); //change into some inline fancy display, show error in chat window.
                         }
                         if (html) {
-                            console.log(html);
+                            console.log(html.Liveengage);
                             if(html.Liveengage == true)
                             {
                                 globalLpChat = true;
