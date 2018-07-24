@@ -12,7 +12,7 @@ define({
     chatServerURL : "https://api.api.ai/v1/",
     applicationTitle: "Chat Assistant",
     userTitle : "Me",
-    botTitle : "RICOH Assistant",
+    botTitle : "Opty Assistant",
     botAvatar : "./avatar/bot-logo-image.png",
     userAvatar : "avatar/user.png",
     attachmentUploadURL : "",

@@ -60,14 +60,16 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 if (globalLpChat) {
                     initDemo();
                 } else {
-                    processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html) {
+                    processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html, Liveengage) {
                         if (error) {
                             alert(error); //change into some inline fancy display, show error in chat window.
                         }
                         if (html) {
-                            console.log('html LE check -- ', html.Liveengage);
-                            if (html.Liveengage == true) {
+                            console.log('html LE check -- ',Liveengage);
+                            if(Liveengage == true)
+                            {
                                 globalLpChat = true;
+                                initDemo();
                             } else {
                                 if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
                                     msg_container.siblings("h1").addClass('hidden');
@@ -130,7 +132,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         if (searchAlgorithym) {
 
             let htmlc = 0;
-            processor.askBot(searchAlgorithym, searchAlgorithym, function (error, html) {
+            processor.askBot(searchAlgorithym, searchAlgorithym, function (error, html, Liveengage) {
 
                 if (error) {
                     alert(error); //change into some inline fancy display, show error in chat window.
@@ -156,7 +158,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             $(this).parent().find("button").prop("disabled", true)
             $(this).parent().find("a").prop("disabled", true)
             if (!payloadInput.match(/http/g)) {
-                processor.askBot(payloadInput, textInput, function (error, html) {
+                processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
                     if (error) {
                         console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                     }
@@ -179,7 +181,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             console.log('Button Payload' + payloadInput);
             $(this).parent().find("button").prop("disabled", true)
             $(this).parent().find("a").prop("disabled", true)
-            processor.askBot(payloadInput, textInput, function (error, html) {
+            processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -193,7 +195,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         //List Response Postback button
         $(document).on('click', '.listresponsepayload', function (e) {
             var payloadInput = $(this).attr('data');
-            processor.askBot(payloadInput, payloadInput, function (error, html) {
+            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -210,7 +212,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             $(this).parent().find("a").prop("disabled", true)
             $(this).parent().find("button").prop("disabled", true)
             if (!payloadInput.match(/http/g)) {
-                processor.askBot(payloadInput, payloadInput, function (error, html) {
+                processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
                     if (error) {
                         console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                     }
@@ -230,7 +232,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $(document).on('click', '.airlineBoardingViewButton', function (e) {
             //var payloadInput = $(this).data().airlineBoardingButton;
             var payloadInput = "AirlineBoarding_BarCode";
-            processor.askBot(payloadInput, payloadInput, function (error, html) {
+            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -252,7 +254,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $(document).on('click', '.genericTemplate', function (e) {
             var payloadInput = $(this).attr("data");;
             console.log('Button Payload' + payloadInput);
-            processor.askBot(payloadInput, payloadInput, function (error, html) {
+            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -266,7 +268,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $(document).on('click', '.buyClick', function (e) {
             var payloadInput = $(this).attr("data");;
             console.log('Button Payload' + payloadInput);
-            processor.askBot(payloadInput, payloadInput, function (error, html) {
+            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -280,7 +282,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         // Quick Reply Postback button
         $(document).on('click', '.apiQuickreplybtnPayload', function (e) {
             var payloadInput = $(this).data().apiquickrepliespayload;
-            processor.askBot(payloadInput, payloadInput, function (error, html) {
+            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -296,7 +298,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             //var payloadInput = $(this).data().airlineBoardingButton;
             var payloadInput = "Checkin";
             console.log('Button Payload' + payloadInput);
-            processor.askBot(payloadInput, payloadInput, function (error, html) {
+            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -347,35 +349,10 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
 
         function initDemo() {
-            // if (lptag === 'true') {
-            //     createExternalJsMethodName();
-            // }
-            // else {
             initChat(getEngagement);
-            // }
         }
 
-        // function createExternalJsMethodName() {
-        //     window.externalJsMethodName = function(data) {
-        //         engagementData = data;
-        //         initChat(createWindow);
-        //     }
-        // }
-
         function createWindow() {
-            // chatWindow = $.window({
-            //     width: 650,
-            //     height: 500,
-            //     title: 'Chat Demo',
-            //     content: $('#chatWindow').html(),
-            //     footerContent: $('#agentIsTyping').html(),
-            //     onShow: function(){
-            //         startChat();
-            //     },
-            //     onClose: function(){
-            //         chatWindow = chatContainer = chatArea = null;
-            //     }
-            // });
             chatContainer = $('#chatWindow');
             startChat();
         }
@@ -386,43 +363,43 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 lpNumber: 57340919,
                 appKey: appKey,
                 onInit: [onInit, function (data) {
-                    writeLog('onInit', data);
+                    console.log('onInit', data);
                 }],
                 onInfo: function (data) {
-                    writeLog('onInfo', data);
+                    console.log('onInfo', data);
                 },
                 onLine: [addLines, function (data) {
-                    writeLog('onLine', data);
+                    console.log('onLine', data);
                 }],
                 onState: [updateChatState, function (data) {
-                    writeLog('onState', data);
+                    console.log('onState', data);
                 }],
                 onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
-                    writeLog('onStart', data);
+                    console.log('onStart', data);
                 }],
                 onStop: [updateChatState, unBindInputForChat],
                 onAddLine: function (data) {
-                    writeLog('onAddLine', data);
+                    console.log('onAddLine', data);
                 },
                 onAgentTyping: [agentTyping, function (data) {
-                    writeLog('onAgentTyping', data);
+                    console.log('onAgentTyping', data);
                 }],
                 onRequestChat: function (data) {
-                    writeLog('onRequestChat', data);
+                    console.log('onRequestChat', data);
                 },
                 onEngagement: function (data) {
                     if ('Available' === data.status) {
                         createEngagement(data);
-                        writeLog('onEngagement', data);
+                        console.log('onEngagement', data);
                     }
                     else if ('NotAvailable' === data.status) {
 
                         offline();
-                        writeLog('onEngagement', data);
+                        console.log('onEngagement', data);
                     }
                     else {
                         if (getEngagementMaxRetries > 0) {
-                            writeLog('Failed to get engagement. Retry number ' + getEngagementMaxRetries, data);
+                            console.log('Failed to get engagement. Retry number ' + getEngagementMaxRetries, data);
                             window.setTimeout(getEngagement, 100);
                             getEngagementMaxRetries--;
                         }
@@ -459,7 +436,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 campaignId: engagementData.engagementDetails.campaignId || engagementData.cid,
                 language: engagementData.engagementDetails.language || engagementData.lang
             };
-            writeLog('startChat', chatRequest);
+            console.log('startChat', chatRequest);
             chat.requestChat(chatRequest);
         }
 
@@ -470,8 +447,18 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             for (var i = 0; i < data.lines.length; i++) {
                 var line = data.lines[i];
                 if (line.source !== 'visitor' || chatState != chat.chatStates.CHATTING) {
-                    var chatLine = createLine(line);
-                    addLineToDom(chatLine);
+                    var msg_container = $("ul#msg_container");
+                    var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+                    if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                        msg_container.siblings("h1").addClass('hidden');
+                        msg_container.siblings("div.chat-text-para").addClass('hidden');
+                        msg_container.siblings(".header-text-logo").removeClass('hidden');
+                        msg_container.removeClass('hidden');
+                    }
+                    msg_container.append(html_div);
+                    utils.scrollSmoothToBottom($('div.chat-body'));
+                    // var chatLine = createLine(line);
+                    // addLineToDom(chatLine);
                     linesAdded = true;
                 }
             }
@@ -484,10 +471,29 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         function createLine(line) {
             var div = document.createElement('P');
             div.innerHTML = '<b>' + line.by + '</b>: ';
+            var msg_container = $("ul#msg_container");
             if (line.source === 'visitor') {
-                div.appendChild(document.createTextNode(line.text));
+                //div.appendChild(document.createTextNode(line.text));
+                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+                if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                    msg_container.siblings("h1").addClass('hidden');
+                    msg_container.siblings("div.chat-text-para").addClass('hidden');
+                    msg_container.siblings(".header-text-logo").removeClass('hidden');
+                    msg_container.removeClass('hidden');
+                }
+                msg_container.append(html_div);
+                utils.scrollSmoothToBottom($('div.chat-body'));
             } else {
-                div.innerHTML += line.text;
+                //div.innerHTML += line.text;
+                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+                if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                    msg_container.siblings("h1").addClass('hidden');
+                    msg_container.siblings("div.chat-text-para").addClass('hidden');
+                    msg_container.siblings(".header-text-logo").removeClass('hidden');
+                    msg_container.removeClass('hidden');
+                }
+                msg_container.append(html_div);
+                utils.scrollSmoothToBottom($('div.chat-body'));
             }
             return div;
         }
@@ -515,11 +521,11 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             var $textline = chatContainer.find('#textline');
             var text = $textline.val();
             if (text && chat) {
-                var line = createLine({
-                    by: chat.getVisitorName(),
-                    text: text,
-                    source: 'visitor'
-                });
+                // var line = createLine({
+                //     by: chat.getVisitorName(),
+                //     text: text,
+                //     source: 'visitor'
+                // });
 
                 chat.addLine({
                     text: text,
@@ -527,9 +533,20 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         line.className = 'error';
                     }
                 });
-                addLineToDom(line);
-                $textline.val('');
-                scrollToBottom();
+                // addLineToDom(line);
+                var msg_container = $("ul#msg_container");
+                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+                if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                    msg_container.siblings("h1").addClass('hidden');
+                    msg_container.siblings("div.chat-text-para").addClass('hidden');
+                    msg_container.siblings(".header-text-logo").removeClass('hidden');
+                    msg_container.removeClass('hidden');
+                }
+                msg_container.append(html_div);
+                utils.scrollSmoothToBottom($('div.chat-body'));
+
+                // $textline.val('');
+                // scrollToBottom();
             }
         }
 
@@ -615,24 +632,24 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             chatContainer.find('#sendTranscript').click(sendEmail);
         }
 
-        function writeLog(logName, data) {
-            var log = document.createElement('DIV');
-            try {
-                data = typeof data === 'string' ? data : JSON.stringify(data);
-            } catch (exc) {
-                return;
-            }
-            var time = new Date().toTimeString().slice(0, 8);
-            log.innerHTML = time + ' ' + logName + (data ? ' : ' + data : '');
-            if (!logsStarted) {
-                document.getElementById('logs').appendChild(log);
-                logsStarted = true;
-            } else {
-                document.getElementById('logs').insertBefore(log, logsLastChild);
-            }
-            logsLastChild = log;
+        // function console.log(logName, data) {
+        //     var log = document.createElement('DIV');
+        //     try {
+        //         data = typeof data === 'string' ? data : JSON.stringify(data);
+        //     } catch (exc) {
+        //         return;
+        //     }
+        //     var time = new Date().toTimeString().slice(0, 8);
+        //     log.innerHTML = time + ' ' + logName + (data ? ' : ' + data : '');
+        //     if (!logsStarted) {
+        //         document.getElementById('logs').appendChild(log);
+        //         logsStarted = true;
+        //     } else {
+        //         document.getElementById('logs').insertBefore(log, logsLastChild);
+        //     }
+        //     logsLastChild = log;
 
-        }
+        // }
 
         function offline() {
             var line = createLine({
