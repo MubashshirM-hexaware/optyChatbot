@@ -485,6 +485,10 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             // var div = document.createElement('P');
             // div.innerHTML = '<b>' + line.by + '</b>: ';
             var msg_container = $("ul#msg_container");
+            if(line.text == "end chat")
+                {
+                    endChat();
+                }
             if (line.source === 'visitor') {
                 //div.appendChild(document.createTextNode(line.text));
                 var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">'+line.text+'</p><p class="user-timestamp"><small>'+utils.currentTime()+'</small></p></div></div></li>';
@@ -544,10 +548,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 //     text: text,
                 //     source: 'visitor'
                 // });
-                if(text == "end chat")
-                {
-                    endChat();
-                }
+                
                 chat.addLine({
                     text: text,
                     error: function () {
