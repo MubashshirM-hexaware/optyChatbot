@@ -7,7 +7,7 @@ This file is part of the Innovation LAB - Offline Bot.
 
 
 define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'lpChat'],
-    function ($, config, utils, messageTpl, cards, uuidv1) {
+    function ($, config, utils, messageTpl, cards, uuidv1,lpChat) {
 
         class ApiHandler {
 
