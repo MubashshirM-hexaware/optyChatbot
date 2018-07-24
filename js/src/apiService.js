@@ -8,7 +8,7 @@ This file is part of the Innovation LAB - Offline Bot.
 
 define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
     function ($, config, utils, messageTpl, cards, uuidv1) {
-
+        
         class ApiHandler {
 
             constructor() {
@@ -16,6 +16,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                     sessionId: uuidv1(),
                     lang: "en"
                 };
+                
             }
 
             userSays(userInput, callback) {
@@ -29,6 +30,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                 }));
             }
             askBot(userInput, userText, callback) {
+                var Liveengage = false;
                 this.userSays(userText, callback);
 
                 this.options.query = userInput;
@@ -71,16 +73,17 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         //To find Card || Carousel
                         let count = 0;
                         let hasbutton;
+                        console.log(Liveengage);
                         if(response.result.action == "Optus") {
+                            Liveengage = true;
                             let cardHTML = cards({
                                 "payload": "Hijacked by LE",
                                 "senderName": config.botTitle,
                                 "senderAvatar": config.botAvatar,
                                 "time": utils.currentTime(),
                                 "className": '',
-                                "Liveengage":true,
                             }, "plaintext");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
                         }
                         if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
@@ -94,7 +97,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                         "time": utils.currentTime(),
                                         "className": ''
                                     }, "plaintext");
-                                    callback(null, cardHTML);
+                                    callback(null, cardHTML, Liveengage);
                                 }
                                 console.log("-----Srini----------------");
                                 console.log(response.result.fulfillment.messages[i]);
@@ -143,7 +146,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "time": utils.currentTime(),
                                 "className": ''
                             }, "plaintext");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
                         }
 
 
@@ -158,7 +161,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                     "buttons": hasbutton,
                                     "className": ''
                                 }, "card");
-                                callback(null, cardHTML);
+                                callback(null, cardHTML, Liveengage);
                             } else {
                                 let carouselHTML = cards({
                                     "action": response.result.action,
@@ -170,13 +173,13 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                     "className": ''
 
                                 }, "carousel");
-                                callback(null, carouselHTML);
+                                callback(null, carouselHTML, Liveengage);
                             }
                         }
                         //Image Response
                         if (isImage) {
                             let cardHTML = cards(response.result.fulfillment.messages, "image");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
                         }
                         //CustomPayload Quickreplies
                         if (isQuickReply) {
@@ -187,12 +190,12 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "time": utils.currentTime(),
                                 "className": ''
                             }, "quickreplies");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
                         }
                         //Apiai Quickreply
                         if (isQuickReplyFromApiai) {
                             let cardHTML = cards(response.result.fulfillment.messages, "quickreplyfromapiai");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
                         }
                         //Video Attachment Payload callback
                         if (isVideo) {
@@ -203,7 +206,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "time": utils.currentTime(),
                                 "className": ''
                             }, "video");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
                         }
                         //Audio Attachment Payload callback
                         if (isAudio) {
@@ -214,7 +217,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "time": utils.currentTime(),
                                 "className": ''
                             }, "audio");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
                         }
                         //File Attachment Payload callback
                         if (isFile) {
@@ -225,7 +228,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "time": utils.currentTime(),
                                 "className": ''
                             }, "file");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
                         }
                         // Receipt Attachment Payload callback
                         if (isReceipt) {
@@ -236,7 +239,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "time": utils.currentTime(),
                                 "className": ''
                             }, "receipt");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
                         }
                         // airline Boarding Pass
                         if (isAirlineBoardingPass) {
@@ -248,7 +251,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "buttons": hasbutton,
                                 "className": ''
                             }, "airlineBoarding");
-                            callback(null, boardingPassHTML);
+                            callback(null, boardingPassHTML, Liveengage);
                         }
                         // -----------------------------------
 
@@ -262,7 +265,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "buttons": hasbutton,
                                 "className": ''
                             }, "ViewBoardingPassBarCode");
-                            callback(null, ViewBoardingPassBarCodeHTML);
+                            callback(null, ViewBoardingPassBarCodeHTML, Liveengage);
                         }
                         // airline Checkin
                         if (isAirlineCheckin) {
@@ -274,7 +277,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "buttons": hasbutton,
                                 "className": ''
                             }, "airlineCheckin");
-                            callback(null, CheckinHTML);
+                            callback(null, CheckinHTML, Liveengage);
                         }
 
                         // airline flight update
@@ -287,7 +290,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "buttons": hasbutton,
                                 "className": ''
                             }, "airlineFlightUpdate");
-                            callback(null, CheckinHTML);
+                            callback(null, CheckinHTML, Liveengage);
                         }
 
                         // generic template
@@ -299,7 +302,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "time": utils.currentTime(),
                                 "className": ''
                             }, "generic");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
                         }
                         // List template
                         if (isList) {
@@ -310,7 +313,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "time": utils.currentTime(),
                                 "className": ''
                             }, "list");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
                         }
                         // Buy
                         if (genericBuy) {
@@ -321,7 +324,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "time": utils.currentTime(),
                                 "className": ''
                             }, "buybutton");
-                            callback(null, cardHTML);
+                            callback(null, cardHTML, Liveengage);
 
                         }
 
