@@ -78,7 +78,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         let hasbutton;
                         console.log(Liveengage);
                         if (response.result.action == "Optus") {
-                            Liveengage = true;
+                            //Liveengage = true;
                             // let cardHTML = cards({
                             //     "payload": "Hijacked by LE",
                             //     "senderName": config.botTitle,
@@ -87,7 +87,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                             //     "className": '',
                             // }, "plaintext");
                              console.log("response.result.action -- ",response.result.action);
-                            callback(null, "Liveengage", Liveengage);
+                            callback(null, "Liveengage", true);
                         }
                         if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
