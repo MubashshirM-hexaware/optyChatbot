@@ -346,35 +346,10 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
 
         function initDemo() {
-            // if (lptag === 'true') {
-            //     createExternalJsMethodName();
-            // }
-            // else {
             initChat(getEngagement);
-            // }
         }
 
-        // function createExternalJsMethodName() {
-        //     window.externalJsMethodName = function(data) {
-        //         engagementData = data;
-        //         initChat(createWindow);
-        //     }
-        // }
-
         function createWindow() {
-            // chatWindow = $.window({
-            //     width: 650,
-            //     height: 500,
-            //     title: 'Chat Demo',
-            //     content: $('#chatWindow').html(),
-            //     footerContent: $('#agentIsTyping').html(),
-            //     onShow: function(){
-            //         startChat();
-            //     },
-            //     onClose: function(){
-            //         chatWindow = chatContainer = chatArea = null;
-            //     }
-            // });
             chatContainer = $('#chatWindow');
             startChat();
         }
@@ -385,43 +360,43 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 lpNumber: 57340919,
                 appKey: appKey,
                 onInit: [onInit, function (data) {
-                    writeLog('onInit', data);
+                    console.log('onInit', data);
                 }],
                 onInfo: function (data) {
-                    writeLog('onInfo', data);
+                    console.log('onInfo', data);
                 },
                 onLine: [addLines, function (data) {
-                    writeLog('onLine', data);
+                    console.log('onLine', data);
                 }],
                 onState: [updateChatState, function (data) {
-                    writeLog('onState', data);
+                    console.log('onState', data);
                 }],
                 onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
-                    writeLog('onStart', data);
+                    console.log('onStart', data);
                 }],
                 onStop: [updateChatState, unBindInputForChat],
                 onAddLine: function (data) {
-                    writeLog('onAddLine', data);
+                    console.log('onAddLine', data);
                 },
                 onAgentTyping: [agentTyping, function (data) {
-                    writeLog('onAgentTyping', data);
+                    console.log('onAgentTyping', data);
                 }],
                 onRequestChat: function (data) {
-                    writeLog('onRequestChat', data);
+                    console.log('onRequestChat', data);
                 },
                 onEngagement: function (data) {
                     if ('Available' === data.status) {
                         createEngagement(data);
-                        writeLog('onEngagement', data);
+                        console.log('onEngagement', data);
                     }
                     else if ('NotAvailable' === data.status) {
 
                         offline();
-                        writeLog('onEngagement', data);
+                        console.log('onEngagement', data);
                     }
                     else {
                         if (getEngagementMaxRetries > 0) {
-                            writeLog('Failed to get engagement. Retry number ' + getEngagementMaxRetries, data);
+                            console.log('Failed to get engagement. Retry number ' + getEngagementMaxRetries, data);
                             window.setTimeout(getEngagement, 100);
                             getEngagementMaxRetries--;
                         }
@@ -458,7 +433,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 campaignId: engagementData.engagementDetails.campaignId || engagementData.cid,
                 language: engagementData.engagementDetails.language || engagementData.lang
             };
-            writeLog('startChat', chatRequest);
+            console.log('startChat', chatRequest);
             chat.requestChat(chatRequest);
         }
 
@@ -614,7 +589,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             chatContainer.find('#sendTranscript').click(sendEmail);
         }
 
-        function writeLog(logName, data) {
+        function console.log(logName, data) {
             var log = document.createElement('DIV');
             try {
                 data = typeof data === 'string' ? data : JSON.stringify(data);
