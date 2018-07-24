@@ -69,6 +69,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                             if(Liveengage == true)
                             {
                                 globalLpChat = true;
+                                initDemo();
                             } else {
                                 if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
                                     msg_container.siblings("h1").addClass('hidden');
