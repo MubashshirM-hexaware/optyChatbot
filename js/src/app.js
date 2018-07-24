@@ -50,16 +50,17 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
 
         function sendMessage(refr, ev, textsm) {
-
             var text = refr.val() || textsm;
             if (text !== "") {
                 refr.val('');
                 refr.text('');
                 //Calling ApiaiService call
+
                 console.log('globalLpChat', globalLpChat);
                 if (globalLpChat) {
                     initDemo();
                 } else {
+                    $("img.loading-gif-typing").fadeIn();
                     processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html, Liveengage) {
                         if (error) {
                             alert(error); //change into some inline fancy display, show error in chat window.
@@ -77,6 +78,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                                     msg_container.removeClass('hidden');
 
                                 }
+                                $("img.loading-gif-typing").fadeOut();
                                 msg_container.append(html);
                                 utils.scrollSmoothToBottom($('div.chat-body'));
                                 msg_container.find("li:nth-last-child(2)").find("button").prop("disabled", true);
@@ -133,7 +135,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
             let htmlc = 0;
             processor.askBot(searchAlgorithym, searchAlgorithym, function (error, html, Liveengage) {
-
+                $("img.loading-gif-typing").show();
                 if (error) {
                     alert(error); //change into some inline fancy display, show error in chat window.
                 }
@@ -145,6 +147,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         msg_container.siblings(".header-text-logo").removeClass('hidden');
                         msg_container.removeClass('hidden');
                     }
+                    $("img.loading-gif-typing").show();
                     msg_container.append(html);
                     utils.scrollSmoothToBottom($('div.chat-body'));
                 }
@@ -157,12 +160,14 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             var payloadInput = $(this).data().quickrepliespayload;
             $(this).parent().find("button").prop("disabled", true)
             $(this).parent().find("a").prop("disabled", true)
+            $("img.loading-gif-typing").fadeIn();
             if (!payloadInput.match(/http/g)) {
                 processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
                     if (error) {
                         console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                     }
                     if (html) {
+                        $("img.loading-gif-typing").fadeOut();
                         msg_container.append(html);
                         utils.scrollSmoothToBottom($('div.chat-body'));
 
@@ -181,11 +186,13 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             console.log('Button Payload' + payloadInput);
             $(this).parent().find("button").prop("disabled", true)
             $(this).parent().find("a").prop("disabled", true)
+            $("img.loading-gif-typing").fadeIn();
             processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
                 if (html) {
+                    $("img.loading-gif-typing").fadeOut();
                     msg_container.append(html);
                     utils.scrollSmoothToBottom($('div.chat-body'));
                 }
@@ -209,6 +216,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         //Carousel Response Postback button
         $(document).on('click', '.caroselresponsepayload', function (e) {
             var payloadInput = $(this).data().carouselpayloadbutton;
+            $("img.loading-gif-typing").fadeIn();
             $(this).parent().find("a").prop("disabled", true)
             $(this).parent().find("button").prop("disabled", true)
             if (!payloadInput.match(/http/g)) {
@@ -217,6 +225,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                     }
                     if (html) {
+                        $("img.loading-gif-typing").fadeOut();
                         msg_container.append(html);
                         utils.scrollSmoothToBottom($('div.chat-body'));
                     }
