@@ -533,6 +533,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         function sendLine() {
             
             //var $textline = chatContainer.find('#textline');
+            var refr = $("textarea#btn-input");
             var text = refr.val();
             refr.val('');
             refr.text('');
