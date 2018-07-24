@@ -74,6 +74,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                                     msg_container.siblings("div.chat-text-para").addClass('hidden');
                                     msg_container.siblings(".header-text-logo").removeClass('hidden');
                                     msg_container.removeClass('hidden');
+                                    msg_container.find("button").prop("disabled",true);
+                                    msg_container.find("a").prop("disabled",true);
                                 }
                                 msg_container.append(html);
                                 utils.scrollSmoothToBottom($('div.chat-body'));
