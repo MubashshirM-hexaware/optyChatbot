@@ -52,7 +52,7 @@
 
             }
         }
-        $("div[role='navigation'] a").attr("data-content", `<iframe    src='https://optychatbot.herokuapp.com/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+        $("div[role='navigation'] a").attr("data-content", `<iframe    src='http://localhost:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
     }
     function triggerPopupHTML() {
         let popupHTML = $(value.contentDocument).find('body div.chat-body ul#msg_container');
@@ -82,7 +82,7 @@
     $(function () {
         intervals = triggerSetInterval();
         $("a.popover-html").click(function () {
-            $("div[role='navigation'] a").attr("data-content", `<iframe    src='https://optychatbot.herokuapp.com/?popup=1&search=' height='530' width='300' style='border:none'></iframe>`)
+            $("div[role='navigation'] a").attr("data-content", `<iframe    src='http://localhost:7000/?popup=1&search=' height='530' width='300' style='border:none'></iframe>`)
 
         })
     })
