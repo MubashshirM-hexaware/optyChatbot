@@ -77,7 +77,8 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 "senderName": config.botTitle,
                                 "senderAvatar": config.botAvatar,
                                 "time": utils.currentTime(),
-                                "className": ''
+                                "className": '',
+                                "Liveengage":true,
                             }, "plaintext");
                             callback(null, cardHTML);
                         }
