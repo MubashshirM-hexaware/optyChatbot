@@ -8,7 +8,7 @@ This file is part of the Innovation LAB - Offline Bot.
 
 define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
     function ($, config, utils, messageTpl, cards, uuidv1) {
-        
+
         class ApiHandler {
 
             constructor() {
@@ -16,7 +16,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                     sessionId: uuidv1(),
                     lang: "en"
                 };
-                
+
             }
 
             userSays(userInput, callback) {
@@ -42,6 +42,9 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                     dataType: "json",
                     headers: {
                         "Authorization": "Bearer " + config.accessToken
+                    },
+                    beforeSend: function () {
+                       $("img.loading-gif-typing").fadeIn();
                     },
                     data: JSON.stringify(this.options),
                     success: function (response) {
@@ -74,7 +77,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         let count = 0;
                         let hasbutton;
                         console.log(Liveengage);
-                        if(response.result.action == "Optus") {
+                        if (response.result.action == "Optus") {
                             Liveengage = true;
                             // let cardHTML = cards({
                             //     "payload": "Hijacked by LE",
@@ -84,7 +87,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                             //     "className": '',
                             // }, "plaintext");
                             // console.log("actual card response --- ",cardHTML);
-                             callback(null, "", Liveengage);
+                            callback(null, "", Liveengage);
                         }
                         if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);

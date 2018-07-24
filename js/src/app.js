@@ -50,24 +50,24 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
 
         function sendMessage(refr, ev, textsm) {
-
             var text = refr.val() || textsm;
             if (text !== "") {
                 refr.val('');
                 refr.text('');
                 //Calling ApiaiService call
+
                 console.log('globalLpChat', globalLpChat);
                 if (globalLpChat) {
                     initDemo();
                 } else {
+                    $("img.loading-gif-typing").fadeIn();
                     processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html, Liveengage) {
                         if (error) {
                             alert(error); //change into some inline fancy display, show error in chat window.
                         }
                         if (html) {
-                            console.log('html LE check -- ',Liveengage);
-                            if(Liveengage == true)
-                            {
+                            console.log('html LE check -- ', Liveengage);
+                            if (Liveengage == true) {
                                 globalLpChat = true;
                                 initDemo();
                             } else {
@@ -76,9 +76,13 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                                     msg_container.siblings("div.chat-text-para").addClass('hidden');
                                     msg_container.siblings(".header-text-logo").removeClass('hidden');
                                     msg_container.removeClass('hidden');
+
                                 }
+                                $("img.loading-gif-typing").fadeOut();
                                 msg_container.append(html);
                                 utils.scrollSmoothToBottom($('div.chat-body'));
+                                msg_container.find("li:nth-last-child(2)").find("button").prop("disabled", true);
+                                msg_container.find("li:nth-last-child(2)").find("a").prop("disabled", true);
                             }
                         }
                     });
@@ -134,7 +138,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
             let htmlc = 0;
             processor.askBot(searchAlgorithym, searchAlgorithym, function (error, html, Liveengage) {
-
+                $("img.loading-gif-typing").show();
                 if (error) {
                     alert(error); //change into some inline fancy display, show error in chat window.
                 }
@@ -146,6 +150,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         msg_container.siblings(".header-text-logo").removeClass('hidden');
                         msg_container.removeClass('hidden');
                     }
+                    $("img.loading-gif-typing").show();
                     msg_container.append(html);
                     utils.scrollSmoothToBottom($('div.chat-body'));
                 }
@@ -158,12 +163,14 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             var payloadInput = $(this).data().quickrepliespayload;
             $(this).parent().find("button").prop("disabled", true)
             $(this).parent().find("a").prop("disabled", true)
+            $("img.loading-gif-typing").fadeIn();
             if (!payloadInput.match(/http/g)) {
                 processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
                     if (error) {
                         console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                     }
                     if (html) {
+                        $("img.loading-gif-typing").fadeOut();
                         msg_container.append(html);
                         utils.scrollSmoothToBottom($('div.chat-body'));
 
@@ -182,11 +189,13 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             console.log('Button Payload' + payloadInput);
             $(this).parent().find("button").prop("disabled", true)
             $(this).parent().find("a").prop("disabled", true)
+            $("img.loading-gif-typing").fadeIn();
             processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
                 if (html) {
+                    $("img.loading-gif-typing").fadeOut();
                     msg_container.append(html);
                     utils.scrollSmoothToBottom($('div.chat-body'));
                 }
@@ -210,6 +219,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         //Carousel Response Postback button
         $(document).on('click', '.caroselresponsepayload', function (e) {
             var payloadInput = $(this).data().carouselpayloadbutton;
+            $("img.loading-gif-typing").fadeIn();
             $(this).parent().find("a").prop("disabled", true)
             $(this).parent().find("button").prop("disabled", true)
             if (!payloadInput.match(/http/g)) {
@@ -218,6 +228,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                     }
                     if (html) {
+                        $("img.loading-gif-typing").fadeOut();
                         msg_container.append(html);
                         utils.scrollSmoothToBottom($('div.chat-body'));
                     }
@@ -449,7 +460,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 var line = data.lines[i];
                 if (line.source !== 'visitor' || chatState != chat.chatStates.CHATTING) {
                     var msg_container = $("ul#msg_container");
-                    var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+                    var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + line.text + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
                     if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
                         msg_container.siblings("h1").addClass('hidden');
                         msg_container.siblings("div.chat-text-para").addClass('hidden');
@@ -487,7 +498,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 utils.scrollSmoothToBottom($('div.chat-body'));
             } else {
                 //div.innerHTML += line.text;
-                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + line.text + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
                 if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
                     msg_container.siblings("h1").addClass('hidden');
                     msg_container.siblings("div.chat-text-para").addClass('hidden');
@@ -540,8 +551,12 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 });
                 // addLineToDom(line);
                 var msg_container = $("ul#msg_container");
+<<<<<<< HEAD
                 //var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
                 var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">'+text+'</p><p class="user-timestamp"><small>'+utils.currentTime()+'</small></p></div></div></li>';
+=======
+                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + text + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+>>>>>>> 364b879d602f82f8d3cea876b93a867da2026a16
                 if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
                     msg_container.siblings("h1").addClass('hidden');
                     msg_container.siblings("div.chat-text-para").addClass('hidden');
