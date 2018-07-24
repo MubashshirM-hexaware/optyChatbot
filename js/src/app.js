@@ -50,14 +50,14 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
 
         function sendMessage(refr, ev, textsm) {
-            
+
             var text = refr.val() || textsm;
             if (text !== "") {
                 refr.val('');
                 refr.text('');
                 //Calling ApiaiService call
-                console.log('globalLpChat',globalLpChat);
-                if(globalLpChat) {
+                console.log('globalLpChat', globalLpChat);
+                if (globalLpChat) {
                     initDemo();
                 } else {
                     processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html) {
@@ -66,7 +66,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         }
                         if (html) {
                             console.log('html LE check -- ',html['Liveengage']);
-                            if(html.Liveengage == true)
+                            if(html['Liveengage'] == true)
                             {
                                 globalLpChat = true;
                             } else {
@@ -152,7 +152,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $(document).on('click', '.QuickreplybtnPayload', function (e) {
             var textInput = $(this).text();
             var payloadInput = $(this).data().quickrepliespayload;
-
+            $(this).parent().find("button").prop("disabled", true)
+            $(this).parent().find("a").prop("disabled", true)
             if (!payloadInput.match(/http/g)) {
                 processor.askBot(payloadInput, textInput, function (error, html) {
                     if (error) {
@@ -175,6 +176,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             var textInput = $(this).text();
             var payloadInput = $(this).data().cardpayloadbutton;
             console.log('Button Payload' + payloadInput);
+            $(this).parent().find("button").prop("disabled", true)
+            $(this).parent().find("a").prop("disabled", true)
             processor.askBot(payloadInput, textInput, function (error, html) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
@@ -203,6 +206,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         //Carousel Response Postback button
         $(document).on('click', '.caroselresponsepayload', function (e) {
             var payloadInput = $(this).data().carouselpayloadbutton;
+            $(this).parent().find("a").prop("disabled", true)
+            $(this).parent().find("button").prop("disabled", true)
             if (!payloadInput.match(/http/g)) {
                 processor.askBot(payloadInput, payloadInput, function (error, html) {
                     if (error) {
@@ -328,15 +333,15 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
 
         var appKey = '721c180b09eb463d9f3191c41762bb68',
-        logsStarted = false,
-        engagementData = {},
-        getEngagementMaxRetries = 25,
-        chatWindow,
-        chatContainer,
-        chat,
-        chatState,
-        chatArea,
-        logsLastChild;
+            logsStarted = false,
+            engagementData = {},
+            getEngagementMaxRetries = 25,
+            chatWindow,
+            chatContainer,
+            chat,
+            chatState,
+            chatArea,
+            logsLastChild;
 
 
 
@@ -345,7 +350,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             //     createExternalJsMethodName();
             // }
             // else {
-                initChat(getEngagement);
+            initChat(getEngagement);
             // }
         }
 
@@ -388,7 +393,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 onLine: [addLines, function (data) {
                     writeLog('onLine', data);
                 }],
-                onState: [ updateChatState, function(data) {
+                onState: [updateChatState, function (data) {
                     writeLog('onState', data);
                 }],
                 onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
@@ -410,7 +415,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         writeLog('onEngagement', data);
                     }
                     else if ('NotAvailable' === data.status) {
-                        
+
                         offline();
                         writeLog('onEngagement', data);
                     }
@@ -425,7 +430,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             };
             chat = new lpTag.taglets.ChatOverRestAPI(chatConfig);
 
-            
+
         }
 
         function getEngagement() {
@@ -435,8 +440,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         function createEngagement(data) {
             // var $engagement = $('<button id="engagement" class="btn-lg">Start Chat</button>');
             // $engagement.click(function(){
-                engagementData = data;
-                createWindow();
+            engagementData = data;
+            createWindow();
             // });
             // $engagement.appendTo($('#engagementPlaceholder'));
         }
@@ -459,7 +464,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
         //Add lines to the chat from events
         function addLines(data) {
-            console.log('data added --- ',data);
+            console.log('data added --- ', data);
             var linesAdded = false;
             for (var i = 0; i < data.lines.length; i++) {
                 var line = data.lines[i];
@@ -545,7 +550,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         //Set the visitor typing state
         function setVisitorTyping(typing) {
             if (chat) {
-                chat.setVisitorTyping({typing: typing});
+                chat.setVisitorTyping({ typing: typing });
             }
         }
 
@@ -553,7 +558,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         function setVisitorName() {
             var name = chatContainer.find('#visitorName').val();
             if (chat && name) {
-                chat.setVisitorName({visitorName: name});
+                chat.setVisitorName({ visitorName: name });
             }
         }
 
@@ -573,12 +578,12 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         function sendEmail() {
             var email = chatContainer.find('#emailAddress').val();
             if (chat && email) {
-                chat.requestTranscript({email: email});
+                chat.requestTranscript({ email: email });
             }
         }
 
         //Sets the local chat state
-        function updateChatState(data){
+        function updateChatState(data) {
             if (data.state === 'ended' && chatState !== 'ended') {
                 chat.disposeVisitor();
             }
@@ -616,7 +621,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             } catch (exc) {
                 return;
             }
-            var time = new Date().toTimeString().slice(0,8);
+            var time = new Date().toTimeString().slice(0, 8);
             log.innerHTML = time + ' ' + logName + (data ? ' : ' + data : '');
             if (!logsStarted) {
                 document.getElementById('logs').appendChild(log);
@@ -644,7 +649,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             chatArea = chatContainer.find('#chatLines');
             chatArea.append(line);
         }
-        
+
 
 
     });
