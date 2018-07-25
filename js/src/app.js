@@ -637,15 +637,15 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             if (data.state === 'ended' && chatState !== 'ended') {
                 globalLpChat = false;
                 chat.disposeVisitor();
-                setTimeout(function(){
+                //setTimeout(function(){
                     // $("a.popover-html1").unbind().click(function (event) {
                     //     event.preventDefault();
                     //     event.stopPropagation();
                     // });
                     console.log("executed");
-                    $("a.popover-html1").click();
+                    $("a.popover-html1").unbind().click();
                     
-                },2000);
+                //},2000);
             }
             chatState = data.state;
         }
