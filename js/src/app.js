@@ -7,6 +7,7 @@ This file is part of the Innovation LAB - Offline Bot.
 
 define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiService, utils) {
     $(function () {
+         $("img.loading-gif-typing").fadeOut();
         var globalLpChat;
         /* Web Popup Adjustment header hiding */
         function adjustPopups() {
