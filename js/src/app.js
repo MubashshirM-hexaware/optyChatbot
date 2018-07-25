@@ -9,6 +9,11 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
     $(function () {
         $("img.loading-gif-typing").fadeOut();
         var globalLpChat;
+        console.log('before click trigger');
+        function test() {
+            $('a.popover-html1').click()
+        }
+        console.log('after click trigger');
         /* Web Popup Adjustment header hiding */
         function adjustPopups() {
             let msgboxh = $("div.header-popup").next().height();
@@ -638,21 +643,22 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             if (data.state === 'ended' && chatState !== 'ended') {
                 globalLpChat = false;
                 chat.disposeVisitor();
+                var ob = this;
+                //window.setTimeout(test,2000);
                 setTimeout(function () {
                     // $("a.popover-html1").unbind().click(function (event) {
                     //     event.preventDefault();
                     //     event.stopPropagation();
                     // });
                     //console.log("executed");
-                    $(function () {
-                        console.log('normal click -- ', $('a.popover-html1').click());
-                        console.log('trigger -- ',$("a.popover-html1").trigger('click'));
-                        console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
-                        console.log('document click -- ', $(document).on('click', 'a.popover-html1', function(){}));
+                        ob.test();
+                        // console.log('normal click -- ', $('a.popover-html1').click());
+                        // console.log('trigger -- ',$("a.popover-html1").trigger('click'));
+                        // console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
+                        // console.log('document click -- ', $(document).on('click', 'a.popover-html1', function(){}));
                         //$(document).on('click', 'a.popover-html1', function(){});
                         // $("a.popover-html1").unbind().click(function(event){event.preventDefault();
                         //     event.stopPropagation();alert("clicked")});
-                    });
                 }, 2000);
             }
             chatState = data.state;
