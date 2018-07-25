@@ -484,7 +484,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     var msg_container = $("ul#msg_container");
                     var text_final = line.text;
                     var l = text_final.length;
-                    var y = x.indexOf('>');
+                    var y = text_final.indexOf('>');
                     if(y != -1) {
                         var s = x.slice(y+1,l);
                         var k = s.indexOf('<');
