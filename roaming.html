@@ -44,7 +44,6 @@
         div.popover {
             max-width: 350px !important;
         }
-
     </style>
 
 </head>
@@ -1609,6 +1608,7 @@
                                         });
                                         setTimeout(() => {
                                             let msg_container = $("iframe").contents().find('body div.chat-body');
+                                            $("iframe").contents().find('body').find("img.loading-gif-typing").hide();
                                             msg_container.find("ul#msg_container").append(`<li class="animated fadeInLeft list-group-item background-color-custom">
         <table border="0" cellpadding="0" cellspacing="0">
         <tr>
