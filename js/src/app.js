@@ -9,11 +9,9 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
     $(function () {
         $("img.loading-gif-typing").fadeOut();
         var globalLpChat;
-        console.log('before click trigger');
         function test() {
             $('a.popover-html1').click()
         }
-        console.log('after click trigger');
         /* Web Popup Adjustment header hiding */
         function adjustPopups() {
             let msgboxh = $("div.header-popup").next().height();
@@ -401,9 +399,17 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 }],
                 onState: [updateChatState, function (data) {
                     console.log('onState', data);
+                    console.log('state -- ',data.state)
+                    if(data.state == "ended") {
+                        test();
+                        console.log('before click trigger');
+                        $('a.popover-html1').click()
+                        console.log('after click trigger');
+                    }
                 }],
                 onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
                     console.log('onStart', data);
+                    
                 }],
                 onStop: [updateChatState, unBindInputForChat],
                 onAddLine: function (data) {
@@ -476,7 +482,15 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 var line = data.lines[i];
                 if (line.source !== 'visitor' || chatState != chat.chatStates.CHATTING) {
                     var msg_container = $("ul#msg_container");
-                    var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + line.text + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+                    var text_final = line.text;
+                    // var l = text_final.length;
+                    // var y = text_final.indexOf('>');
+                    // if(y != -1) {
+                    //     var s = x.slice(y+1,l);
+                    //     var k = s.indexOf('<');
+                    //     var text_final = s.slice(0,k);
+                    // }
+                    var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + text_final + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
                     if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
                         msg_container.siblings("h1").addClass('hidden');
                         msg_container.siblings("div.chat-text-para").addClass('hidden');
@@ -637,13 +651,13 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 chat.requestTranscript({ email: email });
             }
         }
-
+        //var ob = this;
         //Sets the local chat state
-        function updateChatState(data) {
+        function updateChatState(data,test) {
             if (data.state === 'ended' && chatState !== 'ended') {
                 globalLpChat = false;
                 chat.disposeVisitor();
-                var ob = this;
+                
                 //window.setTimeout(test,2000);
                 setTimeout(function () {
                     // $("a.popover-html1").unbind().click(function (event) {
@@ -651,7 +665,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     //     event.stopPropagation();
                     // });
                     //console.log("executed");
-                        ob.test();
+                        //test();
                         // console.log('normal click -- ', $('a.popover-html1').click());
                         // console.log('trigger -- ',$("a.popover-html1").trigger('click'));
                         // console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
