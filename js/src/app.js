@@ -9,11 +9,9 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
     $(function () {
         $("img.loading-gif-typing").fadeOut();
         var globalLpChat;
-        console.log('before click trigger');
         function test() {
             $('a.popover-html1').click()
         }
-        console.log('after click trigger');
         /* Web Popup Adjustment header hiding */
         function adjustPopups() {
             let msgboxh = $("div.header-popup").next().height();
@@ -484,7 +482,13 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 var line = data.lines[i];
                 if (line.source !== 'visitor' || chatState != chat.chatStates.CHATTING) {
                     var msg_container = $("ul#msg_container");
-                    var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + line.text + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+                    var textl = line.text;
+                    var l = textl.length;
+                    var y = x.indexOf('>');
+                    var s = x.slice(y+1,l);
+                    var k = s.indexOf('<');
+                    var text_final = s.slice(0,k);
+                    var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + text_final + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
                     if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
                         msg_container.siblings("h1").addClass('hidden');
                         msg_container.siblings("div.chat-text-para").addClass('hidden');
