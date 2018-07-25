@@ -75,8 +75,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         console.log('result *** ',JSON.stringify(response.result));
                         if(response.result.action == "Optus") {
                             callback(null, "Liveengage");
-                        }
-                        if (response.result.fulfillment.messages) {
+                        } else if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
                             for (let i in response.result.fulfillment.messages) {
                                 if (response.result.fulfillment.messages[i].type == 0 && response.result.fulfillment.messages[i].speech != "") {
