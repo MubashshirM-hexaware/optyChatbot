@@ -642,15 +642,15 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             if (data.state === 'ended' && chatState !== 'ended') {
                 globalLpChat = false;
                 chat.disposeVisitor();
-                //var ob = this;
-                window.setTimeout(test,2000);
-                //setTimeout(function () {
+                var ob = this;
+                //window.setTimeout(test,2000);
+                setTimeout(function () {
                     // $("a.popover-html1").unbind().click(function (event) {
                     //     event.preventDefault();
                     //     event.stopPropagation();
                     // });
                     //console.log("executed");
-                     //   ob.test();
+                        ob.test();
                         // console.log('normal click -- ', $('a.popover-html1').click());
                         // console.log('trigger -- ',$("a.popover-html1").trigger('click'));
                         // console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
@@ -658,7 +658,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         //$(document).on('click', 'a.popover-html1', function(){});
                         // $("a.popover-html1").unbind().click(function(event){event.preventDefault();
                         //     event.stopPropagation();alert("clicked")});
-               // }, 2000);
+                }, 2000);
             }
             chatState = data.state;
         }
