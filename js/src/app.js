@@ -72,18 +72,23 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                                 globalLpChat = true;
                                 initDemo();
                             } else {
-                                if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
-                                    msg_container.siblings("h1").addClass('hidden');
-                                    msg_container.siblings("div.chat-text-para").addClass('hidden');
-                                    msg_container.siblings(".header-text-logo").removeClass('hidden');
-                                    msg_container.removeClass('hidden');
+                                if (html == "Liveengage") {
+                                    globalLpChat = true;
+                                    initDemo();
+                                } else {
+                                    if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                                        msg_container.siblings("h1").addClass('hidden');
+                                        msg_container.siblings("div.chat-text-para").addClass('hidden');
+                                        msg_container.siblings(".header-text-logo").removeClass('hidden');
+                                        msg_container.removeClass('hidden');
 
+                                    }
+                                    $("img.loading-gif-typing").fadeOut();
+                                    msg_container.append(html);
+                                    utils.scrollSmoothToBottom($('div.chat-body'));
+                                    msg_container.find("li:nth-last-child(2)").find("button").prop("disabled", true);
+                                    msg_container.find("li:nth-last-child(2)").find("a").prop("disabled", true);
                                 }
-                                $("img.loading-gif-typing").fadeOut();
-                                msg_container.append(html);
-                                utils.scrollSmoothToBottom($('div.chat-body'));
-                                msg_container.find("li:nth-last-child(2)").find("button").prop("disabled", true);
-                                msg_container.find("li:nth-last-child(2)").find("a").prop("disabled", true);
                             }
                         }
                     });
