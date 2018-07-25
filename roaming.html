@@ -1625,7 +1625,7 @@
 
         </li>`);
                                             setTimeout(() => {
-                                                $("iframe").contents().find('body').find("img.loading-gif-typing").hide();
+                                                $("iframe").contents().find('ul#msg_container').next("img.loading-gif-typing").hide();
                                             }, 1000)
                                             utils.scrollSmoothToBottom(msg_container);
                                         }, 10300)
