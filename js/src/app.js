@@ -643,7 +643,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     //     event.stopPropagation();
                     // });
                     console.log("executed");
-                    console.log($("a.popover-html1").val());
+                    console.log($("a.popover-html1").click());
                     $("a.popover-html1").unbind().click(function(event){event.preventDefault();
                         event.stopPropagation();alert("clicked")});
                     
