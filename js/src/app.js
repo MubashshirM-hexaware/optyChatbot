@@ -642,7 +642,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     //     event.preventDefault();
                     //     event.stopPropagation();
                     // });
-                    $("a.popover-html1").trigger("click");
+                    console.log("executed");
+                    $("a.popover-html1").triggerHandler("click");
                     
                 },2000);
             }
