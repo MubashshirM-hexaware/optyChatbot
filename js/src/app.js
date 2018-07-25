@@ -637,6 +637,9 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             if (data.state === 'ended' && chatState !== 'ended') {
                 globalLpChat = false;
                 chat.disposeVisitor();
+                setTimeout(function(){
+                    $('[data-toggle="popover"]').popover();
+                },2000);
             }
             chatState = data.state;
         }
