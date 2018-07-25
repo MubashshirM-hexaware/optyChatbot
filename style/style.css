@@ -24,6 +24,10 @@ html,body{
     font-family: markpro,Verdana !important;
 
 }
+img.loading-gif-typing
+{
+  display:none;
+}
 .main-container{
     background-color: #fff;
     height:100%;
