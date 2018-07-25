@@ -59,15 +59,18 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 console.log('globalLpChat', globalLpChat);
                 if (globalLpChat) {
                     initDemo();
+                    $("img.loading-gif-typing").fadeIn();
                 } else {
                     $("img.loading-gif-typing").fadeIn();
-                    processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html, Liveengage) {
+                    processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html) {
+                        console.log('html LE precheck -- ', html);
+                        console.log('error LE check -- ', error);
                         if (error) {
                             alert(error); //change into some inline fancy display, show error in chat window.
                         }
                         if (html) {
-                            console.log('html LE check -- ', Liveengage);
-                            if (Liveengage == true) {
+                            console.log('html LE check -- ', html);
+                            if (html == "Liveengage") {
                                 globalLpChat = true;
                                 initDemo();
                             } else {
@@ -122,7 +125,10 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $("textarea#btn-input").keypress(function (e) {
             if (e.which == 13) {
                 if ($.trim($(this).val()) != "") {
-                    sendMessage($(this), e);
+                    if(!globalLpChat)
+                        sendMessage($(this), e);
+                    else
+                        sendLine();
                 }
             }
 
@@ -167,9 +173,15 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                     }
                     if (html) {
-                        $("img.loading-gif-typing").fadeOut();
-                        msg_container.append(html);
-                        utils.scrollSmoothToBottom($('div.chat-body'));
+                        console.log('html LE check -- ', html);
+                        if (html == "Liveengage") {
+                            globalLpChat = true;
+                            initDemo();
+                        } else {
+                            $("img.loading-gif-typing").fadeOut();
+                            msg_container.append(html);
+                            utils.scrollSmoothToBottom($('div.chat-body'));
+                        }
 
                     }
                 });
@@ -478,12 +490,17 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
         //Create a chat line
         function createLine(line) {
-            var div = document.createElement('P');
-            div.innerHTML = '<b>' + line.by + '</b>: ';
+            // var div = document.createElement('P');
+            // div.innerHTML = '<b>' + line.by + '</b>: ';
             var msg_container = $("ul#msg_container");
+            if(line.text == "end chat")
+                {
+                    endChat();
+                }
             if (line.source === 'visitor') {
                 //div.appendChild(document.createTextNode(line.text));
-                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + line.text + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+                var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">'+line.text+'</p><p class="user-timestamp"><small>'+utils.currentTime()+'</small></p></div></div></li>';
+                //var html_div = '<li class="animated fadeInRight list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
                 if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
                     msg_container.siblings("h1").addClass('hidden');
                     msg_container.siblings("div.chat-text-para").addClass('hidden');
@@ -527,15 +544,19 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
         //Sends a chat line
         function sendLine() {
-            var $textline = chatContainer.find('#textline');
-            var text = $textline.val();
+            
+            //var $textline = chatContainer.find('#textline');
+            var refr = $("textarea#btn-input");
+            var text = refr.val();
+            refr.val('');
+            refr.text('');
             if (text && chat) {
                 // var line = createLine({
                 //     by: chat.getVisitorName(),
                 //     text: text,
                 //     source: 'visitor'
                 // });
-
+                
                 chat.addLine({
                     text: text,
                     error: function () {
@@ -544,7 +565,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 });
                 // addLineToDom(line);
                 var msg_container = $("ul#msg_container");
-                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + text + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+                //var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+                var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">'+text+'</p><p class="user-timestamp"><small>'+utils.currentTime()+'</small></p></div></div></li>';
                 if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
                     msg_container.siblings("h1").addClass('hidden');
                     msg_container.siblings("div.chat-text-para").addClass('hidden');
@@ -596,6 +618,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     disposeVisitor: true,
                     success: function () {
                         chatWindow.close();
+                        globalLpChat = false;
                     }
                 });
             }
@@ -612,7 +635,23 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         //Sets the local chat state
         function updateChatState(data) {
             if (data.state === 'ended' && chatState !== 'ended') {
+                globalLpChat = false;
                 chat.disposeVisitor();
+                setTimeout(function(){
+                    // $("a.popover-html1").unbind().click(function (event) {
+                    //     event.preventDefault();
+                    //     event.stopPropagation();
+                    // });
+                    //console.log("executed");
+                    console.log('normal click -- ', $('a.popover-html1').click());
+                    console.log('trigger -- ',$("a.popover-html1").trigger('click'));
+                    console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
+                    console.log('document click -- ', $(document).on('click', 'a.popover-html1', function(){}));
+                    //$(document).on('click', 'a.popover-html1', function(){});
+                    // $("a.popover-html1").unbind().click(function(event){event.preventDefault();
+                    //     event.stopPropagation();alert("clicked")});
+                    
+                },2000);
             }
             chatState = data.state;
         }
