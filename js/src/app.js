@@ -638,10 +638,10 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 globalLpChat = false;
                 chat.disposeVisitor();
                 setTimeout(function(){
-                    // $("a.popover-html1").unbind().click(function (event) {
-                    //     event.preventDefault();
-                    //     event.stopPropagation();
-                    // });
+                    $("a.popover-html1").unbind().click(function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    });
                     console.log("executed");
                     $("a.popover-html1").click();
                     
