@@ -644,7 +644,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     // });
                     console.log("executed");
                     console.log($("a.popover-html1"));
-                    $("a.popover-html1").unbind().click();
+                    $("popover-html1").unbind().click();
                     
                 },2000);
             }
