@@ -636,13 +636,13 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 chat.requestTranscript({ email: email });
             }
         }
-
+        var ob = this;
         //Sets the local chat state
         function updateChatState(data) {
             if (data.state === 'ended' && chatState !== 'ended') {
                 globalLpChat = false;
                 chat.disposeVisitor();
-                var ob = this;
+                
                 //window.setTimeout(test,2000);
                 setTimeout(function () {
                     // $("a.popover-html1").unbind().click(function (event) {
