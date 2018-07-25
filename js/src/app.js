@@ -399,7 +399,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 onLine: [addLines, function (data) {
                     console.log('onLine', data);
                 }],
-                onState: [updateChatState, function (data) {
+                onState: [updateChatState, function (data,test) {
                     console.log('onState', data);
                 }],
                 onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
@@ -637,9 +637,9 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 chat.requestTranscript({ email: email });
             }
         }
-        var ob = this;
+        //var ob = this;
         //Sets the local chat state
-        function updateChatState(data) {
+        function updateChatState(data,test) {
             if (data.state === 'ended' && chatState !== 'ended') {
                 globalLpChat = false;
                 chat.disposeVisitor();
@@ -651,7 +651,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     //     event.stopPropagation();
                     // });
                     //console.log("executed");
-                        ob.test();
+                        test();
                         // console.log('normal click -- ', $('a.popover-html1').click());
                         // console.log('trigger -- ',$("a.popover-html1").trigger('click'));
                         // console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
