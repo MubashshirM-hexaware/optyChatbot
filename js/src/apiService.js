@@ -8,7 +8,7 @@ This file is part of the Innovation LAB - Offline Bot.
 
 define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
     function ($, config, utils, messageTpl, cards, uuidv1) {
-        
+
         class ApiHandler {
 
             constructor() {
@@ -16,7 +16,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                     sessionId: uuidv1(),
                     lang: "en"
                 };
-                
+
             }
 
             userSays(userInput, callback) {
@@ -42,8 +42,13 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                     headers: {
                         "Authorization": "Bearer " + config.accessToken
                     },
+                    beforeSend: function () {
+                        $("img.loading-gif-typing").fadeIn();
+                    },
                     data: JSON.stringify(this.options),
                     success: function (response) {
+                        $("img.loading-gif-typing").fadeOut();
+                        $("img.loading-gif-typing").hide();
                         let isCardorCarousel = false;
                         let isImage = false;
                         let isQuickReply = false;
@@ -72,8 +77,8 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         //To find Card || Carousel
                         let count = 0;
                         let hasbutton;
-                        console.log('result *** ',JSON.stringify(response.result));
-                        if(response.result.action == "Optus") {
+                        console.log('result *** ', JSON.stringify(response.result));
+                        if (response.result.action == "Optus") {
                             callback(null, "Liveengage");
                         } else if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
