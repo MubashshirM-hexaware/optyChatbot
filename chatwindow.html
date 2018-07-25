@@ -1255,7 +1255,9 @@
 
 										var today = Math.round((new Date()).getTime() / 1000);
 										//$("a.popover-html1").unbind().click(function (event) {
-											$("a.popover-html1").unbind().on( "click", function(event) {
+											//$("a.popover-html1").unbind().on( "click", function(event) {
+										$(document).on('click', 'a.popover-html1', function(event){
+										//$("a.popover-html1").unbind().on( "click", function(event) {
 											event.preventDefault();
 											event.stopPropagation();
 											if ($("div.popover").css("display") == undefined) {
