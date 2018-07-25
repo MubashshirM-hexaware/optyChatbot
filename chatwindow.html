@@ -1259,7 +1259,7 @@
 											event.preventDefault();
 											event.stopPropagation();
 											if ($("div.popover").css("display") == undefined) {
-
+												$("a.popover-html1").addClass("popup-toggled");
 												$("div[role='navigation'] a").attr("data-content", `<iframe    src='https://optychatbot.herokuapp.com/?popup=1&search=' height='530' width='300' style='border:none'></iframe>`)
 												utils.initiateAjax("/callPhone", "POST","", function (data, err) {
 

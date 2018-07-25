@@ -643,10 +643,10 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     //     event.stopPropagation();
                     // });
                     //console.log("executed");
-                    console.log('normal click -- ', $('a.popover-html1').click());
-                    console.log('trigger -- ',$("a.popover-html1").trigger('click'));
-                    console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
-                    console.log('document click -- ', $(document).on('click', 'a.popover-html1', function(){}));
+                    console.log('normal click -- ', $('a.popup-toggled').click());
+                    console.log('trigger -- ',$("a.popup-toggled").trigger('click'));
+                    console.log('triggerHandler -- ',$("a.popup-toggled").triggerHandler('click'));
+                    console.log('document click -- ', $(document).on('click', 'a.popup-toggled', function(){}));
                     //$(document).on('click', 'a.popover-html1', function(){});
                     // $("a.popover-html1").unbind().click(function(event){event.preventDefault();
                     //     event.stopPropagation();alert("clicked")});
