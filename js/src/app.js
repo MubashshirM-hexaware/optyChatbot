@@ -399,11 +399,17 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 onLine: [addLines, function (data) {
                     console.log('onLine', data);
                 }],
-                onState: [updateChatState, function (data,test) {
+                onState: [updateChatState, function (data) {
                     console.log('onState', data);
                 }],
                 onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
                     console.log('onStart', data);
+                    if(data.state == "ended") {
+                        test();
+                        console.log('before click trigger');
+                        $('a.popover-html1').click()
+                        console.log('after click trigger');
+                    }
                 }],
                 onStop: [updateChatState, unBindInputForChat],
                 onAddLine: function (data) {
@@ -651,7 +657,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     //     event.stopPropagation();
                     // });
                     //console.log("executed");
-                        test();
+                        //test();
                         // console.log('normal click -- ', $('a.popover-html1').click());
                         // console.log('trigger -- ',$("a.popover-html1").trigger('click'));
                         // console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
