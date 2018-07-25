@@ -404,6 +404,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 }],
                 onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
                     console.log('onStart', data);
+                    console.log('state -- ',data.state)
+                    test();
                     if(data.state == "ended") {
                         test();
                         console.log('before click trigger');
