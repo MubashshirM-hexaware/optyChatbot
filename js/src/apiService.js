@@ -84,7 +84,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                             //     "className": '',
                             // }, "plaintext");
                             // console.log("actual card response --- ",cardHTML);
-                             callback(null, "", Liveengage);
+                             callback(null, "Liveengage", Liveengage);
                         }
                         if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
