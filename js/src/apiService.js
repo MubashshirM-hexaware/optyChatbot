@@ -72,6 +72,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         //To find Card || Carousel
                         let count = 0;
                         let hasbutton;
+                        console.log('result *** ',JSON.stringify(response.result));
                         if(response.result.action == "Optus") {
                             callback(null, "Liveengage");
                         }
