@@ -401,17 +401,17 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 }],
                 onState: [updateChatState, function (data) {
                     console.log('onState', data);
-                }],
-                onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
-                    console.log('onStart', data);
                     console.log('state -- ',data.state)
-                    test();
                     if(data.state == "ended") {
                         test();
                         console.log('before click trigger');
                         $('a.popover-html1').click()
                         console.log('after click trigger');
                     }
+                }],
+                onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
+                    console.log('onStart', data);
+                    
                 }],
                 onStop: [updateChatState, unBindInputForChat],
                 onAddLine: function (data) {
