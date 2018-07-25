@@ -69,6 +69,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 } else {
                     $("img.loading-gif-typing").fadeIn();
                     processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html) {
+                        $("img.loading-gif-typing").fadeOut();
                         console.log('html LE precheck -- ', html);
                         console.log('error LE check -- ', error);
                         if (error) {
