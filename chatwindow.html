@@ -1257,6 +1257,7 @@
 										$("a.popover-html1").unbind().click(function (event) {
 											event.preventDefault();
 											event.stopPropagation();
+											console.log('hii');
 											if ($("div.popover").css("display") == undefined) {
 
 												$("div[role='navigation'] a").attr("data-content", `<iframe    src='https://optychatbot.herokuapp.com/?popup=1&search=' height='530' width='300' style='border:none'></iframe>`)
@@ -1300,7 +1301,7 @@
 
 											}
 											else {
-
+												console.log('am here else');
 											}
 
 										})
@@ -1308,6 +1309,7 @@
 										$(function () {
 											var today = Math.round((new Date()).getTime() / 1000);
 											$('[data-toggle="popover"]').popover();
+											console.log('after popover toggle');
 											var processor = apiService();
 											let url = new URL(window.location.href);
 											let params = utils.getURLParameter('sessionstate');
