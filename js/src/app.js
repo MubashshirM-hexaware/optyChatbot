@@ -62,7 +62,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     $("img.loading-gif-typing").fadeIn();
                 } else {
                     $("img.loading-gif-typing").fadeIn();
-                    processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html, Liveengage) {
+                    processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html) {
                         if (error) {
                             alert(error); //change into some inline fancy display, show error in chat window.
                         }
