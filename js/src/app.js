@@ -90,8 +90,11 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                                 $("img.loading-gif-typing").fadeOut();
                                 msg_container.append(html);
                                 utils.scrollSmoothToBottom($('div.chat-body'));
-                                msg_container.find("li:nth-last-child(2)").find("button").prop("disabled", true);
-                                msg_container.find("li:nth-last-child(2)").find("a").prop("disabled", true);
+                                setTimeout(() => {
+                                    msg_container.find("li:nth-last-child(2)").find("button").prop("disabled", true);
+                                    msg_container.find("li:nth-last-child(2)").find("a").prop("disabled", true);
+                                }, 2000)
+
                             }
                         }
                     });
@@ -170,8 +173,10 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $(document).on('click', '.QuickreplybtnPayload', function (e) {
             var textInput = $(this).text();
             var payloadInput = $(this).data().quickrepliespayload;
-            $(this).parent().find("button").prop("disabled", true)
-            $(this).parent().find("a").prop("disabled", true)
+            setTimeout(() => {
+                $(this).parent().find("button").prop("disabled", true)
+                $(this).parent().find("a").prop("disabled", true)
+            }, 2000)
             $("img.loading-gif-typing").fadeIn();
             if (!payloadInput.match(/http/g)) {
                 processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
@@ -202,8 +207,10 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             var textInput = $(this).text();
             var payloadInput = $(this).data().cardpayloadbutton;
             console.log('Button Payload' + payloadInput);
-            $(this).parent().find("button").prop("disabled", true)
-            $(this).parent().find("a").prop("disabled", true)
+            setTimeout(() => {
+                $(this).parent().find("button").prop("disabled", true)
+                $(this).parent().find("a").prop("disabled", true)
+            }, 2000);
             $("img.loading-gif-typing").fadeIn();
             processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
                 if (error) {
@@ -235,8 +242,10 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $(document).on('click', '.caroselresponsepayload', function (e) {
             var payloadInput = $(this).data().carouselpayloadbutton;
             $("img.loading-gif-typing").fadeIn();
-            $(this).parent().find("a").prop("disabled", true)
-            $(this).parent().find("button").prop("disabled", true)
+            setTimeout(() => {
+                $(this).parent().find("a").prop("disabled", true)
+                $(this).parent().find("button").prop("disabled", true)
+            }, 2000);
             if (!payloadInput.match(/http/g)) {
                 processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
                     if (error) {
@@ -400,8 +409,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 }],
                 onState: [updateChatState, function (data) {
                     console.log('onState', data);
-                    console.log('state -- ',data.state)
-                    if(data.state == "ended") {
+                    console.log('state -- ', data.state)
+                    if (data.state == "ended") {
                         test();
                         console.log('before click trigger');
                         $('a.popover-html1').click()
@@ -410,7 +419,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 }],
                 onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
                     console.log('onStart', data);
-                    
+
                 }],
                 onStop: [updateChatState, unBindInputForChat],
                 onAddLine: function (data) {
@@ -654,11 +663,11 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
         //var ob = this;
         //Sets the local chat state
-        function updateChatState(data,test) {
+        function updateChatState(data, test) {
             if (data.state === 'ended' && chatState !== 'ended') {
                 globalLpChat = false;
                 chat.disposeVisitor();
-                
+
                 //window.setTimeout(test,2000);
                 setTimeout(function () {
                     // $("a.popover-html1").unbind().click(function (event) {
@@ -666,14 +675,14 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     //     event.stopPropagation();
                     // });
                     //console.log("executed");
-                        //test();
-                        // console.log('normal click -- ', $('a.popover-html1').click());
-                        // console.log('trigger -- ',$("a.popover-html1").trigger('click'));
-                        // console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
-                        // console.log('document click -- ', $(document).on('click', 'a.popover-html1', function(){}));
-                        //$(document).on('click', 'a.popover-html1', function(){});
-                        // $("a.popover-html1").unbind().click(function(event){event.preventDefault();
-                        //     event.stopPropagation();alert("clicked")});
+                    //test();
+                    // console.log('normal click -- ', $('a.popover-html1').click());
+                    // console.log('trigger -- ',$("a.popover-html1").trigger('click'));
+                    // console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
+                    // console.log('document click -- ', $(document).on('click', 'a.popover-html1', function(){}));
+                    //$(document).on('click', 'a.popover-html1', function(){});
+                    // $("a.popover-html1").unbind().click(function(event){event.preventDefault();
+                    //     event.stopPropagation();alert("clicked")});
                 }, 2000);
             }
             chatState = data.state;

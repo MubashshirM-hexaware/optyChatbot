@@ -27,6 +27,7 @@ html,body{
 img.loading-gif-typing
 {
   display:none;
+  text-align:left;
 }
 .main-container{
     background-color: #fff;

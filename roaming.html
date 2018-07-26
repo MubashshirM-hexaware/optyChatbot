@@ -2,7 +2,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script type="text/javascript" async="" src="js/geo2.js"></script>
+
 
 
 
@@ -12,13 +12,12 @@
     <meta name="MobileOptimized" content="320">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <meta name="author" content="Singtel Optus">
-    <meta name="keywords" content="Optus offers a wide range of tablets, USB modems and 3G WiFi devices that will truly enable a mobile broadband internet experience.">
-    <meta name="channel" content="channel:content:to:define!">
+
 
     <title>Mobile Broadband – Wireless Internet - Optus</title>
     <meta name="description" content="Enjoy Mobile Broadband on the Optus 3G/4G Network. 
 			  You’ll find everything here to get started and make the most of wireless internet. Learn more.">
-    <script type="text/javascript" src="js/globals.js"></script>
+
 
 
     <!--[if lte IE 7]>
@@ -32,9 +31,6 @@
     <link rel="stylesheet" href="style/frameworkStyles.css">
 
     <link rel="stylesheet" href="style/optus-style.css">
-    <!--[if lt IE 9]>
-	<link rel="stylesheet" href="//smb.optus.com.au/opfiles/v14360/ys/online-style/css_min/optus-style_ie8_overrides.css" />
-<![endif]-->
 
     <style>
         div.popover-content {
@@ -177,8 +173,7 @@
                             <li class="right">
                                 <div class="postload-complete" data-postload="7789fd6991a21410VgnVCM1000001760740aRCRD" data-postloadsequence="0" data-postloadthread="0">
                                     <!--[BEGIN "module.tag"[-->
-                                    <script type="text/moduleData">
-                                        {"serviceDataList":{"id":"getLoginDetails","data":{"status":"guest","links":[{"label":"Login ","url":"/my-account"}],"logoutLink":null,"userDetails":null,"bccKeepAliveUrl":null,"bccContactId":null},"linkedModuleContainers":[]},"contentModel":null,"hasPendingOrder":null,"controllerModel":null}</script>
+                                   
                                     <div class="module  globalHeaderUserMenu moduleManager__controller_initialised" data-controller="Controllers/UserMenuController">
                                         <div>
                                             <div class="hide-for-small">
@@ -1376,8 +1371,7 @@
         </div>
         <footer>
 
-            <script type="text/moduleData">
-                {"serviceDataList":null,"contentModel":null,"hasPendingOrder":null,"controllerModel":null}</script>
+            
             <div class="module  mod_scrollToTop init_state moduleManager__controller_initialised" data-controller="Controllers/scrollToTopController">
                 <a class="button radius grey btn-footer-btt go-top ico-only js-back-to-top fix-to-footer" href="https://www.optus.com.au/shop/broadband/mobile-broadband#top"
                     aria-hidden="true" role="presentation" style="display: none;">
@@ -1453,8 +1447,7 @@
 
                 <footer>
                     <!--[BEGIN "module.tag"[-->
-                    <script type="text/moduleData">
-                        {"serviceDataList":null,"contentModel":null,"hasPendingOrder":null,"controllerModel":null}</script>
+                   
 
                     <div class="module mod_scrollToTop init_state moduleManager__controller_initialised" data-controller="Controllers/scrollToTopController"><a role="presentation" aria-hidden="true" href="https://www.optus.com.au/shop/broadband/mobile-broadband#top"
                             class="button radius grey btn-footer-btt go-top ico-only js-back-to-top fix-to-footer">&nbsp;&nbsp;</a></div>
@@ -1511,9 +1504,7 @@
                                 <div class="large-4 columns">
                                     <div class="row collapse">
                                         <div class="columns medium-7 medium-push-5 large-12 large-push-0"><a target="_blank" alt="Link to Optus Olympics page" href="https://www.optus.com.au/olympics"><img style=" padding-bottom: 30px;" src="images/commonwealth-games-2018-footer-logo.png" alt="Optus Official Support Network"></a>
-                                            <script type="text/javascript">
-                                                document.write('<style>.footer-social{padding-top:0;} div#global_footer {background: #000;}</style>');
-                                            </script>
+                               
                                             <style>
                                                 .footer-social {
                                                     padding-top: 0;
@@ -1551,12 +1542,7 @@
                             </div>
                         </div>
 
-                        <script type="text/javascript">
-                            (function ()
-                            { var tagjs = document.createElement("script"); var s = document.getElementsByTagName("script")[0]; tagjs.async = true; tagjs.src = "//s.btstatic.com/tag.js#site=fhoTFvg"; s.parentNode.insertBefore(tagjs, s); }
-
-                                ());
-                        </script>
+    
                     </div>
 
                 </footer>
@@ -1604,31 +1590,9 @@
                                         var processor = apiService();
                                         let url = new URL(window.location.href);
                                         let params = utils.getURLParameter('sessionstate');
+
                                         utils.initiateAjax("/updateSessionState", "POST", params, function (data, err) {
                                         });
-                                        setTimeout(() => {
-                                            let msg_container = $("iframe").contents().find('body div.chat-body');
-                                             $("iframe").contents().find("img.loading-gif-typing").fadeOut();
-
-                                            msg_container.find("ul#msg_container").append(`<li class="animated fadeInLeft list-group-item background-color-custom">
-        <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-        <td style="vertical-align:top;">
-            <img width="35" height="35" src='avatar/logo-large.png'/></td>
-            <td><div class="media-body bot-txt-space">
-                <p class="list-group-item-text-bot">Are you looking for the International ${query}</p>
-                <p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src='${settings.botAvatar}'/>${utils.currentTime()}</small></p>
-
-            </div></td>
-            </tr>
-        </table>
-
-
-        </li>`);
-       
-                                           
-                                            utils.scrollSmoothToBottom(msg_container);
-                                        }, 10300)
                                     })
                                 })
 
@@ -1685,9 +1649,6 @@
 
 
 
-<!--[if lt IE 9]>    
-	<script type="text/javascript" src="//smb.optus.com.au/opfiles/v14360/ys/online-style/javascripts/source/vendors/respond.min.js"></script>
-<![endif]-->
 
 
 
