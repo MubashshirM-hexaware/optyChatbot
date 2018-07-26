@@ -9,7 +9,7 @@ function showmesgtext(msg) {
     document.getElementById("btn-input").value += msg.childNodes[0].data;
 }
 
-define(['navigation', 'jquery'], function (navigation, $) {
+define(['navigation', 'jquery','moment'], function (navigation, $,moment) {
 
     var methods = {};
     methods.currentTime = () => {
@@ -50,8 +50,7 @@ define(['navigation', 'jquery'], function (navigation, $) {
         return navigation.data[element];
     };
     methods.getWelcomeMessage = () => {
-        var today = new Date()
-        var curHr = today.getHours()
+        let curHr = moment().tz("Australia/Sydney").format("HH");
 
         if (curHr < 12) {
             return 'Good Morning';

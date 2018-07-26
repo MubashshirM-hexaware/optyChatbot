@@ -27,7 +27,8 @@ requirejs.config({
         Cookies: 'lib/Cookies',
         messageTemplates: 'src/messageTemplates',
         cards: 'src/cards',
-        navigation: 'src/navigation'
+        navigation: 'src/navigation',
+        moment:"lib/moment"
         // jq16: 'lib/jquery1.6.min',
         // facemicon:'lib/faceMocion'
     },
