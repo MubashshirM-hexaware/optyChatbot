@@ -9,17 +9,11 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
     $(function () {
         $("img.loading-gif-typing").fadeOut();
         var globalLpChat;
-        function test() {
-            alert('tested');
-            //$('a.popover-html1').click()
-            console.log('normal click -- ', $('a.popover-html1').onclick());
-            alert('1');
-            console.log('trigger -- ',$("a.popover-html1").trigger('onclick'));
-            alert('2');
-            console.log('document click -- ', $(document).on('click', 'a.popover-html1', function(){}));
-            alert('3');
+        function closeWin() {
+            $("a.popover-html1").click();
+            $('a.popover-html1').bind('click');
         }
-        /* Web Popup Adjustment header hiding */
+        
         function adjustPopups() {
             let msgboxh = $("div.header-popup").next().height();
             let chath = $("div.header-popup").next().next().height();
@@ -417,10 +411,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     console.log('onState', data);
                     console.log('state -- ', data.state)
                     if (data.state == "ended") {
-                        test();
-                        console.log('before click trigger');
-                        $('a.popover-html1').click()
-                        console.log('after click trigger');
+                        closeWin();
                     }
                 }],
                 onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
@@ -498,23 +489,32 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 var line = data.lines[i];
                 if (line.source !== 'visitor' || chatState != chat.chatStates.CHATTING) {
                     var msg_container = $("ul#msg_container");
-                    var text_final = line.text;
-                    // var l = text_final.length;
-                    // var y = text_final.indexOf('>');
-                    // if(y != -1) {
-                    //     var s = x.slice(y+1,l);
-                    //     var k = s.indexOf('<');
-                    //     var text_final = s.slice(0,k);
-                    // }
-                    var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + text_final + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
-                    if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
-                        msg_container.siblings("h1").addClass('hidden');
-                        msg_container.siblings("div.chat-text-para").addClass('hidden');
-                        msg_container.siblings(".header-text-logo").removeClass('hidden');
-                        msg_container.removeClass('hidden');
+
+                    if (line.text == "end chat") {
+                        var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">Thank you for chatting with us.</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+                        if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                            msg_container.siblings("h1").addClass('hidden');
+                            msg_container.siblings("div.chat-text-para").addClass('hidden');
+                            msg_container.siblings(".header-text-logo").removeClass('hidden');
+                            msg_container.removeClass('hidden');
+                        }
+                        msg_container.append(html_div);
+                        utils.scrollSmoothToBottom($('div.chat-body'));
+                        endChat();
+                    } else {
+                        var textF = line.text;
+                        var textI = textF.replace('<div dir="ltr" style="direction: ltr; text-align: left;">','');
+                        textF = textI.replace('</div>','');
+                        var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + textF + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+                        if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                            msg_container.siblings("h1").addClass('hidden');
+                            msg_container.siblings("div.chat-text-para").addClass('hidden');
+                            msg_container.siblings(".header-text-logo").removeClass('hidden');
+                            msg_container.removeClass('hidden');
+                        }
+                        msg_container.append(html_div);
+                        utils.scrollSmoothToBottom($('div.chat-body'));
                     }
-                    msg_container.append(html_div);
-                    utils.scrollSmoothToBottom($('div.chat-body'));
                     // var chatLine = createLine(line);
                     // addLineToDom(chatLine);
                     linesAdded = true;
@@ -530,9 +530,6 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             // var div = document.createElement('P');
             // div.innerHTML = '<b>' + line.by + '</b>: ';
             var msg_container = $("ul#msg_container");
-            if (line.text == "end chat") {
-                endChat();
-            }
             if (line.source === 'visitor') {
                 //div.appendChild(document.createTextNode(line.text));
                 var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">' + line.text + '</p><p class="user-timestamp"><small>' + utils.currentTime() + '</small></p></div></div></li>';
@@ -592,7 +589,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 //     text: text,
                 //     source: 'visitor'
                 // });
-
+                var msg_container = $("ul#msg_container");
                 chat.addLine({
                     text: text,
                     error: function () {
@@ -600,7 +597,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     }
                 });
                 // addLineToDom(line);
-                var msg_container = $("ul#msg_container");
+                
                 //var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
                 var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">' + text + '</p><p class="user-timestamp"><small>' + utils.currentTime() + '</small></p></div></div></li>';
                 if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
@@ -611,9 +608,20 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 }
                 msg_container.append(html_div);
                 utils.scrollSmoothToBottom($('div.chat-body'));
-
-                // $textline.val('');
-                // scrollToBottom();
+                if (text == "end chat") {
+                    var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">Thank you for chatting with us.</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+                    if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                        msg_container.siblings("h1").addClass('hidden');
+                        msg_container.siblings("div.chat-text-para").addClass('hidden');
+                        msg_container.siblings(".header-text-logo").removeClass('hidden');
+                        msg_container.removeClass('hidden');
+                    }
+                    msg_container.append(html_div);
+                    utils.scrollSmoothToBottom($('div.chat-body'));
+                    endChat();
+                    $("a.popover-html1").click();
+                    $('a.popover-html1').bind('click');
+                }
             }
         }
 
@@ -673,23 +681,6 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             if (data.state === 'ended' && chatState !== 'ended') {
                 globalLpChat = false;
                 chat.disposeVisitor();
-
-                //window.setTimeout(test,2000);
-                setTimeout(function () {
-                    // $("a.popover-html1").unbind().click(function (event) {
-                    //     event.preventDefault();
-                    //     event.stopPropagation();
-                    // });
-                    //console.log("executed");
-                    //test();
-                    // console.log('normal click -- ', $('a.popover-html1').click());
-                    // console.log('trigger -- ',$("a.popover-html1").trigger('click'));
-                    // console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
-                    // console.log('document click -- ', $(document).on('click', 'a.popover-html1', function(){}));
-                    //$(document).on('click', 'a.popover-html1', function(){});
-                    // $("a.popover-html1").unbind().click(function(event){event.preventDefault();
-                    //     event.stopPropagation();alert("clicked")});
-                }, 2000);
             }
             chatState = data.state;
         }
@@ -718,40 +709,17 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             chatContainer.find('#sendTranscript').click(sendEmail);
         }
 
-        // function console.log(logName, data) {
-        //     var log = document.createElement('DIV');
-        //     try {
-        //         data = typeof data === 'string' ? data : JSON.stringify(data);
-        //     } catch (exc) {
-        //         return;
-        //     }
-        //     var time = new Date().toTimeString().slice(0, 8);
-        //     log.innerHTML = time + ' ' + logName + (data ? ' : ' + data : '');
-        //     if (!logsStarted) {
-        //         document.getElementById('logs').appendChild(log);
-        //         logsStarted = true;
-        //     } else {
-        //         document.getElementById('logs').insertBefore(log, logsLastChild);
-        //     }
-        //     logsLastChild = log;
-
-        // }
-
         function offline() {
-            var line = createLine({
-                by: "Optus",
-                text: "There are no live agents available at this time. Would you like to leave a message and have a Optus support representative contact you?",
-                source: 'visitor'
-            });
-            chat.addLine({
-                text: "There are no live agents available at this time. Would you like to leave a message and have a Optus support representative contact you?",
-                error: function () {
-                    line.className = 'error';
-                }
-            });
-            chatContainer = $('#chatWindow');
-            chatArea = chatContainer.find('#chatLines');
-            chatArea.append(line);
+            var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">Sorry our opty agent service is offline. Please email us your queries queries@optus.com.au </p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+            if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                msg_container.siblings("h1").addClass('hidden');
+                msg_container.siblings("div.chat-text-para").addClass('hidden');
+                msg_container.siblings(".header-text-logo").removeClass('hidden');
+                msg_container.removeClass('hidden');
+            }
+            msg_container.append(html_div);
+            utils.scrollSmoothToBottom($('div.chat-body'));
+            endChat();
         }
 
 
