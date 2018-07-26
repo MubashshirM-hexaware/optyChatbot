@@ -12,14 +12,12 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         function test() {
             alert('tested');
             //$('a.popover-html1').click()
-            console.log('normal click -- ', $('a.popover-html1').click());
+            console.log('normal click -- ', $('a.popover-html1').onclick());
             alert('1');
-            console.log('trigger -- ',$("a.popover-html1").trigger('click'));
+            console.log('trigger -- ',$("a.popover-html1").trigger('onclick'));
             alert('2');
-            console.log('triggerHandler -- ',$("a.popover-html1").triggerHandler('click'));
-            alert('3');
             console.log('document click -- ', $(document).on('click', 'a.popover-html1', function(){}));
-            alert('4');
+            alert('3');
         }
         /* Web Popup Adjustment header hiding */
         function adjustPopups() {
