@@ -1,11 +1,12 @@
 {
-  "name": "MYRICOH",
-  "productName": "MyRicoh Bot",
-  "version": "0.1.0",
+  "name": "OptyChatBot",
+  "productName": "Optus ChatBot",
+  "version": "1.0.0",
   "main": "webhook.js",
   "scripts": {
-    "start": "node webhook.js",
-    "stop": "forever stop ricohbot"
+    "start": "forever start -a -o ./out.log -e ./err.log --uid 'opty-chatbot' webhook.js",
+    "test": "node webhook.js",
+    "stop": "forever stop opty-chatbot"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -17,12 +18,12 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HexaInnovLab/MYRICOH"
+    "url": "https://github.com/AshwinG-41741/optyChatbot"
   },
   "author": "Innovation team Hexaware Technologies",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HexaInnovLab/MYRICOH/issues"
+    "url": "https://github.com/AshwinG-41741/optyChatbot/issues"
   },
   "homepage": ""
 }
