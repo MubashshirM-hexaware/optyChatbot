@@ -20,7 +20,7 @@ app.post('/callPhone', function (req, res) {
   })
 })
 app.post('/updateSessionState', function (req, res) {
-  callServiceNowApi("https://obotintegration.herokuapp.com/updateSession", { type: req.body.type }, "POST", function (err, data) {
+  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Dev/updatesession", { type: req.body.type }, "POST", function (err, data) {
 
     res.send(data);
   })
