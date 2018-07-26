@@ -10,6 +10,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $("img.loading-gif-typing").fadeOut();
         var globalLpChat;
         function test() {
+            alert('tested');
             $('a.popover-html1').click()
         }
         /* Web Popup Adjustment header hiding */
