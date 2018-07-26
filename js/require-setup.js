@@ -28,7 +28,8 @@ requirejs.config({
         messageTemplates: 'src/messageTemplates',
         cards: 'src/cards',
         navigation: 'src/navigation',
-        moment:"lib/moment"
+        moment: "lib/moment",
+        momenttimzone: "lib/moment-timezone",
         // jq16: 'lib/jquery1.6.min',
         // facemicon:'lib/faceMocion'
     },

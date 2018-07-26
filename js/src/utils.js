@@ -9,7 +9,7 @@ function showmesgtext(msg) {
     document.getElementById("btn-input").value += msg.childNodes[0].data;
 }
 
-define(['navigation', 'jquery','moment'], function (navigation, $,moment) {
+define(['navigation', 'jquery', 'moment', 'momenttimzone'], function (navigation, $, moment, momenttimzone) {
 
     var methods = {};
     methods.currentTime = () => {
