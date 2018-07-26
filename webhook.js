@@ -15,7 +15,7 @@ app.get('/', function (req, res) {
 });
 
 app.post('/callPhone', function (req, res) {
-  callServiceNowApi("https://dev64379.service-now.com/api/now/table/u_servicerequest?u_string_3=123456789&u_choice_1=in%20progress", null, "GET", function (err, data) {
+  callServiceNowApi("https://dev64379.service-now.com/api/now/table/u_servicerequest?sysparm_limit=1&sysparm_query=ORDERBYDESCsys_created_on&u_string3=9876543210&u_choice_1=in%20progress", null, "GET", function (err, data) {
     res.send(data);
   })
 })
