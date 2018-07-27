@@ -372,17 +372,13 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
 
         var appKey = '721c180b09eb463d9f3191c41762bb68',
-            logsStarted = false,
             engagementData = {},
             getEngagementMaxRetries = 25,
             chatWindow,
             chatContainer,
             chat,
             chatState,
-            chatArea,
-            logsLastChild;
-
-
+            chatArea;
 
         function initDemo() {
             initChat(getEngagement);
@@ -394,7 +390,6 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         function initChat(onInit) {
-            var help;
             var chatConfig = {
                 lpNumber: 57340919,
                 appKey: appKey,
@@ -448,8 +443,6 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 }
             };
             chat = new lpTag.taglets.ChatOverRestAPI(chatConfig);
-
-
         }
 
         function getEngagement() {
@@ -457,12 +450,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         function createEngagement(data) {
-            // var $engagement = $('<button id="engagement" class="btn-lg">Start Chat</button>');
-            // $engagement.click(function(){
             engagementData = data;
             createWindow();
-            // });
-            // $engagement.appendTo($('#engagementPlaceholder'));
         }
 
         function startChat() {
@@ -501,6 +490,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         msg_container.append(html_div);
                         utils.scrollSmoothToBottom($('div.chat-body'));
                         endChat();
+                        globalLpChat = false;
+                        chat.disposeVisitor();
                     } else {
                         var textF = line.text;
                         var textI = textF.replace('<div dir="ltr" style="direction: ltr; text-align: left;">','');
@@ -526,54 +517,54 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         //Create a chat line
-        function createLine(line) {
-            // var div = document.createElement('P');
-            // div.innerHTML = '<b>' + line.by + '</b>: ';
-            var msg_container = $("ul#msg_container");
-            if (line.source === 'visitor') {
-                //div.appendChild(document.createTextNode(line.text));
-                var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">' + line.text + '</p><p class="user-timestamp"><small>' + utils.currentTime() + '</small></p></div></div></li>';
-                //var html_div = '<li class="animated fadeInRight list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
-                if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
-                    msg_container.siblings("h1").addClass('hidden');
-                    msg_container.siblings("div.chat-text-para").addClass('hidden');
-                    msg_container.siblings(".header-text-logo").removeClass('hidden');
-                    msg_container.removeClass('hidden');
-                }
-                msg_container.append(html_div);
-                utils.scrollSmoothToBottom($('div.chat-body'));
-            } else {
-                //div.innerHTML += line.text;
-                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + line.text + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
-                if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
-                    msg_container.siblings("h1").addClass('hidden');
-                    msg_container.siblings("div.chat-text-para").addClass('hidden');
-                    msg_container.siblings(".header-text-logo").removeClass('hidden');
-                    msg_container.removeClass('hidden');
-                }
-                msg_container.append(html_div);
-                utils.scrollSmoothToBottom($('div.chat-body'));
-            }
-            return div;
-        }
+        // function createLine(line) {
+        //     // var div = document.createElement('P');
+        //     // div.innerHTML = '<b>' + line.by + '</b>: ';
+        //     var msg_container = $("ul#msg_container");
+        //     if (line.source === 'visitor') {
+        //         //div.appendChild(document.createTextNode(line.text));
+        //         var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">' + line.text + '</p><p class="user-timestamp"><small>' + utils.currentTime() + '</small></p></div></div></li>';
+        //         //var html_div = '<li class="animated fadeInRight list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+        //         if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+        //             msg_container.siblings("h1").addClass('hidden');
+        //             msg_container.siblings("div.chat-text-para").addClass('hidden');
+        //             msg_container.siblings(".header-text-logo").removeClass('hidden');
+        //             msg_container.removeClass('hidden');
+        //         }
+        //         msg_container.append(html_div);
+        //         utils.scrollSmoothToBottom($('div.chat-body'));
+        //     } else {
+        //         //div.innerHTML += line.text;
+        //         var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + line.text + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+        //         if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+        //             msg_container.siblings("h1").addClass('hidden');
+        //             msg_container.siblings("div.chat-text-para").addClass('hidden');
+        //             msg_container.siblings(".header-text-logo").removeClass('hidden');
+        //             msg_container.removeClass('hidden');
+        //         }
+        //         msg_container.append(html_div);
+        //         utils.scrollSmoothToBottom($('div.chat-body'));
+        //     }
+        //     return div;
+        // }
 
         //Add a line to the chat view DOM
-        function addLineToDom(line) {
-            if (!chatArea) {
-                chatArea = chatContainer.find('#chatLines');
-                chatArea = chatArea && chatArea[0];
-            }
-            chatArea.append(line);
-        }
+        // function addLineToDom(line) {
+        //     if (!chatArea) {
+        //         chatArea = chatContainer.find('#chatLines');
+        //         chatArea = chatArea && chatArea[0];
+        //     }
+        //     chatArea.append(line);
+        // }
 
         //Scroll to the bottom of the chat view
-        function scrollToBottom() {
-            if (!chatArea) {
-                chatArea = chatContainer.find('#chatLines');
-                chatArea = chatArea && chatArea[0];
-            }
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
+        // function scrollToBottom() {
+        //     if (!chatArea) {
+        //         chatArea = chatContainer.find('#chatLines');
+        //         chatArea = chatArea && chatArea[0];
+        //     }
+        //     chatArea.scrollTop = chatArea.scrollHeight;
+        // }
 
         //Sends a chat line
         function sendLine() {
@@ -619,6 +610,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     msg_container.append(html_div);
                     utils.scrollSmoothToBottom($('div.chat-body'));
                     endChat();
+                    globalLpChat = false;
+                    chat.disposeVisitor();
                     $("a.popover-html1").click();
                     $('a.popover-html1').bind('click');
                 }
@@ -687,9 +680,11 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
         function agentTyping(data) {
             if (data.agentTyping) {
-                chatWindow.setFooterContent('Agent is typing...');
+                //chatWindow.setFooterContent('Agent is typing...');
+                $("img.loading-gif-typing").fadeIn();
             } else {
-                chatWindow.setFooterContent('');
+                //chatWindow.setFooterContent('');
+                $("img.loading-gif-typing").fadeOut();
             }
         }
 
@@ -720,6 +715,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             msg_container.append(html_div);
             utils.scrollSmoothToBottom($('div.chat-body'));
             endChat();
+            globalLpChat = false;
+            chat.disposeVisitor();
         }
 
 
