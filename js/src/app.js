@@ -377,10 +377,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             engagementData = {},
             getEngagementMaxRetries = 25,
             chatWindow,
-            chatContainer,
             chat,
-            chatState,
-            chatArea;
+            chatState;
 
         function initDemo() {
             initChat(getEngagement);
@@ -475,7 +473,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         //Add lines to the chat from events
         function addLines(data) {
             console.log('data added --- ', data);
-            var linesAdded = false;
+            //var linesAdded = false;
             for (var i = 0; i < data.lines.length; i++) {
                 var line = data.lines[i];
                 if (line.source !== 'visitor' || chatState != chat.chatStates.CHATTING) {
@@ -510,12 +508,12 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     }
                     // var chatLine = createLine(line);
                     // addLineToDom(chatLine);
-                    linesAdded = true;
+                    // linesAdded = true;
                 }
             }
-            if (linesAdded) {
-                scrollToBottom();
-            }
+            // if (linesAdded) {
+            //     scrollToBottom();
+            // }
         }
 
         //Create a chat line
@@ -621,34 +619,34 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         //Listener for enter events in the text area
-        function keyChanges(e) {
-            e = e || window.event;
-            var key = e.keyCode || e.which;
-            if (key == 13) {
-                if (e.type == 'keyup') {
-                    sendLine();
-                    setVisitorTyping(false);
-                }
-                return false;
-            } else {
-                setVisitorTyping(true);
-            }
-        }
+        // function keyChanges(e) {
+        //     e = e || window.event;
+        //     var key = e.keyCode || e.which;
+        //     if (key == 13) {
+        //         if (e.type == 'keyup') {
+        //             sendLine();
+        //             setVisitorTyping(false);
+        //         }
+        //         return false;
+        //     } else {
+        //         setVisitorTyping(true);
+        //     }
+        // }
 
         //Set the visitor typing state
-        function setVisitorTyping(typing) {
-            if (chat) {
-                chat.setVisitorTyping({ typing: typing });
-            }
-        }
+        // function setVisitorTyping(typing) {
+        //     if (chat) {
+        //         chat.setVisitorTyping({ typing: typing });
+        //     }
+        // }
 
         //Set the visitor name
-        function setVisitorName() {
-            var name = chatContainer.find('#visitorName').val();
-            if (chat && name) {
-                chat.setVisitorName({ visitorName: name });
-            }
-        }
+        // function setVisitorName() {
+        //     var name = chatContainer.find('#visitorName').val();
+        //     if (chat && name) {
+        //         chat.setVisitorName({ visitorName: name });
+        //     }
+        // }
 
         //Ends the chat
         function endChat() {
@@ -664,12 +662,12 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         //Sends an email of the transcript when the chat has ended
-        function sendEmail() {
-            var email = chatContainer.find('#emailAddress').val();
-            if (chat && email) {
-                chat.requestTranscript({ email: email });
-            }
-        }
+        // function sendEmail() {
+        //     var email = chatContainer.find('#emailAddress').val();
+        //     if (chat && email) {
+        //         chat.requestTranscript({ email: email });
+        //     }
+        // }
         //var ob = this;
         //Sets the local chat state
         function updateChatState(data, test) {
@@ -691,19 +689,19 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         function bindInputForChat() {
-            chatContainer.find('#sendButton').removeAttr('disabled').click(sendLine);
-            chatContainer.find('#chatInput').keyup(keyChanges).keydown(keyChanges);
+            // chatContainer.find('#sendButton').removeAttr('disabled').click(sendLine);
+            // chatContainer.find('#chatInput').keyup(keyChanges).keydown(keyChanges);
         }
 
         function unBindInputForChat() {
-            chatContainer.find('#sendButton').off();
-            chatContainer.find('#chatInput').off();
+            // chatContainer.find('#sendButton').off();
+            // chatContainer.find('#chatInput').off();
         }
 
         function bindEvents() {
-            chatContainer.find('#closeChat').click(endChat);
-            chatContainer.find('#setvisitorName').click(setVisitorName);
-            chatContainer.find('#sendTranscript').click(sendEmail);
+            // chatContainer.find('#closeChat').click(endChat);
+            // chatContainer.find('#setvisitorName').click(setVisitorName);
+            // chatContainer.find('#sendTranscript').click(sendEmail);
         }
 
         function offline() {
