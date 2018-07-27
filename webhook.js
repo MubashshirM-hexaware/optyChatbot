@@ -26,7 +26,7 @@ app.post('/updateSessionState', function (req, res) {
   })
 })
 app.get('/chatwindow', function (req, res) {
-  res.sendfile(__dirname + '/chatwindow.html');
+  res.sendfile(__dirname + '/chatwindow1.html');
 });
 app.get('/roaming', function (req, res) {
   res.sendfile(__dirname + '/roaming.html');
