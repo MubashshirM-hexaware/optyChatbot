@@ -20,7 +20,7 @@ app.post('/callPhone', function (req, res) {
   })
 })
 app.post('/updateSessionState', function (req, res) {
-  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Dev/updatesession", { type: req.body.type }, "POST", function (err, data) {
+  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Dev/updatesession-dev", { type: req.body.type }, "POST", function (err, data) {
 
     res.send(data);
   })
@@ -35,7 +35,7 @@ app.get('/chat', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
-app.listen(process.env.PORT || 7000);
+app.listen(process.env.PORT || 9000);
 
 
 function callServiceNowApi(url, dataService, type, callback) {
