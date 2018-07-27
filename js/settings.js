@@ -8,7 +8,7 @@ This file is part of the Innovation LAB - Offline Bot.
 
 define({
 
-    accessToken: "04cfa3364e9a4649ab335f84a4b85ad7",
+    accessToken: process.env.accessToken,
     chatServerURL : "https://api.api.ai/v1/",
     applicationTitle: "Chat Assistant",
     userTitle : "Me",
