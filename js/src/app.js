@@ -55,6 +55,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
 
         function sendMessage(refr, ev, textsm) {
+            console.log("textsm -->",textsm)
+            console.log("refr", refr)
             var text = refr.val() || textsm;
             if (text !== "") {
                 refr.val('');
