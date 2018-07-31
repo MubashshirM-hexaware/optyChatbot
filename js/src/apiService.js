@@ -15,7 +15,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                 let uuid = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
 
                 this.options = {
-                    sessionId: uuidv1,
+                    sessionId: uuid,
                     lang: "en"
                 };
 
