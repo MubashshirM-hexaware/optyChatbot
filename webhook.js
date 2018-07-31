@@ -2,11 +2,12 @@ var express = require('express'),
   app = express(),
   http = require('http'),
   httpServer = http.Server(app);
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var fs = require('fs');
 const requestAPI = require('request');
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
 
@@ -20,7 +21,9 @@ app.post('/callPhone', function (req, res) {
   })
 })
 app.post('/updateSessionState', function (req, res) {
-  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Dev/updatesession-dev", { type: req.body.type }, "POST", function (err, data) {
+  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Dev/updatesession-dev", {
+    type: req.body.type
+  }, "POST", function (err, data) {
 
     res.send(data);
   })
@@ -33,6 +36,16 @@ app.get('/roaming', function (req, res) {
 });
 app.get('/chat', function (req, res) {
   res.sendfile(__dirname + '/index.html');
+});
+app.post('/writeFile', function (req, res) {
+  console.log(req.body.type);
+  fs.appendFile("ChatScript.json", JSON.stringify(req.body.type), function (err) {
+    if (err) {
+      return console.log(err);
+    }
+
+    console.log("The file was saved!");
+  });
 });
 
 app.listen(process.env.PORT || 9000);
@@ -61,15 +74,13 @@ function callServiceNowApi(url, dataService, type, callback) {
       if (error) {
         // console.log('API ERROR', JSON.stringify(error));
         callback(error, null)
-      }
-      else {
+      } else {
         // console.log('headers:', JSON.stringify(response.headers));
         // console.log('status code:', JSON.stringify(response.statusCode));
         callback(null, body);
       }
     });
-  }
-  catch (err) {
+  } catch (err) {
     // console.log('RESPONSE ERROR', JSON.stringify(err));
   }
 };
