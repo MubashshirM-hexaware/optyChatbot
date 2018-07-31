@@ -1786,6 +1786,9 @@ $.scoped();
 													console.log(userObj[0].innerHTML);
 													console.log("-----User", index);
 													objArr.User = $.trim(userObj[0].innerHTML);
+													if (chatTranscript.length == 0) {
+														chatTranscript.push(objArr);
+													}
 												}
 											}
 

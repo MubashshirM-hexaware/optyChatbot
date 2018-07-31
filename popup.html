@@ -54,7 +54,6 @@
         $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
     }
     function triggerPopupHTML() {
-        debugger;
         let popupHTML = $(value.contentDocument).find('body div.chat-body ul#msg_container');
         if (!popupHTML) {
             triggerSetInterval()
@@ -91,7 +90,6 @@
     })
 
     function captureTranscript () {
-        debugger;
         var iframe = document.getElementById('iChatPopup');
         var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
         innerDoc.getElementById('msg_container');
@@ -132,6 +130,9 @@
                 console.log(userObj[0].innerHTML);
                 console.log("-----User", index);
                 objArr.User = $.trim(userObj[0].innerHTML);
+                if (chatTranscript.length == 0) {
+                    chatTranscript.push(objArr);
+                }
             }
         }
 
@@ -160,9 +161,10 @@
     }
 
     window.onbeforeunload = function(event) {
-        debugger;
         event = event || window.event;
-        captureTranscript();
+        if (chatTranscript.length > 0) {
+            captureTranscript();
+        }
         return undefined;
     }
 
