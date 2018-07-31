@@ -71,7 +71,6 @@
             let popoverHtml = $("a.popover-html");
             // console.log(popoverHtml.next("div.popover").html() && clickstatus);
             if (clickstatus) {
-
                 // clearInterval(intervals);
             } else {
                 popoverHtml.popover('show');
@@ -84,6 +83,7 @@
     $(function () {
         intervals = triggerSetInterval();
         $("a.popover-html").click(function () {
+                captureTranscript();
             $("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
             clearInterval(intervals);
         })
@@ -92,14 +92,16 @@
     function captureTranscript () {
         var iframe = document.getElementById('iChatPopup');
         var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-        innerDoc.getElementById('msg_container');
+        if (innerDoc.getElementById('msg_container') == null) {
+            return false;
+        }
         var dataList = innerDoc.getElementById('msg_container').getElementsByTagName("li");
         var botObj = [];
         var userObj = [];
         var cardMsg = 'Card';
         var objArr = {"Bot": "", "User" : ""};
 
-        for (var index = 0; index < dataList.length; index++) {												
+        for (var index = 0; index < dataList.length; index++) {
             if (dataList[index].getElementsByClassName("list-group-item-text-user")[0] == undefined) {
                 if (dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined) {
                     botObj = dataList[index].getElementsByClassName("list-group-item-text-bot");
