@@ -1,4 +1,4 @@
-'use strict';
+
 
 /* -------------------------------------------------------------------
 Copyright (c) 2017-2017 Hexaware Technologies
@@ -12,21 +12,13 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
         class ApiHandler {
 
             constructor() {
-                alert(Cookies.get('uuid'));
-                if (Cookies.get('uuid')) {
-                    this.options = {
-                        sessionId: Cookies.get('uuid'),
-                        lang: "en"
-                    };
-                }
-                else {
-                    let setCookie = uuidv1();
-                    Cookies.set('uuid', setCookie);
-                    this.options = {
-                        sessionId: uuidv1(),
-                        lang: "en"
-                    };
-                }
+                let uuid = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
+
+                this.options = {
+                    sessionId: uuidv1,
+                    lang: "en"
+                };
+
             }
 
             userSays(userInput, callback) {

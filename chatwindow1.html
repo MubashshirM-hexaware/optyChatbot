@@ -1740,7 +1740,7 @@ $.scoped();
 											var processor = apiService();
 											let url = new URL(window.location.href);
 											let params = utils.getURLParameter('sessionstate');
-											utils.initiateAjax("/updateSessionState", "POST", params, function (data, err) {
+											utils.initiateAjax("/updateSessionState", "POST", {params:params,sessionId:localStorage.getItem('uuid')}, function (data, err) {
 											});
 
 										})
