@@ -66,7 +66,7 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
             url: url,
             type: type,
             dataType: "json",
-            data: { type: data },
+            data: data,
             success: function (result) {
                 return callback(result, null);
             }, error: function (err) {
