@@ -43,11 +43,11 @@ app.post('/writeFile', function (req, res) {
   if (fs.existsSync("ChatScript.json")) {
     var data = fs.readFileSync("ChatScript.json", "utf8");
     jsonArr = JSON.parse(data);
-    jsonArr.push(req.body.type);
+    jsonArr.push(req.body);
     console.log(jsonArr);
     writeFile(jsonArr);
   } else {
-    jsonArr.push(req.body.type);
+    jsonArr.push(req.body);
     writeFile(jsonArr);
   }
 });
