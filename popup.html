@@ -9,10 +9,9 @@
         </a>
 </div>
 
-
-
 <script>
     var today = Math.round((new Date()).getTime() / 1000);
+    var chatTranscript = [];
     var searchQuery = Cookies.get('searches');
     if (!searchQuery) {
         let searchObj = [];
@@ -52,9 +51,10 @@
 
             }
         }
-        $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()"    src='http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+        $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
     }
     function triggerPopupHTML() {
+        debugger;
         let popupHTML = $(value.contentDocument).find('body div.chat-body ul#msg_container');
         if (!popupHTML) {
             triggerSetInterval()
@@ -85,10 +85,87 @@
     $(function () {
         intervals = triggerSetInterval();
         $("a.popover-html").click(function () {
-            $("div[role='navigation'] a").attr("data-content", `<iframe    src='http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/?popup=1&search=' height='530' width='300' style='border:none'></iframe>`)
+            $("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
             clearInterval(intervals);
         })
     })
+
+    function captureTranscript () {
+        debugger;
+        var iframe = document.getElementById('iChatPopup');
+        var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        innerDoc.getElementById('msg_container');
+        var dataList = innerDoc.getElementById('msg_container').getElementsByTagName("li");
+        var botObj = [];
+        var userObj = [];
+        var cardMsg = 'Card';
+        var objArr = {"Bot": "", "User" : ""};
+
+        for (var index = 0; index < dataList.length; index++) {												
+            if (dataList[index].getElementsByClassName("list-group-item-text-user")[0] == undefined) {
+                if (dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined) {
+                    botObj = dataList[index].getElementsByClassName("list-group-item-text-bot");
+                } else if (dataList[index].getElementsByClassName("card-body")[0] != undefined) {
+                    botObj = cardMsg;
+                } else if (dataList[index].getElementsByClassName("list-group-item-quick-reply-space")[0] != undefined) {
+                    botObj = dataList[index].getElementsByClassName("list-group-item-quick-reply-space");
+                } else {
+                    botObj[0] = undefined;
+                }
+            }												
+            userObj = dataList[index].getElementsByClassName("list-group-item-text-user");												
+
+            if(dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined || dataList[index].getElementsByClassName("list-group-item-quick-reply-space")[0] != undefined || typeof botObj === 'string') {
+                objArr = {"Bot": "", "User" : ""};
+                if (typeof botObj === 'string') {
+                    console.log("----Bot", index);
+                    objArr.Bot = $.trim(botObj);
+                    botObj = [];
+                } else {
+                    console.log(botObj[0].innerHTML);
+                    console.log("----Bot", index);
+                    objArr.Bot = $.trim(botObj[0].innerHTML);
+                }
+                chatTranscript.push(objArr);
+                
+            } else {
+                console.log(userObj[0].innerHTML);
+                console.log("-----User", index);
+                objArr.User = $.trim(userObj[0].innerHTML);
+            }
+        }
+
+        console.log(chatTranscript);
+        let jsonData = {
+        "ChatSession" : "Uchiha123",
+        "UserName" : "Charlotte",
+        "ChatPage" : "RoamingPlans",
+        "IsChatCompleted" : true,
+        "Conversation" : chatTranscript
+        };
+
+        console.log(jsonData);
+        $.ajax({
+            url: "/writeFile",
+            type: "POST",
+            dataType: "json",
+            data: { type: jsonData },
+            success: function (result) {
+                chatTranscript = [];
+                console.log('Writing files...');
+            }, error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    window.onbeforeunload = function(event) {
+        debugger;
+        event = event || window.event;
+        captureTranscript();
+        return undefined;
+    }
+
 
 </script>
 <script>

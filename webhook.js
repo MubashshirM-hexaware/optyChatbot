@@ -38,17 +38,30 @@ app.get('/chat', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 app.post('/writeFile', function (req, res) {
-  console.log(req.body.type);
-  fs.appendFile("ChatScript.json", JSON.stringify(req.body.type), function (err) {
+  var jsonArr = [];
+  if (fs.existsSync("ChatScript.json")) {
+    var data = fs.readFileSync("ChatScript.json", "utf8");
+    jsonArr = JSON.parse(data);
+    jsonArr.push(req.body.type);
+    console.log(jsonArr);
+    writeFile(jsonArr);
+  } else {
+    jsonArr.push(req.body.type);
+    writeFile(jsonArr);
+  }
+});
+
+app.listen(process.env.PORT || 9000);
+
+function writeFile(data) {
+  fs.writeFile("ChatScript.json", JSON.stringify(data), function (err) {
     if (err) {
       return console.log(err);
     }
 
     console.log("The file was saved!");
   });
-});
-
-app.listen(process.env.PORT || 9000);
+}
 
 
 function callServiceNowApi(url, dataService, type, callback) {
