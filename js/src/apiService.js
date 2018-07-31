@@ -6,16 +6,27 @@ This file is part of the Innovation LAB - Offline Bot.
 ------------------------------------------------------------------- */
 
 
-define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
-    function ($, config, utils, messageTpl, cards, uuidv1) {
+define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Cookies'],
+    function ($, config, utils, messageTpl, cards, uuidv1, Cookies) {
         var fallbackCount = 0;
         class ApiHandler {
 
             constructor() {
-                this.options = {
-                    sessionId: uuidv1(),
-                    lang: "en"
-                };
+                alert(Cookies.get('uuid'));
+                if (Cookies.get('uuid')) {
+                    this.options = {
+                        sessionId: Cookies.get('uuid'),
+                        lang: "en"
+                    };
+                }
+                else {
+                    let setCookie = uuidv1();
+                    Cookies.set('uuid', setCookie);
+                    this.options = {
+                        sessionId: uuidv1(),
+                        lang: "en"
+                    };
+                }
             }
 
             userSays(userInput, callback) {
@@ -78,7 +89,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         let hasbutton;
                         console.log('result *** ', JSON.stringify(response.result));
 
-                        if(response.result.action == "input.unknown")
+                        if (response.result.action == "input.unknown")
                             fallbackCount++;
                         else
                             fallbackCount = 0;
@@ -86,7 +97,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         if (response.result.action == "Optus") {
                             fallbackCount = 0;
                             callback(null, "Liveengage");
-                        } else if(fallbackCount>2) {
+                        } else if (fallbackCount > 2) {
                             fallbackCount = 0;
                             var msg_container = $("ul#msg_container");
                             var html_div = `<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">I can't understand your queries, so am transferring you to a human agent. Please wait...</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>` + utils.currentTime() + `</small></p></div></td></tr></table></li>`;
