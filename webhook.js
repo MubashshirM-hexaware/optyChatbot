@@ -45,17 +45,40 @@ app.post('/writeFile', function (req, res) {
     jsonArr = JSON.parse(data);
     jsonArr.push(req.body);
     console.log(jsonArr);
-    writeFile(jsonArr);
+    writeFile(jsonArr, "ChatScript.json");
   } else {
     jsonArr.push(req.body);
-    writeFile(jsonArr);
+    writeFile(jsonArr, "ChatScript.json");
+  }
+});
+app.post('/incompleteTransaction', function (req, res) {
+  console.log('************Incompelete Tran', req.body);
+  var jsonArr = [];
+  if (fs.existsSync("IncompleteTransaction.json")) {
+    var data = fs.readFileSync("IncompleteTransaction.json", "utf8");
+    jsonArr = JSON.parse(data);
+    console.log(jsonArr);
+    var index = -1;
+    var val = "Charlotte"
+    var filteredObj = data.find(function (item, i) {
+      if (item.UserName === val && item.IsTransactionComplete == true) {
+        index = i;
+        return i;
+      } else {
+        jsonArr.push(req.body);
+      }
+    });
+    writeFile(jsonArr, "IncompleteTransaction.json");
+  } else {
+    jsonArr.push(req.body);
+    writeFile(jsonArr, "IncompleteTransaction.json");
   }
 });
 
 app.listen(process.env.PORT || 9000);
 
-function writeFile(data) {
-  fs.writeFile("ChatScript.json", JSON.stringify(data), function (err) {
+function writeFile(data, fileName) {
+  fs.writeFile(fileName, JSON.stringify(data), function (err) {
     if (err) {
       return console.log(err);
     }

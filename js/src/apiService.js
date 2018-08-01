@@ -81,6 +81,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                         let hasbutton;
                         console.log('result *** ', JSON.stringify(response.result));
                         var dataList = document.getElementById('msg_container').getElementsByTagName("li");
+                        // utils.incompleteTransaction(response.result, "PostLogin");
 
                         if (response.result.action == "input.unknown")
                             fallbackCount++;
@@ -88,7 +89,6 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                             fallbackCount = 0;
 
                         if (response.result.action == "Optus") {
-                            debugger;
                             utils.captureTranscript(dataList);
                             fallbackCount = 0;
                             callback(null, "Liveengage");
@@ -105,7 +105,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                             }
                             msg_container.append(html_div);
                             utils.scrollSmoothToBottom($('div.chat-body'));
-                            callback(null, "Liveengage");
+                            callback(null, "Liveengage");                            
                         } else if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
                             for (let i in response.result.fulfillment.messages) {

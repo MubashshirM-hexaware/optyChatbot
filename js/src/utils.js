@@ -135,7 +135,7 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
             url: "/writeFile",
             type: "POST",
             dataType: "json",
-            data: { type: jsonData },
+            data: jsonData,
             success: function (result) {
                 chatTranscript = [];
                 console.log('Writing files...');
@@ -144,6 +144,30 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
             }
         });
     }
+
+    methods.incompleteTransaction = (response, pageFrom) => {
+        debugger;
+        console.log(response);
+        let jsonData = {
+            "ChatSession": "Uchiha123",
+            "UserName": "Charlotte",
+            "ChatPage": pageFrom,
+            "IsTransactionComplete": true,
+            "TransactionType": "BroadBand"
+        };
+
+        $.ajax({
+            url: "/incompleteTransaction",
+            type: "POST",
+            dataType: "json",
+            data: jsonData,
+            success: function (result) {
+                console.log('Writing incomplete transacrion files...');
+            }, error: function (err) {
+                console.log(err);
+            }
+        });
+    };
 
 
     return methods;
