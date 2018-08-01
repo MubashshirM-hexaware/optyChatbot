@@ -9,6 +9,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
     $(function () {
         $("img.loading-gif-typing").fadeOut();
         var globalLpChat;
+        var chatFinalTranscript = [];
         
         function closeWin() {
             setTimeout(() => {
@@ -391,6 +392,16 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         function initChat(onInit) {
+            $.ajax({
+                url: "/showChatTranscript",
+                type: "GET",
+                success: function (result) {
+                    chatFinalTranscript = result;
+                    console.log('********************* ',chatFinalTranscript);
+                }, error: function (err) {
+                    console.log(err);
+                }
+            });
             var chatConfig = {
                 lpNumber: 57340919,
                 appKey: appKey,

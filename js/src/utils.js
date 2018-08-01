@@ -12,6 +12,7 @@ function showmesgtext(msg) {
 define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], function (navigation, $, moment, moments,momentd) {
 
     var methods = {};
+    var chatTranscript = [];
     methods.currentTime = () => {
 
         var currentDate = new Date();
@@ -79,7 +80,7 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
     }
 
     methods.captureTranscript = (dataList) => {
-        var chatTranscript = [];
+        
         var botObj = [];
         var userObj = [];
         var cardMsg = 'Card';
@@ -144,7 +145,5 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
             }
         });
     }
-
-
     return methods;
 });

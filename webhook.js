@@ -38,6 +38,35 @@ app.get('/roaming', function (req, res) {
 app.get('/chat', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
+
+app.get('/showChatTranscript', function (req, res) {
+  var showTranscript = [];
+  if (fs.existsSync("ChatScript.json")) {
+    var data = fs.readFileSync("ChatScript.json", "utf8");
+    var jsonArr = JSON.parse(data);
+    console.log(jsonArr);
+    var size = Object.keys(jsonArr).length;
+    console.log(size);
+    var beforeParse = jsonArr[size-1].Conversation;
+    console.log(typeof(beforeParse));
+    beforeParse.forEach(function (arrayItem) {
+      console.log(arrayItem["Bot"]);
+      console.log(arrayItem["User"]);
+      showTranscript.push("Opty says : "+arrayItem["Bot"])
+      showTranscript.push("Visitor says : "+arrayItem["User"])
+    });
+//     datap = JSON.stringify(data);
+//     var lastItem = null;
+//     for(key in datap) {
+//       //console.log( key + ' has a value ' + data[key] );
+//       lastItem = key;
+//     }
+// // now the last iteration's key is in lastItem
+//     console.log('the last key ' + lastItem + ' has a value ' + data[lastItem]);
+    //console.log(data[last]);
+  }
+  res.json(showTranscript);
+});
 app.post('/writeFile', function (req, res) {
   var jsonArr = [];
   if (fs.existsSync("ChatScript.json")) {
