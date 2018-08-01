@@ -78,6 +78,73 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
     }
 
+    methods.captureTranscript = (dataList) => {
+        var chatTranscript = [];
+        var botObj = [];
+        var userObj = [];
+        var cardMsg = 'Card';
+        var objArr = { "Bot": "", "User": "" };
+
+        for (var index = 0; index < dataList.length; index++) {
+            if (dataList[index].getElementsByClassName("list-group-item-text-user")[0] == undefined) {
+                if (dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined) {
+                    botObj = dataList[index].getElementsByClassName("list-group-item-text-bot");
+                } else if (dataList[index].getElementsByClassName("card-body")[0] != undefined) {
+                    botObj = cardMsg;
+                } else if (dataList[index].getElementsByClassName("list-group-item-quick-reply-space")[0] != undefined) {
+                    botObj = dataList[index].getElementsByClassName("list-group-item-quick-reply-space");
+                } else {
+                    botObj[0] = undefined;
+                }
+            }
+            userObj = dataList[index].getElementsByClassName("list-group-item-text-user");
+
+            if (dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined || dataList[index].getElementsByClassName("list-group-item-quick-reply-space")[0] != undefined || typeof botObj === 'string') {
+                objArr = { "Bot": "", "User": "" };
+                if (typeof botObj === 'string') {
+                    console.log("----Bot", index);
+                    objArr.Bot = $.trim(botObj);
+                    botObj = [];
+                } else {
+                    console.log(botObj[0].innerHTML);
+                    console.log("----Bot", index);
+                    objArr.Bot = $.trim(botObj[0].innerHTML);
+                }
+                chatTranscript.push(objArr);
+
+            } else {
+                console.log(userObj[0].innerHTML);
+                console.log("-----User", index);
+                objArr.User = $.trim(userObj[0].innerHTML);
+                if (chatTranscript.length == 0) {
+                    chatTranscript.push(objArr);
+                }
+            }
+        }
+
+        console.log(chatTranscript);
+        let jsonData = {
+            "ChatSession": "Uchiha123",
+            "UserName": "Charlotte",
+            "ChatPage": "PostLogin",
+            "Conversation": chatTranscript
+        };
+
+        console.log(jsonData);
+        $.ajax({
+            url: "/writeFile",
+            type: "POST",
+            dataType: "json",
+            data: { type: jsonData },
+            success: function (result) {
+                chatTranscript = [];
+                console.log('Writing files...');
+            }, error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
 
     return methods;
 });
