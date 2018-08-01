@@ -140,7 +140,7 @@
 
         console.log(chatTranscript);
         let jsonData = {
-        "ChatSession" : "Uchiha123",
+        "ChatSession" : localStorage.getItem("uuid"),
         "UserName" : "Charlotte",
         "ChatPage" : "RoamingPlans",
         "Conversation" : chatTranscript

@@ -125,7 +125,7 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
 
         console.log(chatTranscript);
         let jsonData = {
-            "ChatSession": "Uchiha123",
+            "ChatSession": localStorage.getItem("uuid"),
             "UserName": "Charlotte",
             "ChatPage": "PostLogin",
             "Conversation": chatTranscript
@@ -150,7 +150,7 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
         debugger;
         console.log(response);
         let jsonData = {
-            "ChatSession": "Uchiha123",
+            "ChatSession": localStorage.getItem("uuid"),
             "UserName": "Charlotte",
             "ChatPage": pageFrom,
             "IsTransactionComplete": true,
