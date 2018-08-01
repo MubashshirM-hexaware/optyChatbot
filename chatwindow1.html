@@ -9,9 +9,7 @@
 	<meta name="MobileOptimized" content="320" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 	<meta name="keywords" content="" />
-
 	<title>My Dashboard - Optus</title>
-
 	<meta name="description" content="" />
 	<script type="text/javascript" src="js/globals.js"></script>
 
@@ -32,6 +30,7 @@
 			box-shadow: 10px 10px 43px -6px rgba(0, 0, 0, 0.75) !important;
 			border: 1px solid #4F92AB !important;
 			border-radius: 5px;
+			background: #f5f5f5 !important;
 		}
 	</style>
 
@@ -1235,8 +1234,8 @@
 																													</div>
 																													<div class="usageDetails_text" data-rv-show="meter.isUnlimited | not" style="display: none;">
 																														<b><span data-rv-text="meter.remaining | byteConversion 1">0 MB</span></b> remaining from
-																														<span
-																														 data-rv-text="meter.allowance | byteConversion 1">0 MB</span>, <span data-rv-text="meter.percentage">-1994782510900.00</span>% value used.
+																														<span data-rv-text="meter.allowance | byteConversion 1">0 MB</span>, <span data-rv-text="meter.percentage">-1994782510900.00</span>%
+																														value used.
 																													</div>
 																												</div>
 																											</div>
@@ -1286,7 +1285,8 @@
 
 																													<p data-rv-show="module.warningMessage | strEqual 0-80" data-rv-warning="0-80" style="display: none;"><b>WARNING</b>: You have used 80% of your Off Peak Data. When you reach 100% of your Off Peak
 																														Data your monthly plan (peak) Data Allowance will be used at all times even during Off Peak
-																														Hours.</p>
+																														Hours.
+																													</p>
 
 																													<p data-rv-show="module.warningMessage | strEqual 0-100" data-rv-warning="0-100" style="display: none;"><span class="attention">PLEASE NOTE!</span> You have used 100% of your Off Peak Data. Your monthly
 																														plan (peak) Data Allowance will now be used at all times even during Off Peak Hours.</p>
@@ -1297,7 +1297,8 @@
 																														<br>
 																														<b>WARNING</b>: You have used 80% of your Off Peak Data. When you reach 100% of your Off Peak
 																														Data your monthly plan (peak) Data Allowance will be used at all times even during Off Peak
-																														Hours.</p>
+																														Hours.
+																													</p>
 
 																													<p data-rv-show="module.warningMessage | strEqual 85-100" data-rv-warning="85-100" style="display: none;"><b>WARNING</b>: You have exceeded 85% of your monthly data usage allowance. Please note that
 																														the speed of your service will be limited when you reach 100% of your allowance.<br>
@@ -1314,7 +1315,8 @@
 																														<br>
 																														<b>WARNING</b>: You have used 80% of your Off Peak Data. When you reach 100% of your Off Peak
 																														Data your monthly plan (peak) Data Allowance will be used at all times even during Off Peak
-																														Hours.</p>
+																														Hours.
+																													</p>
 
 																													<p data-rv-show="module.warningMessage | strEqual 50-100" data-rv-warning="50-100" style="display: none;"><b>WARNING</b>: You have exceeded 50% of your monthly data usage allowance. Please note that
 																														the speed of your service will be limited when you reach 100% of your allowance.<br>
@@ -1327,7 +1329,8 @@
 																														<br>
 																														<b>WARNING</b>: You have used 80% of your Off Peak Data. When you reach 100% of your Off Peak
 																														Data your monthly plan (peak) Data Allowance will be used at all times even during Off Peak
-																														Hours.</p>
+																														Hours.
+																													</p>
 
 																													<p data-rv-show="module.warningMessage | strEqual 100-50" data-rv-warning="100-50" style="display: none;"><span class="attention">PLEASE NOTE!</span> You have reached 100% of your monthly data usage
 																														allowance. As a result, the speed of your service will be limited until the first day of your
@@ -1335,7 +1338,8 @@
 																														<br>
 																														<b>WARNING</b>: You have used 50% of your Off Peak Data. When you reach 100% of your Off Peak
 																														Data your monthly plan (peak) Data Allowance will be used at all times even during Off Peak
-																														Hours.</p>
+																														Hours.
+																													</p>
 
 																													<p>
 																														<!-- Excess -->
@@ -1428,23 +1432,21 @@
 																															to 24 hours to show up in your usage meter.</p>
 
 																														<p><span class="focus">We'll send you an email confirming this, once you're done.</span></p>
-																														<button
-																														 class="btn">Confirm Extra Data</button>
-																															</span>
-																															<span data-rv-show="serviceModel_usageSummaryGraph.resetUsageData.freeBoltonRemaining | strEqual 0" style="display: none;">
-                                        <p class="heading"><span class="focus">You're about to add an Extra Data top-up to your monthly data allowance</span>																															<a class="seeYourHistory" href="#">See your History</a></p>
+																														<button class="btn">Confirm Extra Data</button>
+																														</span>
+																														<span data-rv-show="serviceModel_usageSummaryGraph.resetUsageData.freeBoltonRemaining | strEqual 0" style="display: none;">
+                                        <p class="heading"><span class="focus">You're about to add an Extra Data top-up to your monthly data allowance</span>																														<a class="seeYourHistory" href="#">See your History</a></p>
 
-																															<p><span class="focus">Note</span>: You've used your <span class="focus">2 free Extra Data</span>																																top-ups - this Extra Data top-up is ${EXTRA_DATA_COST} and will appear on your next bill.
-																																Would you like to <a class="changeYourPlan" href="{CHANGE_YOUR_PLAN}">change your plan?</a></p>
+																														<p><span class="focus">Note</span>: You've used your <span class="focus">2 free Extra Data</span>																															top-ups - this Extra Data top-up is ${EXTRA_DATA_COST} and will appear on your next bill.
+																															Would you like to <a class="changeYourPlan" href="{CHANGE_YOUR_PLAN}">change your plan?</a></p>
 
-																															<p>We'll aim to have your Extra Data available for you as soon as possible, but it may take up
-																																to 24 hours to show up in your usage meter.</p>
+																														<p>We'll aim to have your Extra Data available for you as soon as possible, but it may take up
+																															to 24 hours to show up in your usage meter.</p>
 
-																															<p><span class="focus">We'll send you an email confirming this, once you're done.</span></p>
-																															<button
-																															 class="btn">Confirm Extra Data $<span data-rv-text="serviceModel_usageSummaryGraph.resetUsageData.boltonCost"></span></button>
-																																</span>
-																																<input id="hdnPurchaseUrl" type="hidden" data-rv-value="module.purchaseUrl" value="/portal/site/customercentre/template.BINARYPORTLET/menuitem.f39ec65e471e36c6aaaee655f1c647a0/resource.process/?javax.portlet.tpst=dc2b9bcd4f4cd42d10324b96f1c647a0&amp;javax.portlet.rst_dc2b9bcd4f4cd42d10324b96f1c647a0=serviceId%3Ddanielfrank23&amp;javax.portlet.rid_dc2b9bcd4f4cd42d10324b96f1c647a0=resetFixedUsage&amp;javax.portlet.rcl_dc2b9bcd4f4cd42d10324b96f1c647a0=cacheLevelPage&amp;javax.portlet.begCacheTok=com.vignette.cachetoken&amp;javax.portlet.endCacheTok=com.vignette.cachetoken&amp;vgnextoid=962f922698751410VgnVCM1000001760740aRCRD">
+																														<p><span class="focus">We'll send you an email confirming this, once you're done.</span></p>
+																														<button class="btn">Confirm Extra Data $<span data-rv-text="serviceModel_usageSummaryGraph.resetUsageData.boltonCost"></span></button>
+																														</span>
+																														<input id="hdnPurchaseUrl" type="hidden" data-rv-value="module.purchaseUrl" value="/portal/site/customercentre/template.BINARYPORTLET/menuitem.f39ec65e471e36c6aaaee655f1c647a0/resource.process/?javax.portlet.tpst=dc2b9bcd4f4cd42d10324b96f1c647a0&amp;javax.portlet.rst_dc2b9bcd4f4cd42d10324b96f1c647a0=serviceId%3Ddanielfrank23&amp;javax.portlet.rid_dc2b9bcd4f4cd42d10324b96f1c647a0=resetFixedUsage&amp;javax.portlet.rcl_dc2b9bcd4f4cd42d10324b96f1c647a0=cacheLevelPage&amp;javax.portlet.begCacheTok=com.vignette.cachetoken&amp;javax.portlet.endCacheTok=com.vignette.cachetoken&amp;vgnextoid=962f922698751410VgnVCM1000001760740aRCRD">
 																													</div>
 
 																													<div class="learnMore bottomSeparated fn-slideSelector">
@@ -1712,7 +1714,8 @@
 																								Peak data for use between 12am-12pm AEST/ADST.</p>
 
 																							<p>Terms and Conditions of Off Peak data (where applicable) can be found in the Optus Standard pricing
-																								Tables.</p>
+																								Tables.
+																							</p>
 
 																							<p>The Acceptable Use Policy for Optus Broadband is set out in Appendix H of the agreement.<br> See:
 																								<a href="http://www.optus.com.au/aboutoptus/About+Optus/Legal+%26+Regulatory/Standard+Forms+of+Agreement/Personal/Internet"
@@ -1803,8 +1806,7 @@
 						<div class="row">
 							<div class="small-12 columns">
 								<h6 class="footer-tiles-title"><span class="title-before">Say</span> <span class="title-img ico ico-footer ico-yes img-replacement">YES</span>
-									<span
-									 class="title-after">to...</span>
+									<span class="title-after">to...</span>
 								</h6>
 							</div>
 						</div>
@@ -1960,8 +1962,8 @@
 							@import url("style/propeller.min.css");
 						</style>
 						<div class="menu pmd-floating-action" role="navigation">
-							<a id="btn-send-message" class="btn popover-html1 pmd-btn-fab pmd-btn-raised pmd-ripple-effect  btn-primary" data-trigger="click" data-toggle="popover"
-							 data-placement="top" data-html="true" href="javascript:void(0);"> 
+							<a id="btn-send-message" class="btn popover-html1 pmd-btn-fab pmd-btn-raised pmd-ripple-effect  btn-primary" data-trigger="click"
+							 data-toggle="popover" data-placement="top" data-html="true" href="javascript:void(0);"> 
             <span class="pmd-floating-hidden">Primary</span>
             <i class="material-icons md-light pmd-sm">chat</i>
         </a>

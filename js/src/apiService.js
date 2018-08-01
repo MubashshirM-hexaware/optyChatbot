@@ -81,6 +81,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                         let hasbutton;
                         console.log('result *** ', JSON.stringify(response.result));
                         var dataList = document.getElementById('msg_container').getElementsByTagName("li");
+                        // utils.incompleteTransaction(response.result, "PostLogin");
 
                         if (response.result.action == "input.unknown")
                             fallbackCount++;
@@ -88,7 +89,6 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                             fallbackCount = 0;
 
                         if (response.result.action == "Optus") {
-                            debugger;
                             utils.captureTranscript(dataList);
                             fallbackCount = 0;
                             callback(null, "Liveengage");
@@ -97,7 +97,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                             fallbackCount = 0;
                             var msg_container = $("ul#msg_container");
                             var html_div = `<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">I can't understand your queries, so am transferring you to a human agent. Please wait...</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>` + utils.currentTime() + `</small></p></div></td></tr></table></li>`;
-                            if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                            if (msg_container.hasClass('hidden')) { // cans be optimimzed and removed from here
                                 msg_container.siblings("h1").addClass('hidden');
                                 msg_container.siblings("div.chat-text-para").addClass('hidden');
                                 msg_container.siblings(".header-text-logo").removeClass('hidden');
@@ -105,7 +105,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                             }
                             msg_container.append(html_div);
                             utils.scrollSmoothToBottom($('div.chat-body'));
-                            callback(null, "Liveengage");
+                            callback(null, "Liveengage");                            
                         } else if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
                             for (let i in response.result.fulfillment.messages) {
