@@ -9,7 +9,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
     $(function () {
         $("img.loading-gif-typing").fadeOut();
         var globalLpChat;
-
+        var chatFinalTranscript = [];
+        
         function closeWin() {
             setTimeout(() => {
                 window.parent.document.getElementById('btn-send-message').click();
@@ -385,7 +386,20 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             chatArea;
 
         function initDemo() {
-            initChat(getEngagement);
+            $.ajax({
+                url: "/showChatTranscript",
+                type: "GET",
+                success: function (result) {
+                    chatFinalTranscript = result;
+                    console.log('********************* ',chatFinalTranscript);
+                }, error: function (err) {
+                    console.log(err);
+                }
+            });
+            setTimeout(() => {
+                initChat(getEngagement);
+            }, 1000);
+            
         }
 
         function createWindow() {
@@ -394,6 +408,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         function initChat(onInit) {
+            
             var chatConfig = {
                 lpNumber: 57340919,
                 appKey: appKey,
@@ -470,7 +485,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 engagementId: engagementData.engagementDetails.engagementId || engagementData.eid,
                 campaignId: engagementData.engagementDetails.campaignId || engagementData.cid,
                 language: engagementData.engagementDetails.language || engagementData.lang,
-                preChatLines: ["Opty Chat History", "Bot says : help", "Visitor says : Hi"]
+                preChatLines: chatFinalTranscript
                 //<p dir='ltr' style='direction: ltr; text-align: left;'>Bot says : help</p>
             };
             console.log('startChat', chatRequest);
@@ -503,7 +518,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         var textF = line.text;
                         var textI = textF.replace('<div dir="ltr" style="direction: ltr; text-align: left;">', '');
                         textF = textI.replace('</div>', '');
-                        if (!textF.includes('Opty Chat History')) {
+                        if (!textF.includes('Opty says :')) {
                             var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + textF + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
                             if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
                                 msg_container.siblings("h1").addClass('hidden');

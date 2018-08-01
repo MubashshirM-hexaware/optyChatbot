@@ -38,6 +38,33 @@ app.get('/roaming', function (req, res) {
 app.get('/chat', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
+
+app.get('/showChatTranscript', function (req, res) {
+  setTimeout(() => {
+  var showTranscript = [];
+  if (fs.existsSync("ChatScript.json")) {
+    var data = fs.readFileSync("ChatScript.json", "utf8");
+    var jsonArr = JSON.parse(data);
+    var size = Object.keys(jsonArr).length;
+    var beforeParse = jsonArr[size-1].Conversation;
+    beforeParse.forEach(function (arrayItem) {
+      showTranscript.push("--------------------------------------");
+      showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Opty says : </div>`+arrayItem["Bot"])
+      showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Visitor says : </div>`+arrayItem["User"])
+    });
+//     datap = JSON.stringify(data);
+//     var lastItem = null;
+//     for(key in datap) {
+//       //console.log( key + ' has a value ' + data[key] );
+//       lastItem = key;
+//     }
+// // now the last iteration's key is in lastItem
+//     console.log('the last key ' + lastItem + ' has a value ' + data[lastItem]);
+    //console.log(data[last]);
+  }
+  res.json(showTranscript);
+},1000);
+});
 app.post('/writeFile', function (req, res) {
   var jsonArr = [];
   if (fs.existsSync("ChatScript.json")) {
