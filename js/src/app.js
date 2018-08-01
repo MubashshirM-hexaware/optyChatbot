@@ -40,7 +40,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         function checkEmoji(emo) {
             let emojientity = ['😄', '😉', '😋', '😍', '😢', '😠'];
             var strip_text = '';
-            if (!emo) {
+            if (emo) {
                 for (var emoj in emojientity) {
 
                     if (emo.indexOf(emojientity[emoj]) !== -1 && emoj == 0) {
@@ -131,6 +131,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
         }
         $("a#btn-send-message").click(function (e) {
+            if($("#btn-input").val())
             sendMessage($("#btn-input"), e);
         });
         //Chatbox Send message
