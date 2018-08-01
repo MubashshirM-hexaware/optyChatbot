@@ -9,11 +9,11 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
     $(function () {
         $("img.loading-gif-typing").fadeOut();
         var globalLpChat;
-        
+
         function closeWin() {
             setTimeout(() => {
                 window.parent.document.getElementById('btn-send-message').click();
-            },2000);
+            }, 2000);
         }
         function adjustPopups() {
             let msgboxh = $("div.header-popup").next().height();
@@ -40,15 +40,17 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         function checkEmoji(emo) {
             let emojientity = ['😄', '😉', '😋', '😍', '😢', '😠'];
             var strip_text = '';
-            for (var emoj in emojientity) {
+            if (!emo) {
+                for (var emoj in emojientity) {
 
-                if (emo.indexOf(emojientity[emoj]) !== -1 && emoj == 0) {
-                    strip_text = emo.replace(emojientity[emoj], '');
+                    if (emo.indexOf(emojientity[emoj]) !== -1 && emoj == 0) {
+                        strip_text = emo.replace(emojientity[emoj], '');
 
-                }
-                else if (strip_text.indexOf(emojientity[emoj]) !== -1) {
-                    strip_text = strip_text.replace(emojientity[emoj], '');
+                    }
+                    else if (strip_text.indexOf(emojientity[emoj]) !== -1) {
+                        strip_text = strip_text.replace(emojientity[emoj], '');
 
+                    }
                 }
             }
             return strip_text;
@@ -456,7 +458,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         function startChat() {
-            
+
             engagementData = engagementData || {};
             engagementData.engagementDetails = engagementData.engagementDetails || {};
             var chatRequest = {
@@ -467,7 +469,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 engagementId: engagementData.engagementDetails.engagementId || engagementData.eid,
                 campaignId: engagementData.engagementDetails.campaignId || engagementData.cid,
                 language: engagementData.engagementDetails.language || engagementData.lang,
-                preChatLines:["Opty Chat History","Bot says : help","Visitor says : Hi"]
+                preChatLines: ["Opty Chat History", "Bot says : help", "Visitor says : Hi"]
                 //<p dir='ltr' style='direction: ltr; text-align: left;'>Bot says : help</p>
             };
             console.log('startChat', chatRequest);
@@ -498,9 +500,9 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         chat.disposeVisitor();
                     } else {
                         var textF = line.text;
-                        var textI = textF.replace('<div dir="ltr" style="direction: ltr; text-align: left;">','');
-                            textF = textI.replace('</div>','');
-                        if(!textF.includes('Opty Chat History')) {                           
+                        var textI = textF.replace('<div dir="ltr" style="direction: ltr; text-align: left;">', '');
+                        textF = textI.replace('</div>', '');
+                        if (!textF.includes('Opty Chat History')) {
                             var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + textF + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
                             if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
                                 msg_container.siblings("h1").addClass('hidden');
@@ -594,7 +596,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     }
                 });
                 // addLineToDom(line);
-                
+
                 //var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
                 var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">' + text + '</p><p class="user-timestamp"><small>' + utils.currentTime() + '</small></p></div></div></li>';
                 if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
@@ -667,7 +669,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             }
             setTimeout(() => {
                 window.parent.document.getElementById('popover-html-c').click();
-            },2000);
+            }, 2000);
         }
 
         //Sends an email of the transcript when the chat has ended
