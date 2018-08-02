@@ -158,7 +158,7 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
         };
 
         $.ajax({
-            url: "/incompleteTransaction",
+            url: "/writeIncompleteTran",
             type: "POST",
             dataType: "json",
             data: jsonData,

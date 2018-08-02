@@ -10,6 +10,7 @@ app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
+var jsonIncompleteTran = [];
 
 app.get('/', function (req, res) {
   res.send("/richowebsites");
@@ -30,13 +31,27 @@ app.post('/updateSessionState', function (req, res) {
   })
 })
 app.get('/chatwindow', function (req, res) {
-  res.sendfile(__dirname + '/chatwindow1.html');
+  readFile("IncompleteTransaction.json", function(hasFile, data) {
+    if (hasFile) {
+      jsonIncompleteTran = data;
+    }
+    res.sendfile(__dirname + '/chatwindow1.html');
+  });
 });
 app.get('/roaming', function (req, res) {
-  res.sendfile(__dirname + '/roaming.html');
+  readFile("IncompleteTransaction.json", function(hasFile, data) {
+    if (hasFile) {
+      jsonIncompleteTran = data;
+    }
+    res.sendfile(__dirname + '/roaming.html');
+  });
 });
 app.get('/chat', function (req, res) {
   res.sendfile(__dirname + '/index.html');
+});
+app.get('/getIncompleteStatus', function (req, res) {
+  console.log(req);
+  res.send(jsonIncompleteTran);
 });
 
 app.get('/showChatTranscript', function (req, res) {
@@ -50,7 +65,7 @@ app.get('/showChatTranscript', function (req, res) {
     beforeParse.forEach(function (arrayItem) {
       showTranscript.push("--------------------------------------");
       showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Opty says : </div>`+arrayItem["Bot"])
-      showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Visitor says : </div>`+arrayItem["User"])
+      showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Charlotte says : </div>`+arrayItem["User"])
     });
 //     datap = JSON.stringify(data);
 //     var lastItem = null;
@@ -78,13 +93,14 @@ app.post('/writeFile', function (req, res) {
     writeFile(jsonArr, "ChatScript.json");
   }
 });
-app.post('/incompleteTransaction', function (req, res) {
+app.post('/writeIncompleteTran', function (req, res) {
   console.log('************Incompelete Tran', req.body);
   var hasIncompleteTran = false;
   var jsonArr = [];
-  if (fs.existsSync("IncompleteTransaction.json")) {
-    var data = fs.readFileSync("IncompleteTransaction.json", "utf8");
-    jsonArr = JSON.parse(data);
+  if (jsonIncompleteTran.length > 0) {
+    console.log(jsonIncompleteTran);
+    // var data = fs.readFileSync("IncompleteTransaction.json", "utf8");
+    jsonArr = JSON.parse(jsonIncompleteTran);
     var index = null;
     var hasElement = false;    
     for (index = 0; jsonArr.length > index; index++) {
@@ -123,6 +139,22 @@ function writeFile(data, fileName) {
 
     console.log("The file was saved!");
   });
+}
+
+function readFile(fileName, callback) {
+  try {    
+    var objData = null;
+    if (fs.existsSync(fileName)) {
+      var data = fs.readFileSync(fileName, "utf8");
+      objData = JSON.parse(data);
+      callback(true, objData)
+    } else {
+      callback(false, objData)
+    }
+  }
+  catch (err) {
+    console.log(err);
+  }  
 }
 
 

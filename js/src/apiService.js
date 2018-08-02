@@ -83,7 +83,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                         var dataList = document.getElementById('msg_container').getElementsByTagName("li");
                         // if (config.incompleteTran.includes(response.result.action)) {
                         //     console.log('Inside incomplete');
-                        //     return utils.incompleteTransaction(response.result, "PostLogin", "BroadBand", function (err, res) {
+                        //     return utils.writeIncompleteTran(response.result, "PostLogin", "BroadBand", function (err, res) {
                         //         console.log(res);
                         //     });
                         // }
