@@ -355,7 +355,8 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                         }
 
                     },
-                    error: function () {
+                    error: function (err) {
+                        alert(JSON.stringify(err));
                         callback("Internal Server Error", null);
                     }
                 });

@@ -17,7 +17,7 @@ define(["utils", "settings"], function (utils, settings) {
             <div class="media-left pull-right animated fadeInRight">
            
             <div class="media-body user-txt-space">
-                <img width="30" height="30" style="float:right;" src='avatar/user-128.png'/>
+                <img width="30" height="30" style="float:right;" class="user-logo-image" />
                 <p class="list-group-item-text-user">${data.payload}</p>
                 <p class="user-timestamp"><small>${data.time}</small></p>
 
@@ -34,10 +34,10 @@ define(["utils", "settings"], function (utils, settings) {
         <table border="0" cellpadding="0" cellspacing="0">
         <tr>
         <td style="vertical-align:top;">
-            <img width="35" height="35" src='avatar/logo-large.png'/></td>
+            <img width="35" height="35" class="bot-logo-image" style="border:none;" /></td>
             <td><div class="media-body bot-txt-space">
                 <p class="list-group-item-text-bot">${data.payload}</p>
-                <p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src='${settings.botAvatar}'/>${data.time}</small></p>
+                <p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" class="welcome-message" width="20" height="20"/>${data.time}</small></p>
 
             </div></td>
             </tr>
@@ -87,7 +87,7 @@ define(["utils", "settings"], function (utils, settings) {
                 }
                 cardButtons += `</div>`
             }
-            html = cardBody + cardButtons + `</div></div><p class="bot-res-timestamp-card"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src='${settings.botAvatar}'/>${data.time}</small></p></div></li>`;
+            html = cardBody + cardButtons + `</div></div><p class="bot-res-timestamp-card"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" class="welcome-message"/>${data.time}</small></p></div></li>`;
         }
         return html;
     }
@@ -120,7 +120,7 @@ define(["utils", "settings"], function (utils, settings) {
                 }
             }
         }
-        quickRepliesHtml += `</div><p class="bot-res-timestamp-qr"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src='${settings.botAvatar}'/>${data.time}</small></p></div></li>`
+        quickRepliesHtml += `</div><p class="bot-res-timestamp-qr"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" class="welcome-message"/>${data.time}</small></p></div></li>`
         return quickRepliesHtml;
     }
 
@@ -181,7 +181,7 @@ define(["utils", "settings"], function (utils, settings) {
         <span class="sr-only">Previous</span></a>
 		<a data-slide="next" href="#${uniqueId}" class="right carousel-control custom-carousel-right"><span class="icon-next" aria-hidden="true"></span>
         <span class="sr-only">Next</span></a>
-	  </div><!--.Carousel--></div><p style="bottom: 10px;" class="bot-res-timestamp-card"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src='${settings.botAvatar}'/>${data.time}</small></p></div></li>`;
+	  </div><!--.Carousel--></div><p style="bottom: 10px;" class="bot-res-timestamp-card"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" class="welcome-message"/>${data.time}</small></p></div></li>`;
 
         return carousel;
     }

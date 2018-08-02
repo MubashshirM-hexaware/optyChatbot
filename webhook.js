@@ -40,20 +40,17 @@ app.get('/chat', function (req, res) {
 });
 
 app.get('/showChatTranscript', function (req, res) {
+  setTimeout(() => {
   var showTranscript = [];
   if (fs.existsSync("ChatScript.json")) {
     var data = fs.readFileSync("ChatScript.json", "utf8");
     var jsonArr = JSON.parse(data);
-    console.log(jsonArr);
     var size = Object.keys(jsonArr).length;
-    console.log(size);
     var beforeParse = jsonArr[size-1].Conversation;
-    console.log(typeof(beforeParse));
     beforeParse.forEach(function (arrayItem) {
-      console.log(arrayItem["Bot"]);
-      console.log(arrayItem["User"]);
-      showTranscript.push("Opty says : "+arrayItem["Bot"])
-      showTranscript.push("Visitor says : "+arrayItem["User"])
+      showTranscript.push("--------------------------------------");
+      showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Opty says : </div>`+arrayItem["Bot"])
+      showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Visitor says : </div>`+arrayItem["User"])
     });
 //     datap = JSON.stringify(data);
 //     var lastItem = null;
@@ -66,6 +63,7 @@ app.get('/showChatTranscript', function (req, res) {
     //console.log(data[last]);
   }
   res.json(showTranscript);
+},1000);
 });
 app.post('/writeFile', function (req, res) {
   var jsonArr = [];
