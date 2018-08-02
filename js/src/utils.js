@@ -146,15 +146,15 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
         });
     }
 
-    methods.incompleteTransaction = (response, pageFrom) => {
+    methods.incompleteTransaction = (response, pageFrom, transactionType, callback) => {
         debugger;
         console.log(response);
         let jsonData = {
             "ChatSession": localStorage.getItem("uuid"),
             "UserName": "Charlotte",
             "ChatPage": pageFrom,
-            "IsTransactionComplete": true,
-            "TransactionType": "BroadBand"
+            "IsTransactionComplete": false,
+            "TransactionType": transactionType
         };
 
         $.ajax({
@@ -164,8 +164,10 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
             data: jsonData,
             success: function (result) {
                 console.log('Writing incomplete transacrion files...');
+                return callback(null, result);
             }, error: function (err) {
                 console.log(err);
+                return callback(err, null);
             }
         });
     };

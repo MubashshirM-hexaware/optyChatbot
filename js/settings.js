@@ -16,5 +16,6 @@ define({
     userAvatar : "avatar/user.png",
     attachmentUploadURL : "",
     platform : "facebook",
-    showHeader: true
+    showHeader: true,
+    incompleteTran: ["BillUpdateIntent", "BillUpdateIntent-Yes", "BillUpdate-SwitchPlan", "BillUpdate-Confirm-SwitchPlan"]
 });
