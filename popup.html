@@ -72,12 +72,12 @@
     }
 
     function triggerSetInterval() {
-        intervals = setTimeout(() => {
+        intervals = setInterval(() => {
             let popoverHtml = $("a.popover-html");
             // console.log(popoverHtml.next("div.popover").html() && clickstatus);
             if (clickstatus) {
                 // clearInterval(intervals);
-                clickstatus = false;
+                // clickstatus = false;
             } else {
                 popoverHtml.popover('show');
                 clickstatus = true;
@@ -124,7 +124,7 @@
                 
             
 
-            clearTimeout(intervals);
+            clearInterval(intervals);
         })
       
     })
