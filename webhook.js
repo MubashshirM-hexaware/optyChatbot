@@ -96,9 +96,9 @@ app.post('/writeFile', function (req, res) {
 app.post('/writeIncompleteTran', function (req, res) {
   console.log('************Incompelete Tran', req.body);
   var hasIncompleteTran = false;
+  console.log(jsonIncompleteTran);
   var jsonArr = [];
   if (jsonIncompleteTran.length > 0) {
-    console.log(jsonIncompleteTran);
     // var data = fs.readFileSync("IncompleteTransaction.json", "utf8");
     jsonArr = JSON.parse(jsonIncompleteTran);
     var index = null;
