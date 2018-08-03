@@ -10,6 +10,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $("img.loading-gif-typing").fadeOut();
         var globalLpChat;
         var chatFinalTranscript = [];
+        var chatRequest;
         
         function closeWin() {
             setTimeout(() => {
@@ -402,7 +403,6 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         function createWindow() {
-            chatContainer = $('#chatWindow');
             startChat();
         }
 
@@ -415,6 +415,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     console.log('onInit', data);
                 }],
                 onInfo: function (data) {
+                    localStorage.setItem('chatLESession', data.chatSessionKey);
                     console.log('onInfo', data);
                 },
                 onLine: [addLines, function (data) {
@@ -425,6 +426,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     console.log('state -- ', data.state)
                     if (data.state == "ended") {
                         closeWin();
+                    } else if(data.state == "notfound") {
+                        offline();
                     }
                 }],
                 onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
@@ -476,7 +479,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
             engagementData = engagementData || {};
             engagementData.engagementDetails = engagementData.engagementDetails || {};
-            var chatRequest = {
+            chatRequest = {
                 LETagVisitorId: engagementData.visitorId || engagementData.svid,
                 LETagSessionId: engagementData.sessionId || engagementData.ssid,
                 LETagContextId: engagementData.engagementDetails.contextId || engagementData.scid,

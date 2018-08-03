@@ -2,6 +2,9 @@ var express = require('express'),
   app = express(),
   http = require('http'),
   httpServer = http.Server(app);
+const crypto = require('crypto');
+
+
 var bodyParser = require('body-parser');
 var fs = require('fs');
 const requestAPI = require('request');
@@ -39,6 +42,14 @@ app.get('/chat', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
+app.get('/generateId', function (req, res) {
+  const secret = 'checkmate';
+  const hash = crypto.createHmac('sha256', secret)
+                     .update(Math.random().toString(26).slice(2))
+                     .digest('hex');
+  res.json({"hash":hash});
+});
+
 app.get('/showChatTranscript', function (req, res) {
   setTimeout(() => {
   var showTranscript = [];
@@ -52,25 +63,39 @@ app.get('/showChatTranscript', function (req, res) {
       showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Opty says : </div>`+arrayItem["Bot"])
       showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Visitor says : </div>`+arrayItem["User"])
     });
-//     datap = JSON.stringify(data);
-//     var lastItem = null;
-//     for(key in datap) {
-//       //console.log( key + ' has a value ' + data[key] );
-//       lastItem = key;
-//     }
-// // now the last iteration's key is in lastItem
-//     console.log('the last key ' + lastItem + ' has a value ' + data[lastItem]);
-    //console.log(data[last]);
   }
   res.json(showTranscript);
 },1000);
 });
+
+app.post('/changeChatSess', function (req, res) {
+  var jsonArr = [];
+  //console.log(req);return false;
+  if (fs.existsSync("ChatScript.json")) {
+    var data = fs.readFileSync("ChatScript.json", "utf8");
+    console.log(data);
+    var jsonArr = JSON.parse(data);
+    var size = Object.keys(jsonArr).length;
+    jsonArr[size-1].ChatSession = req.body.LETagSessionId;
+    writeFile(jsonArr, "ChatScript.json");
+  }
+});
+
 app.post('/writeFile', function (req, res) {
   var jsonArr = [];
   if (fs.existsSync("ChatScript.json")) {
     var data = fs.readFileSync("ChatScript.json", "utf8");
     jsonArr = JSON.parse(data);
-    jsonArr.push(req.body);
+    let checkArr = false;
+    jsonArr.forEach(function (arrayItemm,arrayIndex) {
+      if(jsonArr[arrayIndex].ChatSession == req.body.ChatSession ) {
+        jsonArr[arrayIndex].Conversation = req.body.Conversation;
+        jsonArr[arrayIndex].ChatLESession = req.body.ChatLESession;
+        checkArr = true;
+      }
+    });
+    if(!checkArr)
+      jsonArr.push(req.body);    
     console.log(jsonArr);
     writeFile(jsonArr, "ChatScript.json");
   } else {
