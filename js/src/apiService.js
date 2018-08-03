@@ -1,4 +1,4 @@
-'use strict';
+
 
 /* -------------------------------------------------------------------
 Copyright (c) 2017-2017 Hexaware Technologies
@@ -6,14 +6,16 @@ This file is part of the Innovation LAB - Offline Bot.
 ------------------------------------------------------------------- */
 
 
-define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
-    function ($, config, utils, messageTpl, cards, uuidv1) {
-
+define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Cookies'],
+    function ($, config, utils, messageTpl, cards, uuidv1, Cookies) {
+        var fallbackCount = 0;
         class ApiHandler {
 
             constructor() {
+                let uuid = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
+
                 this.options = {
-                    sessionId: uuidv1(),
+                    sessionId: uuid,
                     lang: "en"
                 };
 
@@ -78,8 +80,37 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         let count = 0;
                         let hasbutton;
                         console.log('result *** ', JSON.stringify(response.result));
+                        var dataList = document.getElementById('msg_container').getElementsByTagName("li");
+                        // if (config.incompleteTran.includes(response.result.action)) {
+                        //     console.log('Inside incomplete');
+                        //     return utils.writeIncompleteTran(response.result, "PostLogin", "BroadBand", function (err, res) {
+                        //         console.log(res);
+                        //     });
+                        // }
+
+                        if (response.result.action == "input.unknown")
+                            fallbackCount++;
+                        else
+                            fallbackCount = 0;
+
                         if (response.result.action == "Optus") {
+                            utils.captureTranscript(dataList);
+                            fallbackCount = 0;
                             callback(null, "Liveengage");
+                        } else if (fallbackCount > 2) {
+                            utils.captureTranscript(dataList);
+                            fallbackCount = 0;
+                            var msg_container = $("ul#msg_container");
+                            var html_div = `<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">I can't understand your queries, so am transferring you to a human agent. Please wait...</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>` + utils.currentTime() + `</small></p></div></td></tr></table></li>`;
+                            if (msg_container.hasClass('hidden')) { // cans be optimimzed and removed from here
+                                msg_container.siblings("h1").addClass('hidden');
+                                msg_container.siblings("div.chat-text-para").addClass('hidden');
+                                msg_container.siblings(".header-text-logo").removeClass('hidden');
+                                msg_container.removeClass('hidden');
+                            }
+                            msg_container.append(html_div);
+                            utils.scrollSmoothToBottom($('div.chat-body'));
+                            callback(null, "Liveengage");                            
                         } else if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
                             for (let i in response.result.fulfillment.messages) {
@@ -324,7 +355,8 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         }
 
                     },
-                    error: function () {
+                    error: function (err) {
+                        alert(JSON.stringify(err));
                         callback("Internal Server Error", null);
                     }
                 });

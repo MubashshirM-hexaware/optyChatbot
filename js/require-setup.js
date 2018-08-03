@@ -30,7 +30,8 @@ requirejs.config({
         navigation: 'src/navigation',
         moment: "lib/moment",
         momenttimzone: "lib/moment-timezone",
-        momentdata: 'lib/moment-timezone-with-data'
+        momentdata: 'lib/moment-timezone-with-data',
+        jqueryscoped:'lib/jquery.scoped'
         // jq16: 'lib/jquery1.6.min',
         // facemicon:'lib/faceMocion'
     },

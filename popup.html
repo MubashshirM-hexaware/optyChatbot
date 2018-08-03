@@ -1,18 +1,17 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<div class="menu pmd-floating-action" role="navigation">
-    <a class="btn popover-html pmd-btn-fab pmd-btn-raised pmd-ripple-effect  btn-primary" data-trigger="click" data-toggle="popover"
+<div class="menu pmd-floating-action" role="navigation" style="position:fixed !important;">
+    <a id="btn-send-message" class="btn popover-html pmd-btn-fab pmd-btn-raised pmd-ripple-effect  btn-primary" data-trigger="click" data-toggle="popover"
         data-placement="top" data-html="true" href="javascript:void(0);"> 
             <span class="pmd-floating-hidden">Primary</span>
             <i class="material-icons md-light pmd-sm">chat</i>
         </a>
 </div>
 
-
-
 <script>
     var today = Math.round((new Date()).getTime() / 1000);
+    var chatTranscript = [];
     var searchQuery = Cookies.get('searches');
     if (!searchQuery) {
         let searchObj = [];
@@ -52,7 +51,12 @@
 
             }
         }
-        $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()"    src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+        var host = window.location.origin;
+						//console.log(host);
+        if (host == "http://localhost:9000")
+            $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+        else
+            $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
     }
     function triggerPopupHTML() {
         let popupHTML = $(value.contentDocument).find('body div.chat-body ul#msg_container');
@@ -63,7 +67,7 @@
     }
 
     function doIt() {
-      
+
         $("iframe").contents().find("img.loading-gif-typing").fadeOut();
     }
 
@@ -72,8 +76,8 @@
             let popoverHtml = $("a.popover-html");
             // console.log(popoverHtml.next("div.popover").html() && clickstatus);
             if (clickstatus) {
-
                 // clearInterval(intervals);
+                clickstatus = false;
             } else {
                 popoverHtml.popover('show');
                 clickstatus = true;
@@ -85,10 +89,127 @@
     $(function () {
         intervals = triggerSetInterval();
         $("a.popover-html").click(function () {
-            $("div[role='navigation'] a").attr("data-content", `<iframe    src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=' height='530' width='300' style='border:none'></iframe>`)
+            if (!clickstatus) {
+                var host = window.location.origin;
+						//console.log(host);
+                if (host == "http://localhost:9000")
+                    $("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+                else 
+                    $("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+                clickstatus = true;
+            } else {
+                captureTranscript();
+                function get(url) {
+                    return new Promise((resolve, reject) => {
+                        const req = new XMLHttpRequest();
+                        req.responseType = 'json';
+                        req.open('GET', url);
+                        req.onload = () => req.status === 200 ? resolve(req.response) : reject(Error(req.statusText));
+                        req.onerror = (e) => reject(Error(`Network Error: ${e}`));
+                        req.send();
+                    });
+                }
 
+                get('/generateId')
+                .then((result) => {
+                    localStorage.setItem('hashUser', result.hash);
+                    localStorage.setItem('chatLESession', '');
+                    console.log('hashuser ',result.hash);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+                clickstatus = false;
+            }
+                
+            
+
+            clearInterval(intervals);
         })
+      
     })
+
+    function captureTranscript () {
+        var iframe = document.getElementById('iChatPopup');
+        var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        if (innerDoc.getElementById('msg_container') == null) {
+            return false;
+        }
+        var dataList = innerDoc.getElementById('msg_container').getElementsByTagName("li");
+        var botObj = [];
+        var userObj = [];
+        var cardMsg = 'Card';
+        var objArr = {"Bot": "", "User" : ""};
+
+        for (var index = 0; index < dataList.length; index++) {
+            if (dataList[index].getElementsByClassName("list-group-item-text-user")[0] == undefined) {
+                if (dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined) {
+                    botObj = dataList[index].getElementsByClassName("list-group-item-text-bot");
+                } else if (dataList[index].getElementsByClassName("card-body")[0] != undefined) {
+                    botObj = cardMsg;
+                } else if (dataList[index].getElementsByClassName("list-group-item-quick-reply-space")[0] != undefined) {
+                    botObj = dataList[index].getElementsByClassName("list-group-item-quick-reply-space");
+                } else {
+                    botObj[0] = undefined;
+                }
+            }												
+            userObj = dataList[index].getElementsByClassName("list-group-item-text-user");												
+
+            if(dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined || dataList[index].getElementsByClassName("list-group-item-quick-reply-space")[0] != undefined || typeof botObj === 'string') {
+                objArr = {"Bot": "", "User" : ""};
+                if (typeof botObj === 'string') {
+                    console.log("----Bot", index);
+                    objArr.Bot = $.trim(botObj);
+                    botObj = [];
+                } else {
+                    console.log(botObj[0].innerHTML);
+                    console.log("----Bot", index);
+                    objArr.Bot = $.trim(botObj[0].innerHTML);
+                }
+                chatTranscript.push(objArr);
+                
+            } else {
+                console.log(userObj[0].innerHTML);
+                console.log("-----User", index);
+                objArr.User = $.trim(userObj[0].innerHTML);
+                if (chatTranscript.length == 0) {
+                    chatTranscript.push(objArr);
+                }
+            }
+        }
+
+        console.log(chatTranscript);
+        let jsonData = {
+        "ChatSession" : localStorage.getItem("hashUser"),
+        "ChatLESession":localStorage.getItem("chatLESession"),
+        "UserName" : "Charlotte",
+        "ChatPage" : "RoamingPlans",
+        "Conversation" : chatTranscript
+        };
+
+        console.log(jsonData);
+        $.ajax({
+            url: "/writeFile",
+            type: "POST",
+            dataType: "json",
+            data: jsonData,
+            success: function (result) {
+                chatTranscript = [];
+                console.log('Writing files...');
+            }, error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    window.onbeforeunload = function(event) {
+        event = event || window.event;
+        if (chatTranscript.length > 0) {
+            captureTranscript();
+        }
+        return undefined;
+    }
+
 
 </script>
 <script>

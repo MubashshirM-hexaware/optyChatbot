@@ -9,11 +9,14 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
     $(function () {
         $("img.loading-gif-typing").fadeOut();
         var globalLpChat;
-        function closeWin() {
-            $("a.popover-html1").click();
-            $('a.popover-html1').bind('click');
-        }
+        var chatFinalTranscript = [];
+        var chatRequest;
         
+        function closeWin() {
+            setTimeout(() => {
+                window.parent.document.getElementById('btn-send-message').click();
+            }, 2000);
+        }
         function adjustPopups() {
             let msgboxh = $("div.header-popup").next().height();
             let chath = $("div.header-popup").next().next().height();
@@ -39,15 +42,17 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         function checkEmoji(emo) {
             let emojientity = ['😄', '😉', '😋', '😍', '😢', '😠'];
             var strip_text = '';
-            for (var emoj in emojientity) {
+            if (emo) {
+                for (var emoj in emojientity) {
 
-                if (emo.indexOf(emojientity[emoj]) !== -1 && emoj == 0) {
-                    strip_text = emo.replace(emojientity[emoj], '');
+                    if (emo.indexOf(emojientity[emoj]) !== -1 && emoj == 0) {
+                        strip_text = emo.replace(emojientity[emoj], '');
 
-                }
-                else if (strip_text.indexOf(emojientity[emoj]) !== -1) {
-                    strip_text = strip_text.replace(emojientity[emoj], '');
+                    }
+                    else if (strip_text.indexOf(emojientity[emoj]) !== -1) {
+                        strip_text = strip_text.replace(emojientity[emoj], '');
 
+                    }
                 }
             }
             return strip_text;
@@ -128,6 +133,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
         }
         $("a#btn-send-message").click(function (e) {
+            if($("#btn-input").val())
             sendMessage($("#btn-input"), e);
         });
         //Chatbox Send message
@@ -372,29 +378,37 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
 
         var appKey = '721c180b09eb463d9f3191c41762bb68',
-            logsStarted = false,
             engagementData = {},
             getEngagementMaxRetries = 25,
             chatWindow,
             chatContainer,
             chat,
             chatState,
-            chatArea,
-            logsLastChild;
-
-
+            chatArea;
 
         function initDemo() {
-            initChat(getEngagement);
+            $.ajax({
+                url: "/showChatTranscript",
+                type: "GET",
+                success: function (result) {
+                    chatFinalTranscript = result;
+                    console.log('********************* ',chatFinalTranscript);
+                }, error: function (err) {
+                    console.log(err);
+                }
+            });
+            setTimeout(() => {
+                initChat(getEngagement);
+            }, 1000);
+            
         }
 
         function createWindow() {
-            chatContainer = $('#chatWindow');
             startChat();
         }
 
         function initChat(onInit) {
-            var help;
+            
             var chatConfig = {
                 lpNumber: 57340919,
                 appKey: appKey,
@@ -402,6 +416,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     console.log('onInit', data);
                 }],
                 onInfo: function (data) {
+                    localStorage.setItem('chatLESession', data.chatSessionKey);
                     console.log('onInfo', data);
                 },
                 onLine: [addLines, function (data) {
@@ -412,6 +427,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     console.log('state -- ', data.state)
                     if (data.state == "ended") {
                         closeWin();
+                    } else if(data.state == "notfound") {
+                        offline();
                     }
                 }],
                 onStart: [updateChatState, bindEvents, bindInputForChat, function (data) {
@@ -448,8 +465,6 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 }
             };
             chat = new lpTag.taglets.ChatOverRestAPI(chatConfig);
-
-
         }
 
         function getEngagement() {
@@ -457,25 +472,24 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         function createEngagement(data) {
-            // var $engagement = $('<button id="engagement" class="btn-lg">Start Chat</button>');
-            // $engagement.click(function(){
             engagementData = data;
             createWindow();
-            // });
-            // $engagement.appendTo($('#engagementPlaceholder'));
         }
 
         function startChat() {
+
             engagementData = engagementData || {};
             engagementData.engagementDetails = engagementData.engagementDetails || {};
-            var chatRequest = {
+            chatRequest = {
                 LETagVisitorId: engagementData.visitorId || engagementData.svid,
                 LETagSessionId: engagementData.sessionId || engagementData.ssid,
                 LETagContextId: engagementData.engagementDetails.contextId || engagementData.scid,
                 skill: engagementData.engagementDetails.skillName,
                 engagementId: engagementData.engagementDetails.engagementId || engagementData.eid,
                 campaignId: engagementData.engagementDetails.campaignId || engagementData.cid,
-                language: engagementData.engagementDetails.language || engagementData.lang
+                language: engagementData.engagementDetails.language || engagementData.lang,
+                preChatLines: chatFinalTranscript
+                //<p dir='ltr' style='direction: ltr; text-align: left;'>Bot says : help</p>
             };
             console.log('startChat', chatRequest);
             chat.requestChat(chatRequest);
@@ -501,19 +515,23 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         msg_container.append(html_div);
                         utils.scrollSmoothToBottom($('div.chat-body'));
                         endChat();
+                        globalLpChat = false;
+                        chat.disposeVisitor();
                     } else {
                         var textF = line.text;
-                        var textI = textF.replace('<div dir="ltr" style="direction: ltr; text-align: left;">','');
-                        textF = textI.replace('</div>','');
-                        var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + textF + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
-                        if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
-                            msg_container.siblings("h1").addClass('hidden');
-                            msg_container.siblings("div.chat-text-para").addClass('hidden');
-                            msg_container.siblings(".header-text-logo").removeClass('hidden');
-                            msg_container.removeClass('hidden');
+                        var textI = textF.replace('<div dir="ltr" style="direction: ltr; text-align: left;">', '');
+                        textF = textI.replace('</div>', '');
+                        if (!textF.includes('Opty says :')) {
+                            var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + textF + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+                            if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+                                msg_container.siblings("h1").addClass('hidden');
+                                msg_container.siblings("div.chat-text-para").addClass('hidden');
+                                msg_container.siblings(".header-text-logo").removeClass('hidden');
+                                msg_container.removeClass('hidden');
+                            }
+                            msg_container.append(html_div);
+                            utils.scrollSmoothToBottom($('div.chat-body'));
                         }
-                        msg_container.append(html_div);
-                        utils.scrollSmoothToBottom($('div.chat-body'));
                     }
                     // var chatLine = createLine(line);
                     // addLineToDom(chatLine);
@@ -526,45 +544,45 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         //Create a chat line
-        function createLine(line) {
-            // var div = document.createElement('P');
-            // div.innerHTML = '<b>' + line.by + '</b>: ';
-            var msg_container = $("ul#msg_container");
-            if (line.source === 'visitor') {
-                //div.appendChild(document.createTextNode(line.text));
-                var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">' + line.text + '</p><p class="user-timestamp"><small>' + utils.currentTime() + '</small></p></div></div></li>';
-                //var html_div = '<li class="animated fadeInRight list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
-                if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
-                    msg_container.siblings("h1").addClass('hidden');
-                    msg_container.siblings("div.chat-text-para").addClass('hidden');
-                    msg_container.siblings(".header-text-logo").removeClass('hidden');
-                    msg_container.removeClass('hidden');
-                }
-                msg_container.append(html_div);
-                utils.scrollSmoothToBottom($('div.chat-body'));
-            } else {
-                //div.innerHTML += line.text;
-                var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + line.text + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
-                if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
-                    msg_container.siblings("h1").addClass('hidden');
-                    msg_container.siblings("div.chat-text-para").addClass('hidden');
-                    msg_container.siblings(".header-text-logo").removeClass('hidden');
-                    msg_container.removeClass('hidden');
-                }
-                msg_container.append(html_div);
-                utils.scrollSmoothToBottom($('div.chat-body'));
-            }
-            return div;
-        }
+        // function createLine(line) {
+        //     // var div = document.createElement('P');
+        //     // div.innerHTML = '<b>' + line.by + '</b>: ';
+        //     var msg_container = $("ul#msg_container");
+        //     if (line.source === 'visitor') {
+        //         //div.appendChild(document.createTextNode(line.text));
+        //         var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">' + line.text + '</p><p class="user-timestamp"><small>' + utils.currentTime() + '</small></p></div></div></li>';
+        //         //var html_div = '<li class="animated fadeInRight list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+line.text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
+        //         if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+        //             msg_container.siblings("h1").addClass('hidden');
+        //             msg_container.siblings("div.chat-text-para").addClass('hidden');
+        //             msg_container.siblings(".header-text-logo").removeClass('hidden');
+        //             msg_container.removeClass('hidden');
+        //         }
+        //         msg_container.append(html_div);
+        //         utils.scrollSmoothToBottom($('div.chat-body'));
+        //     } else {
+        //         //div.innerHTML += line.text;
+        //         var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' + line.text + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
+        //         if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
+        //             msg_container.siblings("h1").addClass('hidden');
+        //             msg_container.siblings("div.chat-text-para").addClass('hidden');
+        //             msg_container.siblings(".header-text-logo").removeClass('hidden');
+        //             msg_container.removeClass('hidden');
+        //         }
+        //         msg_container.append(html_div);
+        //         utils.scrollSmoothToBottom($('div.chat-body'));
+        //     }
+        //     return div;
+        // }
 
         //Add a line to the chat view DOM
-        function addLineToDom(line) {
-            if (!chatArea) {
-                chatArea = chatContainer.find('#chatLines');
-                chatArea = chatArea && chatArea[0];
-            }
-            chatArea.append(line);
-        }
+        // function addLineToDom(line) {
+        //     if (!chatArea) {
+        //         chatArea = chatContainer.find('#chatLines');
+        //         chatArea = chatArea && chatArea[0];
+        //     }
+        //     chatArea.append(line);
+        // }
 
         //Scroll to the bottom of the chat view
         function scrollToBottom() {
@@ -597,7 +615,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     }
                 });
                 // addLineToDom(line);
-                
+
                 //var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">'+text+'</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>'+utils.currentTime()+'</small></p></div></td></tr></table></li>';
                 var html_div = '<li class="list-group-item background-color-custom"><div class="media-left pull-right animated fadeInRight"><div class="media-body user-txt-space"><img width="30" height="30" style="float:right;" src="./avatar/user-128.png"><p class="list-group-item-text-user">' + text + '</p><p class="user-timestamp"><small>' + utils.currentTime() + '</small></p></div></div></li>';
                 if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
@@ -619,6 +637,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     msg_container.append(html_div);
                     utils.scrollSmoothToBottom($('div.chat-body'));
                     endChat();
+                    globalLpChat = false;
+                    chat.disposeVisitor();
                     $("a.popover-html1").click();
                     $('a.popover-html1').bind('click');
                 }
@@ -666,6 +686,9 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     }
                 });
             }
+            setTimeout(() => {
+                window.parent.document.getElementById('popover-html-c').click();
+            }, 2000);
         }
 
         //Sends an email of the transcript when the chat has ended
@@ -687,9 +710,11 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
         function agentTyping(data) {
             if (data.agentTyping) {
-                chatWindow.setFooterContent('Agent is typing...');
+                //chatWindow.setFooterContent('Agent is typing...');
+                $("img.loading-gif-typing").fadeIn();
             } else {
-                chatWindow.setFooterContent('');
+                //chatWindow.setFooterContent('');
+                $("img.loading-gif-typing").fadeOut();
             }
         }
 
@@ -720,6 +745,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             msg_container.append(html_div);
             utils.scrollSmoothToBottom($('div.chat-body'));
             endChat();
+            globalLpChat = false;
+            chat.disposeVisitor();
         }
 
 
