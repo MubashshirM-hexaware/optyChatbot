@@ -13,6 +13,7 @@ app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
+var jsonIncompleteTran = [];
 
 app.get('/', function (req, res) {
   res.send("/richowebsites");
@@ -33,13 +34,27 @@ app.post('/updateSessionState', function (req, res) {
   })
 })
 app.get('/chatwindow', function (req, res) {
-  res.sendfile(__dirname + '/chatwindow1.html');
+  readFile("IncompleteTransaction.json", function(hasFile, data) {
+    if (hasFile) {
+      jsonIncompleteTran = data;
+    }
+    res.sendfile(__dirname + '/chatwindow1.html');
+  });
 });
 app.get('/roaming', function (req, res) {
-  res.sendfile(__dirname + '/roaming.html');
+  readFile("IncompleteTransaction.json", function(hasFile, data) {
+    if (hasFile) {
+      jsonIncompleteTran = data;
+    }
+    res.sendfile(__dirname + '/roaming.html');
+  });
 });
 app.get('/chat', function (req, res) {
   res.sendfile(__dirname + '/index.html');
+});
+app.get('/getIncompleteStatus', function (req, res) {
+  console.log(req);
+  res.send(jsonIncompleteTran);
 });
 
 app.get('/generateId', function (req, res) {
@@ -61,7 +76,7 @@ app.get('/showChatTranscript', function (req, res) {
     beforeParse.forEach(function (arrayItem) {
       showTranscript.push("--------------------------------------");
       showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Opty says : </div>`+arrayItem["Bot"])
-      showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Visitor says : </div>`+arrayItem["User"])
+      showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Charlotte says : </div>`+arrayItem["User"])
     });
   }
   res.json(showTranscript);
@@ -103,28 +118,40 @@ app.post('/writeFile', function (req, res) {
     writeFile(jsonArr, "ChatScript.json");
   }
 });
-app.post('/incompleteTransaction', function (req, res) {
+app.post('/writeIncompleteTran', function (req, res) {
   console.log('************Incompelete Tran', req.body);
+  var hasIncompleteTran = false;
+  console.log(jsonIncompleteTran);
   var jsonArr = [];
-  if (fs.existsSync("IncompleteTransaction.json")) {
-    var data = fs.readFileSync("IncompleteTransaction.json", "utf8");
-    jsonArr = JSON.parse(data);
-    console.log(jsonArr);
-    var index = -1;
-    var val = "Charlotte"
-    var filteredObj = data.find(function (item, i) {
-      if (item.UserName === val && item.IsTransactionComplete == true) {
-        index = i;
-        return i;
-      } else {
-        jsonArr.push(req.body);
+  if (jsonIncompleteTran.length > 0) {
+    // var data = fs.readFileSync("IncompleteTransaction.json", "utf8");
+    jsonArr = JSON.parse(jsonIncompleteTran);
+    var index = null;
+    var hasElement = false;    
+    for (index = 0; jsonArr.length > index; index++) {
+      if (jsonArr[index].ChatSession === req.body.ChatSession && jsonArr[index].IsTransactionComplete == 'false') {
+        hasElement = true;
+        hasIncompleteTran = false;
+        jsonArr[index].IsTransactionComplete = 'true';
+        break;
+      } else if (jsonArr[index].ChatSession === req.body.ChatSession && jsonArr[index].IsTransactionComplete == 'true') {
+        hasElement = true;
+        hasIncompleteTran = true;
+        jsonArr[index].IsTransactionComplete = 'false';        
+        break;
       }
-    });
+    }
+
+    if (hasElement == false) {
+      jsonArr.push(req.body);
+    }
+    console.log('JSON ARR', jsonArr);
     writeFile(jsonArr, "IncompleteTransaction.json");
   } else {
     jsonArr.push(req.body);
     writeFile(jsonArr, "IncompleteTransaction.json");
   }
+  res.send(hasIncompleteTran);
 });
 
 app.listen(process.env.PORT || 9000);
@@ -137,6 +164,22 @@ function writeFile(data, fileName) {
 
     console.log("The file was saved!");
   });
+}
+
+function readFile(fileName, callback) {
+  try {    
+    var objData = null;
+    if (fs.existsSync(fileName)) {
+      var data = fs.readFileSync(fileName, "utf8");
+      objData = JSON.parse(data);
+      callback(true, objData)
+    } else {
+      callback(false, objData)
+    }
+  }
+  catch (err) {
+    console.log(err);
+  }  
 }
 
 
