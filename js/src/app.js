@@ -1,4 +1,4 @@
-﻿'use strict';
+﻿ 'use strict';
 
 /* -------------------------------------------------------------------
 Copyright (c) 2017-2017 Hexaware Technologies
@@ -11,12 +11,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         
         var globalLpChat;
         var chatFinalTranscript = [];
-<<<<<<< HEAD
-
-=======
         var chatRequest;
         
->>>>>>> 66da1c3d4f5066db57f872044bb6acf25c14c6c1
         function closeWin() {
             setTimeout(() => {
                 window.parent.document.getElementById('btn-send-message').click();
