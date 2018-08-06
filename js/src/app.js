@@ -7,7 +7,8 @@ This file is part of the Innovation LAB - Offline Bot.
 
 define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiService, utils) {
     $(function () {
-        $("img.loading-gif-typing").fadeOut();
+        var msg_container = $("ul#msg_container");
+        
         var globalLpChat;
         var chatFinalTranscript = [];
         var chatRequest;
@@ -69,11 +70,11 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 console.log('globalLpChat', globalLpChat);
                 if (globalLpChat) {
                     initDemo();
-                    $("img.loading-gif-typing").fadeIn();
+                    
                 } else {
-                    $("img.loading-gif-typing").fadeIn();
+                    
                     processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html) {
-                        $("img.loading-gif-typing").fadeOut();
+                        
                         console.log('html LE precheck -- ', html);
                         console.log('error LE check -- ', error);
                         if (error) {
@@ -92,7 +93,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                                     msg_container.removeClass('hidden');
 
                                 }
-                                $("img.loading-gif-typing").fadeOut();
+                                msg_container.parent().next().find("img").remove()
+                                //msg_container.parent().remove();
                                 msg_container.append(html);
                                 utils.scrollSmoothToBottom($('div.chat-body'));
                                 setTimeout(() => {
@@ -133,8 +135,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
 
         }
         $("a#btn-send-message").click(function (e) {
-            if($("#btn-input").val())
-            sendMessage($("#btn-input"), e);
+            if ($("#btn-input").val())
+                sendMessage($("#btn-input"), e);
         });
         //Chatbox Send message
         $("textarea#btn-input").keypress(function (e) {
@@ -183,7 +185,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 $(this).parent().find("button").prop("disabled", true)
                 $(this).parent().find("a").prop("disabled", true)
             }, 2000)
-            $("img.loading-gif-typing").fadeIn();
+            
             if (!payloadInput.match(/http/g)) {
                 processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
                     if (error) {
@@ -195,7 +197,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                             globalLpChat = true;
                             initDemo();
                         } else {
-                            $("img.loading-gif-typing").fadeOut();
+                            
                             msg_container.append(html);
                             utils.scrollSmoothToBottom($('div.chat-body'));
                         }
@@ -217,13 +219,13 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 $(this).parent().find("button").prop("disabled", true)
                 $(this).parent().find("a").prop("disabled", true)
             }, 2000);
-            $("img.loading-gif-typing").fadeIn();
+            
             processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
                 if (html) {
-                    $("img.loading-gif-typing").fadeOut();
+                    
                     msg_container.append(html);
                     utils.scrollSmoothToBottom($('div.chat-body'));
                 }
@@ -247,7 +249,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         //Carousel Response Postback button
         $(document).on('click', '.caroselresponsepayload', function (e) {
             var payloadInput = $(this).data().carouselpayloadbutton;
-            $("img.loading-gif-typing").fadeIn();
+            
             setTimeout(() => {
                 $(this).parent().find("a").prop("disabled", true)
                 $(this).parent().find("button").prop("disabled", true)
@@ -258,7 +260,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                         console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                     }
                     if (html) {
-                        $("img.loading-gif-typing").fadeOut();
+                        
                         msg_container.append(html);
                         utils.scrollSmoothToBottom($('div.chat-body'));
                     }
@@ -392,7 +394,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 type: "GET",
                 success: function (result) {
                     chatFinalTranscript = result;
-                    console.log('********************* ',chatFinalTranscript);
+                    console.log('********************* ', chatFinalTranscript);
                 }, error: function (err) {
                     console.log(err);
                 }
@@ -400,7 +402,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             setTimeout(() => {
                 initChat(getEngagement);
             }, 1000);
-            
+
         }
 
         function createWindow() {
@@ -408,7 +410,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         }
 
         function initChat(onInit) {
-            
+
             var chatConfig = {
                 lpNumber: 57340919,
                 appKey: appKey,
@@ -711,10 +713,10 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         function agentTyping(data) {
             if (data.agentTyping) {
                 //chatWindow.setFooterContent('Agent is typing...');
-                $("img.loading-gif-typing").fadeIn();
+                
             } else {
                 //chatWindow.setFooterContent('');
-                $("img.loading-gif-typing").fadeOut();
+                
             }
         }
 

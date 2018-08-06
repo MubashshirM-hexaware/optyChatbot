@@ -51,12 +51,16 @@
 
             }
         }
+<<<<<<< HEAD
+        $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+=======
         var host = window.location.origin;
 						//console.log(host);
         if (host == "http://localhost:9000")
             $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
         else
             $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+>>>>>>> 66da1c3d4f5066db57f872044bb6acf25c14c6c1
     }
     // function triggerPopupHTML() {
     //     let popupHTML = $(value.contentDocument).find('body div.chat-body ul#msg_container');
@@ -99,6 +103,9 @@
                 clickstatus = true;
             } else {
                 captureTranscript();
+<<<<<<< HEAD
+            $("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+=======
                 function get(url) {
                     return new Promise((resolve, reject) => {
                         const req = new XMLHttpRequest();
@@ -124,6 +131,7 @@
                 
             
 
+>>>>>>> 66da1c3d4f5066db57f872044bb6acf25c14c6c1
             clearInterval(intervals);
         })
       
