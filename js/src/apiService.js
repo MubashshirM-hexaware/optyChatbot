@@ -52,6 +52,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         if (msg_container && msg_container.parent() && msg_container.parent().find("img.loading-gif-typing").html()) {
                             msg_container.parent().find("img.loading-gif-typing").remove();
                         }
+msg_container.parent().find("img.loading-gif-typing").remove();
                         let isCardorCarousel = false;
                         let isImage = false;
                         let isQuickReply = false;
