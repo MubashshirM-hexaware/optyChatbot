@@ -6,8 +6,8 @@ This file is part of the Innovation LAB - Offline Bot.
 ------------------------------------------------------------------- */
 
 
-define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Cookies'],
-    function ($, config, utils, messageTpl, cards, uuidv1, Cookies) {
+define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
+    function ($, config, utils, messageTpl, cards, uuidv1) {
         var fallbackCount = 0;
         class ApiHandler {
 
@@ -33,7 +33,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
             }
             askBot(userInput, userText, callback) {
                 this.userSays(userText, callback);
-
+                var msg_container = $("ul#msg_container");
                 this.options.query = userInput;
 
                 $.ajax({
@@ -45,12 +45,13 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                         "Authorization": "Bearer " + config.accessToken
                     },
                     beforeSend: function () {
-                        $("img.loading-gif-typing").fadeIn();
+                        msg_container.parent().append(`<img class="loading-gif-typing"src="/images/ellipsis.gif"  style="text-align:left;"  />`)
                     },
                     data: JSON.stringify(this.options),
                     success: function (response) {
-                        $("img.loading-gif-typing").fadeOut();
-                        $("img.loading-gif-typing").hide();
+                        if (msg_container && msg_container.parent() && msg_container.parent().find("img.loading-gif-typing").html()) {
+                            msg_container.parent().find("img.loading-gif-typing").remove();
+                        }
                         let isCardorCarousel = false;
                         let isImage = false;
                         let isQuickReply = false;
@@ -95,7 +96,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                         } else if (fallbackCount > 2) {
                             utils.captureTranscript(dataList);
                             fallbackCount = 0;
-                            var msg_container = $("ul#msg_container");
+
                             var html_div = `<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">I can't understand your queries, so am transferring you to a human agent. Please wait...</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>` + utils.currentTime() + `</small></p></div></td></tr></table></li>`;
                             if (msg_container.hasClass('hidden')) { // cans be optimimzed and removed from here
                                 msg_container.siblings("h1").addClass('hidden');
@@ -105,7 +106,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid', 'Coo
                             }
                             msg_container.append(html_div);
                             utils.scrollSmoothToBottom($('div.chat-body'));
-                            callback(null, "Liveengage");                            
+                            callback(null, "Liveengage");
                         } else if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
                             for (let i in response.result.fulfillment.messages) {
