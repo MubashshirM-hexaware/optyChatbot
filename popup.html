@@ -51,15 +51,24 @@
 
             }
         }
+<<<<<<< HEAD
         $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+=======
+        var host = window.location.origin;
+						//console.log(host);
+        if (host == "http://localhost:9000")
+            $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+        else
+            $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+>>>>>>> 66da1c3d4f5066db57f872044bb6acf25c14c6c1
     }
-    function triggerPopupHTML() {
-        let popupHTML = $(value.contentDocument).find('body div.chat-body ul#msg_container');
-        if (!popupHTML) {
-            triggerSetInterval()
-        }
+    // function triggerPopupHTML() {
+    //     let popupHTML = $(value.contentDocument).find('body div.chat-body ul#msg_container');
+    //     if (!popupHTML) {
+    //         triggerSetInterval()
+    //     }
 
-    }
+    // }
 
     function doIt() {
 
@@ -72,6 +81,7 @@
             // console.log(popoverHtml.next("div.popover").html() && clickstatus);
             if (clickstatus) {
                 // clearInterval(intervals);
+                // clickstatus = false;
             } else {
                 popoverHtml.popover('show');
                 clickstatus = true;
@@ -83,10 +93,48 @@
     $(function () {
         intervals = triggerSetInterval();
         $("a.popover-html").click(function () {
+            if (!clickstatus) {
+                var host = window.location.origin;
+						//console.log(host);
+                if (host == "http://localhost:9000")
+                    $("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+                else 
+                    $("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+                clickstatus = true;
+            } else {
                 captureTranscript();
+<<<<<<< HEAD
             $("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+=======
+                function get(url) {
+                    return new Promise((resolve, reject) => {
+                        const req = new XMLHttpRequest();
+                        req.responseType = 'json';
+                        req.open('GET', url);
+                        req.onload = () => req.status === 200 ? resolve(req.response) : reject(Error(req.statusText));
+                        req.onerror = (e) => reject(Error(`Network Error: ${e}`));
+                        req.send();
+                    });
+                }
+
+                get('/generateId')
+                .then((result) => {
+                    localStorage.setItem('hashUser', result.hash);
+                    localStorage.setItem('chatLESession', '');
+                    console.log('hashuser ',result.hash);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+                clickstatus = false;
+            }
+                
+            
+
+>>>>>>> 66da1c3d4f5066db57f872044bb6acf25c14c6c1
             clearInterval(intervals);
         })
+      
     })
 
     function captureTranscript () {
@@ -140,7 +188,8 @@
 
         console.log(chatTranscript);
         let jsonData = {
-        "ChatSession" : localStorage.getItem("uuid"),
+        "ChatSession" : localStorage.getItem("hashUser"),
+        "ChatLESession":localStorage.getItem("chatLESession"),
         "UserName" : "Charlotte",
         "ChatPage" : "RoamingPlans",
         "Conversation" : chatTranscript

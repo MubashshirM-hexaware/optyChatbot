@@ -85,7 +85,6 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
         var userObj = [];
         var cardMsg = 'Card';
         var objArr = { "Bot": "", "User": "" };
-
         for (var index = 0; index < dataList.length; index++) {
             if (dataList[index].getElementsByClassName("list-group-item-text-user")[0] == undefined) {
                 if (dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined) {
@@ -125,7 +124,8 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
 
         console.log(chatTranscript);
         let jsonData = {
-            "ChatSession": localStorage.getItem("uuid"),
+            "ChatSession": localStorage.getItem("hashUser"),
+            "ChatLESession":localStorage.getItem("chatLESession"),
             "UserName": "Charlotte",
             "ChatPage": "PostLogin",
             "Conversation": chatTranscript
@@ -146,26 +146,28 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
         });
     }
 
-    methods.incompleteTransaction = (response, pageFrom) => {
+    methods.incompleteTransaction = (response, pageFrom, transactionType, callback) => {
         debugger;
         console.log(response);
         let jsonData = {
             "ChatSession": localStorage.getItem("uuid"),
             "UserName": "Charlotte",
             "ChatPage": pageFrom,
-            "IsTransactionComplete": true,
-            "TransactionType": "BroadBand"
+            "IsTransactionComplete": false,
+            "TransactionType": transactionType
         };
 
         $.ajax({
-            url: "/incompleteTransaction",
+            url: "/writeIncompleteTran",
             type: "POST",
             dataType: "json",
             data: jsonData,
             success: function (result) {
                 console.log('Writing incomplete transacrion files...');
+                return callback(null, result);
             }, error: function (err) {
                 console.log(err);
+                return callback(err, null);
             }
         });
     };

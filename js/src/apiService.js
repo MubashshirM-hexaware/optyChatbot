@@ -82,7 +82,12 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         let hasbutton;
                         console.log('result *** ', JSON.stringify(response.result));
                         var dataList = document.getElementById('msg_container').getElementsByTagName("li");
-                        // utils.incompleteTransaction(response.result, "PostLogin");
+                        // if (config.incompleteTran.includes(response.result.action)) {
+                        //     console.log('Inside incomplete');
+                        //     return utils.writeIncompleteTran(response.result, "PostLogin", "BroadBand", function (err, res) {
+                        //         console.log(res);
+                        //     });
+                        // }
 
                         if (response.result.action == "input.unknown")
                             fallbackCount++;

@@ -1998,7 +1998,7 @@
 						else if (host == "https://optychatbot.herokuapp.com")
 							$("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='https://optychatbot.herokuapp.com/?popup=1&search=' height='530' width='300' style='border:none'></iframe>`)
 						else
-							$("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/?popup=1&search=' height='530' width='300' style='border:none'></iframe>`)
+							$("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=' height='530' width='300' style='border:none'></iframe>`)
 						utils.initiateAjax("/callPhone", "POST", "", function (data, err) {
 
 							let statusm = data.result[0];
@@ -2040,6 +2040,28 @@
 					}
 					else {
 						captureTranscript();
+
+						function get(url) {
+							return new Promise((resolve, reject) => {
+								const req = new XMLHttpRequest();
+								req.responseType = 'json';
+								req.open('GET', url);
+								req.onload = () => req.status === 200 ? resolve(req.response) : reject(Error(req.statusText));
+								req.onerror = (e) => reject(Error(`Network Error: ${e}`));
+								req.send();
+							});
+						}
+
+						get('/generateId')
+						.then((result) => {
+							localStorage.setItem('hashUser', result.hash);
+							localStorage.setItem('chatLESession', '');
+							console.log('hashuser ',result.hash);
+						})
+						.catch((err) => {
+							console.log(err);
+						});
+
 						return false;
 					}
 
@@ -2103,10 +2125,10 @@
 							}
 						}
 					}
-
 					console.log(chatTranscript);
 					let jsonData = {
-						"ChatSession": localStorage.getItem("uuid"),
+						"ChatSession": localStorage.getItem("hashUser"),
+						"ChatLESession":localStorage.getItem("chatLESession"),
 						"UserName": "Charlotte",
 						"ChatPage": "PostLogin",
 						"Conversation": chatTranscript
@@ -2124,7 +2146,8 @@
 					if (chatTranscript.length > 0) {
 						captureTranscript();
 					}
-					return undefined;
+					// alert(chat);
+					return chat;
 				}
 			})
 
@@ -2133,36 +2156,28 @@
 	</script>
 	<div class="postloadfragment" data-postLoad="5eaa417d50fc1410VgnVCM1000001760740aRCRD" data-postLoadSequence="0" data-postLoadThread="10"></div>
 
+<script>
+	function get(url) {
+        return new Promise((resolve, reject) => {
+			const req = new XMLHttpRequest();
+			req.responseType = 'json';
+            req.open('GET', url);
+            req.onload = () => req.status === 200 ? resolve(req.response) : reject(Error(req.statusText));
+            req.onerror = (e) => reject(Error(`Network Error: ${e}`));
+            req.send();
+        });
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    get('/generateId')
+    .then((result) => {
+		localStorage.setItem('hashUser', result.hash);
+		localStorage.setItem('chatLESession', '');
+        console.log('hashuser ',result.hash);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+	</script>
 	<script type="text/javascript" src="https://lpcdn.lpsnmedia.net/api/chat/public/lpChat.min.js"></script>
 
 </body>

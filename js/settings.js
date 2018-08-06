@@ -7,7 +7,7 @@ This file is part of the Innovation LAB - Offline Bot.
 //6c7e02249ef94cc68b647881b36f0739
 
 define({
-    accessToken: '58361045745b4b149d7002b4a44709d7',
+    accessToken: '04cfa3364e9a4649ab335f84a4b85ad7',
     chatServerURL : "https://api.api.ai/v1/",
     applicationTitle: "Chat Assistant",
     userTitle : "Me",
@@ -16,5 +16,6 @@ define({
     userAvatar : "avatar/user.png",
     attachmentUploadURL : "",
     platform : "facebook",
-    showHeader: true
+    showHeader: true,
+    incompleteTran: ["BillUpdateIntent", "BillUpdateIntent-Yes", "BillUpdate-SwitchPlan", "BillUpdate-Confirm-SwitchPlan"]
 });

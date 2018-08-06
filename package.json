@@ -1,26 +1,27 @@
 {
   "name": "OptyChatBot",
   "productName": "Optus ChatBot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "webhook.js",
   "scripts": {
-    "start": "forever start -a -o ./out.log -e ./err.log --uid 'opty-chatbot-dev' webhook.js",
+    "start": "forever start -a -o ./out.log -e ./err.log --uid 'opty-chatbot' webhook.js",
     "test": "node webhook.js",
-    "stop": "forever stop opty-chatbot-dev"
+    "stop": "forever stop opty-chatbot"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.15.4",
     "mongoose": "^5.1.6",
     "redis": "^2.8.0",
-    "request": "^2.87.0"
+    "request": "^2.87.0",
+    "crypto": "*"
   },
   "description": "",
   "repository": {
     "type": "git",
     "url": "https://github.com/AshwinG-41741/optyChatbot"
   },
-  "author": "Innovation team Hexaware Technologies",
+  "author": "CEXT Team",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/AshwinG-41741/optyChatbot/issues"
