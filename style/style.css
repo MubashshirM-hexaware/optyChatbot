@@ -972,3 +972,8 @@ img.welcome-message-big{
 											  #9fd8ef 51%,
 											  #2ab0ed 100%);
 }
+
+.inactiveLink {
+  pointer-events: none;
+  cursor: default;
+}
