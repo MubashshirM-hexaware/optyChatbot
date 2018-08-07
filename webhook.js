@@ -145,12 +145,12 @@ app.post('/writeIncompleteTran', function (req, res) {
     var hasElement = false;
     console.log('Before For each');
     jsonArr.forEach(function (arrayItem, arrayIndex) {
-      if (jsonArr[arrayIndex].ChatSession === chatId && jsonArr[arrayIndex].IsTransactionComplete == true) {
+      if (jsonArr[arrayIndex].ChatSession === req.body.ChatSession && jsonArr[arrayIndex].IsTransactionComplete == true) {
         hasElement = true;
         jsonArr[arrayIndex].IsTransactionComplete = false;
         hasIncompleteTran = true;
       }
-      if (jsonArr[arrayIndex].ChatSession === chatId && jsonArr[arrayIndex].IsTransactionComplete == false) {
+      if (jsonArr[arrayIndex].ChatSession === req.body.ChatSession && jsonArr[arrayIndex].IsTransactionComplete == false) {
         hasElement = true;
         jsonArr[arrayIndex].IsTransactionComplete = true;
         hasIncompleteTran = false;          
