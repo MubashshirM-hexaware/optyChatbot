@@ -57,7 +57,7 @@ app.get('/getIncompleteStatus', function (req, res) {
   let chatId = req.query.ChatId;
   var hasTran = false;
     if (jsonIncompleteTran.length > 0) {
-      var jsonArr = JSON.parse(jsonIncompleteTran);
+      var jsonArr = jsonIncompleteTran;
       jsonArr.forEach(function (arrayItem, arrayIndex) {
         if (jsonArr[arrayIndex].ChatSession === chatId && jsonArr[arrayIndex].IsTransactionComplete == true) {
           // jsonArr[arrayIndex].Conversation = req.body.Conversation;
@@ -140,7 +140,7 @@ app.post('/writeIncompleteTran', function (req, res) {
   var jsonArr = [];
   if (jsonIncompleteTran.length > 0) {
     // var data = fs.readFileSync("IncompleteTransaction.json", "utf8");
-    jsonArr = JSON.parse(jsonIncompleteTran);    
+    jsonArr = jsonIncompleteTran;    
     var index = null;
     var hasElement = false;    
     for (index = 0; jsonArr.length > index; index++) {
