@@ -177,7 +177,15 @@ function writeFile(data, fileName) {
       return console.log(err);
     }
 
-    console.log("The file was saved!");
+    if (fileName == "IncompleteTransaction.json") {
+      readFile("IncompleteTransaction.json", function (hasFile, data) {
+        if (hasFile) {
+          jsonIncompleteTran = data;
+        }
+      });
+    }
+
+    console.log("The" + fileName + " file was saved!");
   });
 }
 
