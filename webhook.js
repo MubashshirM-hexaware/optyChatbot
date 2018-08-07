@@ -34,7 +34,7 @@ app.post('/updateSessionState', function (req, res) {
   })
 })
 app.get('/chatwindow', function (req, res) {
-  readFile("IncompleteTransaction.json", function(hasFile, data) {
+  readFile("IncompleteTransaction.json", function (hasFile, data) {
     if (hasFile) {
       jsonIncompleteTran = data;
     }
@@ -42,7 +42,7 @@ app.get('/chatwindow', function (req, res) {
   });
 });
 app.get('/roaming', function (req, res) {
-  readFile("IncompleteTransaction.json", function(hasFile, data) {
+  readFile("IncompleteTransaction.json", function (hasFile, data) {
     if (hasFile) {
       jsonIncompleteTran = data;
     }
@@ -54,33 +54,36 @@ app.get('/chat', function (req, res) {
 });
 app.get('/getIncompleteStatus', function (req, res) {
   console.log(req);
+  console.log(JSON.stringify(req.params));
   res.send(jsonIncompleteTran);
 });
 
 app.get('/generateId', function (req, res) {
   const secret = 'checkmate';
   const hash = crypto.createHmac('sha256', secret)
-                     .update(Math.random().toString(26).slice(2))
-                     .digest('hex');
-  res.json({"hash":hash});
+    .update(Math.random().toString(26).slice(2))
+    .digest('hex');
+  res.json({
+    "hash": hash
+  });
 });
 
 app.get('/showChatTranscript', function (req, res) {
   setTimeout(() => {
-  var showTranscript = [];
-  if (fs.existsSync("ChatScript.json")) {
-    var data = fs.readFileSync("ChatScript.json", "utf8");
-    var jsonArr = JSON.parse(data);
-    var size = Object.keys(jsonArr).length;
-    var beforeParse = jsonArr[size-1].Conversation;
-    beforeParse.forEach(function (arrayItem) {
-      showTranscript.push("--------------------------------------");
-      showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Opty says : </div>`+arrayItem["Bot"])
-      showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Charlotte says : </div>`+arrayItem["User"])
-    });
-  }
-  res.json(showTranscript);
-},1000);
+    var showTranscript = [];
+    if (fs.existsSync("ChatScript.json")) {
+      var data = fs.readFileSync("ChatScript.json", "utf8");
+      var jsonArr = JSON.parse(data);
+      var size = Object.keys(jsonArr).length;
+      var beforeParse = jsonArr[size - 1].Conversation;
+      beforeParse.forEach(function (arrayItem) {
+        showTranscript.push("--------------------------------------");
+        showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Opty says : </div>` + arrayItem["Bot"])
+        showTranscript.push(`<div dir="ltr" style="direction: ltr; text-align: left;">Charlotte says : </div>` + arrayItem["User"])
+      });
+    }
+    res.json(showTranscript);
+  }, 1000);
 });
 
 app.post('/changeChatSess', function (req, res) {
@@ -91,7 +94,7 @@ app.post('/changeChatSess', function (req, res) {
     console.log(data);
     var jsonArr = JSON.parse(data);
     var size = Object.keys(jsonArr).length;
-    jsonArr[size-1].ChatSession = req.body.LETagSessionId;
+    jsonArr[size - 1].ChatSession = req.body.LETagSessionId;
     writeFile(jsonArr, "ChatScript.json");
   }
 });
@@ -102,15 +105,15 @@ app.post('/writeFile', function (req, res) {
     var data = fs.readFileSync("ChatScript.json", "utf8");
     jsonArr = JSON.parse(data);
     let checkArr = false;
-    jsonArr.forEach(function (arrayItemm,arrayIndex) {
-      if(jsonArr[arrayIndex].ChatSession == req.body.ChatSession ) {
+    jsonArr.forEach(function (arrayItemm, arrayIndex) {
+      if (jsonArr[arrayIndex].ChatSession == req.body.ChatSession) {
         jsonArr[arrayIndex].Conversation = req.body.Conversation;
         jsonArr[arrayIndex].ChatLESession = req.body.ChatLESession;
         checkArr = true;
       }
     });
-    if(!checkArr)
-      jsonArr.push(req.body);    
+    if (!checkArr)
+      jsonArr.push(req.body);
     console.log(jsonArr);
     writeFile(jsonArr, "ChatScript.json");
   } else {
@@ -125,22 +128,22 @@ app.post('/writeIncompleteTran', function (req, res) {
   var jsonArr = [];
   if (jsonIncompleteTran.length > 0) {
     // var data = fs.readFileSync("IncompleteTransaction.json", "utf8");
-    jsonArr = JSON.parse(jsonIncompleteTran);
-    var index = null;
-    var hasElement = false;    
-    for (index = 0; jsonArr.length > index; index++) {
+    jsonArr = JSON.parse(jsonIncompleteTran);    
+    var index = null;
+    var hasElement = false;    
+    for (index = 0; jsonArr.length > index; index++) {
       if (jsonArr[index].ChatSession === req.body.ChatSession && jsonArr[index].IsTransactionComplete == 'false') {
         hasElement = true;
         hasIncompleteTran = false;
-        jsonArr[index].IsTransactionComplete = 'true';
-        break;
-      } else if (jsonArr[index].ChatSession === req.body.ChatSession && jsonArr[index].IsTransactionComplete == 'true') {
+        jsonArr[index].IsTransactionComplete = 'true';        
+        break;      
+      } else if (jsonArr[index].ChatSession === req.body.ChatSession && jsonArr[index].IsTransactionComplete == 'true') {
         hasElement = true;
         hasIncompleteTran = true;
-        jsonArr[index].IsTransactionComplete = 'false';        
-        break;
-      }
-    }
+        jsonArr[index].IsTransactionComplete = 'false';  
+        break;
+      }    
+    }
 
     if (hasElement == false) {
       jsonArr.push(req.body);
@@ -167,7 +170,7 @@ function writeFile(data, fileName) {
 }
 
 function readFile(fileName, callback) {
-  try {    
+  try {
     var objData = null;
     if (fs.existsSync(fileName)) {
       var data = fs.readFileSync(fileName, "utf8");
@@ -176,10 +179,9 @@ function readFile(fileName, callback) {
     } else {
       callback(false, objData)
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
-  }  
+  }
 }
 
 
