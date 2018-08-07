@@ -150,8 +150,7 @@ app.post('/writeIncompleteTran', function (req, res) {
         hasElement = true;
         jsonArr[arrayIndex].IsTransactionComplete = false;
         hasIncompleteTran = true;
-      }
-      if (jsonArr[arrayIndex].ChatSession === req.body.ChatSession && jsonArr[arrayIndex].IsTransactionComplete == false) {
+      }else if (jsonArr[arrayIndex].ChatSession === req.body.ChatSession && jsonArr[arrayIndex].IsTransactionComplete == false) {
         console.log('B');
         hasElement = true;
         jsonArr[arrayIndex].IsTransactionComplete = true;
