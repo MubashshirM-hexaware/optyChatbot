@@ -146,11 +146,13 @@ app.post('/writeIncompleteTran', function (req, res) {
     console.log('Before For each');
     jsonArr.forEach(function (arrayItem, arrayIndex) {
       if (jsonArr[arrayIndex].ChatSession === req.body.ChatSession && jsonArr[arrayIndex].IsTransactionComplete == true) {
+        console.log('A');
         hasElement = true;
         jsonArr[arrayIndex].IsTransactionComplete = false;
         hasIncompleteTran = true;
       }
       if (jsonArr[arrayIndex].ChatSession === req.body.ChatSession && jsonArr[arrayIndex].IsTransactionComplete == false) {
+        console.log('B');
         hasElement = true;
         jsonArr[arrayIndex].IsTransactionComplete = true;
         hasIncompleteTran = false;          
