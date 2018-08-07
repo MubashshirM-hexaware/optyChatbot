@@ -53,9 +53,21 @@ app.get('/chat', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 app.get('/getIncompleteStatus', function (req, res) {
-  console.log(req);
-  console.log(JSON.stringify(req.params));
-  res.send(jsonIncompleteTran);
+  console.log('Chat ID', JSON.stringify(req.query.ChatId));
+  let chatId = req.query.ChatId;
+  var hasTran = false;
+    if (jsonIncompleteTran.length > 0) {
+      var jsonArr = JSON.parse(jsonIncompleteTran);
+      jsonArr.forEach(function (arrayItem, arrayIndex) {
+        if (jsonArr[arrayIndex].ChatSession === chatId && jsonArr[arrayIndex].IsTransactionComplete == true) {
+          // jsonArr[arrayIndex].Conversation = req.body.Conversation;
+          hasTran = true;          
+        }
+      });
+      res.send(hasTran);
+    } else {
+      res.send(hasTran);
+    }
 });
 
 app.get('/generateId', function (req, res) {
