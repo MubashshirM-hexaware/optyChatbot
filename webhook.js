@@ -142,20 +142,34 @@ app.post('/writeIncompleteTran', function (req, res) {
     // var data = fs.readFileSync("IncompleteTransaction.json", "utf8");
     jsonArr = jsonIncompleteTran;    
     var index = null;
-    var hasElement = false;    
-    for (index = 0; jsonArr.length > index; index++) {
-      if (jsonArr[index].ChatSession === req.body.ChatSession && jsonArr[index].IsTransactionComplete == 'false') {
+    var hasElement = false;
+    console.log('Before For each');
+    jsonArr.forEach(function (arrayItem, arrayIndex) {
+      if (jsonArr[arrayIndex].ChatSession === chatId && jsonArr[arrayIndex].IsTransactionComplete == true) {
         hasElement = true;
-        hasIncompleteTran = false;
-        jsonArr[index].IsTransactionComplete = 'true';        
-        break;      
-      } else if (jsonArr[index].ChatSession === req.body.ChatSession && jsonArr[index].IsTransactionComplete == 'true') {
-        hasElement = true;
+        jsonArr[arrayIndex].IsTransactionComplete = false;
         hasIncompleteTran = true;
-        jsonArr[index].IsTransactionComplete = 'false';  
-        break;
-      }    
-    }
+      }
+      if (jsonArr[arrayIndex].ChatSession === chatId && jsonArr[arrayIndex].IsTransactionComplete == false) {
+        hasElement = true;
+        jsonArr[arrayIndex].IsTransactionComplete = true;
+        hasIncompleteTran = false;          
+      }
+    });
+    console.log('After For each');
+    // for (index = 0; jsonArr.length > index; index++) {
+    //   if (jsonArr[index].ChatSession === req.body.ChatSession && jsonArr[index].IsTransactionComplete == 'false') {
+    //     hasElement = true;
+    //     hasIncompleteTran = false;
+    //     jsonArr[index].IsTransactionComplete = 'true';        
+    //     break;      
+    //   } else if (jsonArr[index].ChatSession === req.body.ChatSession && jsonArr[index].IsTransactionComplete == 'true') {
+    //     hasElement = true;
+    //     hasIncompleteTran = true;
+    //     jsonArr[index].IsTransactionComplete = 'false';  
+    //     break;
+    //   }    
+    // }
 
     if (hasElement == false) {
       jsonArr.push(req.body);
