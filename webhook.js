@@ -46,7 +46,8 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { successRedirect : '/chatwindow', failureRedirect: '/roaming' }),
   function(req, res) {
-    res.redirect('/');
+    console.log('twitter auth')
+    res.redirect('/chatwindow');
 });
 
 var jsonIncompleteTran = [];
