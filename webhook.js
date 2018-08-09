@@ -1,18 +1,52 @@
 var express = require('express'),
   app = express(),
   http = require('http'),
-  httpServer = http.Server(app);
+  httpServer = http.Server(app),
+  passport = require('passport'),
+  TwitterStrategy = require('passport-twitter').Strategy;
 const crypto = require('crypto');
 
+// Passport session setup.
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+passport.use(new TwitterStrategy({
+    consumerKey: process.env.consumer_key,
+    consumerSecret:process.env.consumer_secret,
+    callbackURL: "http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/auth/twitter/callback"
+  },
+  function(token, tokenSecret, profile, done) {
+    process.nextTick(function () {
+      //Check whether the User exists or not using profile.id
+      return done(null, profile);
+    });
+  }
+));
 
 var bodyParser = require('body-parser');
 var fs = require('fs');
 const requestAPI = require('request');
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
+
+app.get('/auth/twitter', passport.authenticate('twitter'));
+
+app.get('/auth/twitter/callback',
+  passport.authenticate('twitter', { successRedirect : '/chatwindow', failureRedirect: '/roaming' }),
+  function(req, res) {
+    res.redirect('/');
+});
+
 var jsonIncompleteTran = [];
 
 app.get('/', function (req, res) {
