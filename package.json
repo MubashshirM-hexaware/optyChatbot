@@ -16,7 +16,8 @@
     "request": "^2.87.0",
     "crypto": "*",
     "passport": "0.4.0",
-		"passport-twitter": "1.0.4"
+    "passport-twitter": "1.0.4",
+    "express-session": "1.15.6"
   },
   "description": "",
   "repository": {

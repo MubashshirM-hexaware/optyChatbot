@@ -3,7 +3,8 @@ var express = require('express'),
   http = require('http'),
   httpServer = http.Server(app),
   passport = require('passport'),
-  TwitterStrategy = require('passport-twitter').Strategy;
+  TwitterStrategy = require('passport-twitter').Strategy,
+  session  = require('express-session');
 const crypto = require('crypto');
 
 // Passport session setup.
@@ -32,7 +33,7 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 const requestAPI = require('request');
 app.use(bodyParser.json());
-app.use(express.session({ secret: 'SECRET' })); // session secret
+app.use(session({ secret: 'login', key: 'opty'}));
 app.use(express.static(__dirname));
 app.use(passport.initialize());
 app.use(passport.session());
