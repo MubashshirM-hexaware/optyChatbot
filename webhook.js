@@ -18,7 +18,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new TwitterStrategy({
     consumerKey: process.env.consumer_key,
     consumerSecret:process.env.consumer_secret,
-    callbackURL: "http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/auth/twitter/callback"
+    callbackURL: "http://127.0.0.1:9000/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
     process.nextTick(function () {
