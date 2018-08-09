@@ -44,10 +44,11 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
 app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', { successRedirect : '/chatwindow', failureRedirect: '/roaming' }),
+  passport.authenticate('twitter', {failureRedirect: '/roaming' }),
   function(req, res) {
-    console.log('twitter auth')
-    res.redirect('/chatwindow');
+    console.log('twitter auth');
+    console.log('res -->', res);
+    res.redirect('/chatwindow?sessionstate=true');
 });
 
 var jsonIncompleteTran = [];
