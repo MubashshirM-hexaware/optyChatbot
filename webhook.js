@@ -32,9 +32,10 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 const requestAPI = require('request');
 app.use(bodyParser.json());
+app.use(express.session({ secret: 'SECRET' })); // session secret
+app.use(express.static(__dirname));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
