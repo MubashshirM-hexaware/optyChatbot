@@ -4,9 +4,9 @@
   "version": "2.0.0",
   "main": "webhook.js",
   "scripts": {
-    "start": "forever start -a -o ./out.log -e ./err.log --uid 'opty-chatbot' webhook.js",
+    "start": "forever start -a -o ./out.log -e ./err.log --uid 'opty-chatbot-dev' webhook.js",
     "test": "node webhook.js",
-    "stop": "forever stop opty-chatbot"
+    "stop": "forever stop opty-chatbot-dev"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -14,7 +14,10 @@
     "mongoose": "^5.1.6",
     "redis": "^2.8.0",
     "request": "^2.87.0",
-    "crypto": "*"
+    "crypto": "*",
+    "passport": "0.4.0",
+    "passport-twitter": "1.0.4",
+    "express-session": "1.15.6"
   },
   "description": "",
   "repository": {

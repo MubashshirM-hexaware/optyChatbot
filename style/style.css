@@ -41,19 +41,24 @@ img.welcome-message{
 }
 img.bot-logo-image{
 
-background-image: url(../avatar/BotList_logo.svg);
-    background-size: 37px 36px;
-    width: 37px;
-    height: 35px;
-    border-radius: 15px;
+background-image: url(../avatar/logo-large.png);
+background-size: cover;
+background-position:center;
+background-repeat: no-repeat;
+width: 37px;
+min-height: 35px;
+outline: none;
+border-radius: 50%;
+
     background-repeat: no-repeat;
   
 }
 img.welcome-message-big{
-   background: url('../avatar/bot-logo-image.png');
-  width:120px;
-  height: 90px;
-  background-size: 58px 80px;
+  background: url('../avatar/bot-logo-image.png');
+  width: 90px;
+  min-height: 76px;
+  background-size: cover;
+  background-position:center;
   background-repeat: no-repeat;
   border-radius:50%;
   border:5px solid white;
@@ -971,4 +976,9 @@ img.welcome-message-big{
 											  #bfe8f9 50%,
 											  #9fd8ef 51%,
 											  #2ab0ed 100%);
+}
+
+.inactiveLink {
+  pointer-events: none;
+  cursor: default;
 }

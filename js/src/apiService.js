@@ -9,6 +9,7 @@ This file is part of the Innovation LAB - Offline Bot.
 define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
     function ($, config, utils, messageTpl, cards, uuidv1) {
         var fallbackCount = 0;
+        var oFallbackCount = 0;
         class ApiHandler {
 
             constructor() {
@@ -90,19 +91,21 @@ msg_container.parent().find("img.loading-gif-typing").remove();
                         //     });
                         // }
 
-                        if (response.result.action == "input.unknown")
+                        if (response.result.action == "input.unknown") {
                             fallbackCount++;
-                        else
+                            oFallbackCount++;
+                            //console.log('==== ',oFallbackCount);
+                        } else {
                             fallbackCount = 0;
+                        }
 
                         if (response.result.action == "Optus") {
                             utils.captureTranscript(dataList);
-                            fallbackCount = 0;
+                            fallbackCount,oFallbackCount = 0;
                             callback(null, "Liveengage");
-                        } else if (fallbackCount > 2) {
+                        } else if (fallbackCount > 2 || oFallbackCount > 10) {
                             utils.captureTranscript(dataList);
-                            fallbackCount = 0;
-
+                            fallbackCount,oFallbackCount = 0;
                             var html_div = `<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">I can't understand your queries, so am transferring you to a human agent. Please wait...</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>` + utils.currentTime() + `</small></p></div></td></tr></table></li>`;
                             if (msg_container.hasClass('hidden')) { // cans be optimimzed and removed from here
                                 msg_container.siblings("h1").addClass('hidden');

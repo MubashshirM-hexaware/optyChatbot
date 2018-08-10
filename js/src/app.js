@@ -747,6 +747,8 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             msg_container.append(html_div);
             utils.scrollSmoothToBottom($('div.chat-body'));
             endChat();
+            $("textarea#btn-input").prop("disabled",true);
+            $("a#btn-send-message").addClass("inactiveLink");
             globalLpChat = false;
             chat.disposeVisitor();
         }
