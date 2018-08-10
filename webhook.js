@@ -63,7 +63,7 @@ app.post('/callPhone', function (req, res) {
   })
 })
 app.post('/updateSessionState', function (req, res) {
-  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Dev/updatesession-dev", {
+  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Dev/updatesession", {
     type: req.body.params,
     sessionID: req.body.sessionId,
   }, "POST", function (err, data) {
