@@ -19,7 +19,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new TwitterStrategy({
     consumerKey: process.env.consumer_key,
     consumerSecret:process.env.consumer_secret,
-    callbackURL: "http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/auth/twitter/callback"
+    callbackURL: "http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
     process.nextTick(function () {
@@ -222,7 +222,7 @@ app.post('/writeIncompleteTran', function (req, res) {
   res.send(hasIncompleteTran);
 });
 
-app.listen(process.env.PORT || 9000);
+app.listen(process.env.PORT || 7000);
 
 function writeFile(data, fileName) {
   fs.writeFile(fileName, JSON.stringify(data), function (err) {
