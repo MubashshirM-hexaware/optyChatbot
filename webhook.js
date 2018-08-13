@@ -16,18 +16,18 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
-passport.use(new TwitterStrategy({
-    consumerKey: process.env.consumer_key,
-    consumerSecret:process.env.consumer_secret,
-    callbackURL: "http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/auth/twitter/callback"
-  },
-  function(token, tokenSecret, profile, done) {
-    process.nextTick(function () {
-      //Check whether the User exists or not using profile.id
-      return done(null, profile);
-    });
-  }
-));
+// passport.use(new TwitterStrategy({
+//     consumerKey: process.env.consumer_key,
+//     consumerSecret:process.env.consumer_secret,
+//     callbackURL: "http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/auth/twitter/callback"
+//   },
+//   function(token, tokenSecret, profile, done) {
+//     process.nextTick(function () {
+//       //Check whether the User exists or not using profile.id
+//       return done(null, profile);
+//     });
+//   }
+// ));
 
 var bodyParser = require('body-parser');
 var fs = require('fs');
