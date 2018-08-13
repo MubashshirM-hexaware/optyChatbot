@@ -24,6 +24,7 @@ passport.use(new TwitterStrategy({
   function(token, tokenSecret, profile, done) {
     process.nextTick(function () {
       //Check whether the User exists or not using profile.id
+      console.log(profile);
       return done(null, profile);
     });
   }
