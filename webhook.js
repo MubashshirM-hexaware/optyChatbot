@@ -24,9 +24,9 @@ passport.use(new TwitterStrategy({
   function(token, tokenSecret, profile, done) {
     process.nextTick(function () {
       //Check whether the User exists or not using profile.id
-      User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
-        console.log(user);
-      });
+      // User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
+      //   console.log(user);
+      // });
       return done(null, profile);
     });
   }
