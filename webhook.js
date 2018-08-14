@@ -5,8 +5,8 @@ var express = require('express'),
   passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy,
   session  = require('express-session'),
-  facebook = require('fb').Facebook,
-  fb = new facebook(options);
+  fb = require('fb');
+  // fb = new facebook(options);
 const crypto = require('crypto');
 
 var accessToken;
