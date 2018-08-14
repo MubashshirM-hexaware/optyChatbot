@@ -102,6 +102,10 @@
                 clickstatus = true;
             } else {
                 captureTranscript();
+                processor.askBot('Bye', 'Bye', true, function (error, html) {
+                    console.log('Clear Context html-- ', html);
+                    console.log('Clear Context error-- ', error);
+                });
                 function get(url) {
                     return new Promise((resolve, reject) => {
                         const req = new XMLHttpRequest();
@@ -132,11 +136,7 @@
       
     })
 
-    function captureTranscript () {     
-        processor.askBot('Bye', 'Bye', true, function (error, html) {
-            console.log('Clear Context html-- ', html);
-            console.log('Clear Context error-- ', error);
-        });   
+    function captureTranscript () {
         var iframe = document.getElementById('iChatPopup');
         var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
         if (innerDoc.getElementById('msg_container') == null) {
@@ -211,10 +211,20 @@
 
     window.onbeforeunload = function(event) {
         event = event || window.event;
-        if (chatTranscript.length > 0) {
+        var iframe = document.getElementById('iChatPopup');
+        var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        var dataList;
+        if (innerDoc.getElementById('msg_container') != null) {
+            dataList = innerDoc.getElementById('msg_container').getElementsByTagName("li");
+        }        
+        if (dataList.length > 0) {
             captureTranscript();
         }
-        return undefined;
+        processor.askBot('Bye', 'Bye', true, function (error, html) {
+            console.log('Clear Context html-- ', html);
+            console.log('Clear Context error-- ', error);
+            return undefined;
+        });
     }
 
     require(['jquery'], function ($) {
