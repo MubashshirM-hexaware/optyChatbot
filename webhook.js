@@ -4,8 +4,37 @@ var express = require('express'),
   httpServer = http.Server(app),
   passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy,
-  session  = require('express-session');
+  session  = require('express-session'),
+  facebook = require('fb').Facebook,
+  fb = new facebook(options);
 const crypto = require('crypto');
+
+var accessToken;
+fb.api('oauth/access_token', {
+  client_id: process.env.appID,
+  client_secret: process.env.appSecret,
+  grant_type: 'client_credentials'
+}, function (res) {
+  if(!res || res.error) {
+      console.log(!res ? 'error occurred' : res.error);
+      return;
+  }
+  accessToken = res.access_token;
+  console.log(accessToken);
+});
+
+fb.setAccessToken(accessToken);
+
+fb.api(
+  "/me/feed",
+  function (response) {
+    console.log(response);
+    if (response && !response.error) {
+      /* handle the result */
+      
+    }
+  }
+);
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
