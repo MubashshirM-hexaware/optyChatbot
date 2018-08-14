@@ -45,7 +45,16 @@
 </head>
 
 <body class="homepage" data-grid-framework="f4" data-grid-color="black" data-grid-opacity="0.2" data-grid-zindex="10" data-gr-c-s-loaded="true">
-
+    <div id="fb-root"></div>
+    <script>
+        (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1&appId=2136382766578504&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 
     <ul class="skip-links">
         <li><a title="Skip to Optus Navigation" href="https://www.optus.com.au/shop/broadband/mobile-broadband#nav-site-level">Skip to Optus Navigation</a></li>
@@ -180,6 +189,7 @@
                                                 <a href="/chatwindow?sessionstate=true" data-toggle-open="myaccount-login-menu" class="myaccount-links">
                         <span class="ico ico-global ico-service-my-account"></span>Login</a>
                                                 <a href="/auth/twitter"><img src="images/sign-in-with-twitter-l.png" width="151" height="24"></a>
+                                                <div class="fb-login-button" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
                                             </div>
                                             <div class="show-for-small">
                                                 <a href="https://www.optus.com.au/my-account" data-toggle-open="myaccount-login-menu" class="button text no-link-decoration business-login-menu"><span class="ico ico-global ico-login"></span><span class="hide-for-small">Login</span></a>

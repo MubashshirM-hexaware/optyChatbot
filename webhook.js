@@ -9,13 +9,11 @@ const crypto = require('crypto');
 
 // Passport session setup.
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
-  User.findById(obj, function(err, user) {
-    done(err, user);
-});
+  done(null, obj);
 });
 
 passport.use(new TwitterStrategy({
@@ -28,8 +26,8 @@ passport.use(new TwitterStrategy({
       //Check whether the User exists or not using profile.id
       // User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
       // });
+
       return done(null, profile);
-      console.log(User);
     });
   }
 ));
