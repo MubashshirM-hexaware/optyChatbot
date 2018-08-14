@@ -73,7 +73,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                     
                 } else {
                     
-                    processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, function (error, html) {
+                    processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, false, function (error, html) {
                         
                         console.log('html LE precheck -- ', html);
                         console.log('error LE check -- ', error);
@@ -157,7 +157,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         if (searchAlgorithym) {
 
             let htmlc = 0;
-            processor.askBot(searchAlgorithym, searchAlgorithym, function (error, html, Liveengage) {
+            processor.askBot(searchAlgorithym, searchAlgorithym, false, function (error, html, Liveengage) {
                 $("img.loading-gif-typing").show();
                 if (error) {
                     alert(error); //change into some inline fancy display, show error in chat window.
@@ -187,7 +187,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             }, 2000)
             
             if (!payloadInput.match(/http/g)) {
-                processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
+                processor.askBot(payloadInput, textInput, false, function (error, html, Liveengage) {
                     if (error) {
                         console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                     }
@@ -220,7 +220,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 $(this).parent().find("a").prop("disabled", true)
             }, 2000);
             
-            processor.askBot(payloadInput, textInput, function (error, html, Liveengage) {
+            processor.askBot(payloadInput, textInput, false, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -235,7 +235,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         //List Response Postback button
         $(document).on('click', '.listresponsepayload', function (e) {
             var payloadInput = $(this).attr('data');
-            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
+            processor.askBot(payloadInput, payloadInput, false, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -255,7 +255,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
                 $(this).parent().find("button").prop("disabled", true)
             }, 2000);
             if (!payloadInput.match(/http/g)) {
-                processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
+                processor.askBot(payloadInput, payloadInput, false, function (error, html, Liveengage) {
                     if (error) {
                         console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                     }
@@ -276,7 +276,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $(document).on('click', '.airlineBoardingViewButton', function (e) {
             //var payloadInput = $(this).data().airlineBoardingButton;
             var payloadInput = "AirlineBoarding_BarCode";
-            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
+            processor.askBot(payloadInput, payloadInput, false, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -298,7 +298,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $(document).on('click', '.genericTemplate', function (e) {
             var payloadInput = $(this).attr("data");;
             console.log('Button Payload' + payloadInput);
-            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
+            processor.askBot(payloadInput, payloadInput, false, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -312,7 +312,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         $(document).on('click', '.buyClick', function (e) {
             var payloadInput = $(this).attr("data");;
             console.log('Button Payload' + payloadInput);
-            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
+            processor.askBot(payloadInput, payloadInput, false, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -326,7 +326,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
         // Quick Reply Postback button
         $(document).on('click', '.apiQuickreplybtnPayload', function (e) {
             var payloadInput = $(this).data().apiquickrepliespayload;
-            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
+            processor.askBot(payloadInput, payloadInput, false, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }
@@ -342,7 +342,7 @@ define(['jquery', 'settings', 'apiService', 'utils'], function ($, config, apiSe
             //var payloadInput = $(this).data().airlineBoardingButton;
             var payloadInput = "Checkin";
             console.log('Button Payload' + payloadInput);
-            processor.askBot(payloadInput, payloadInput, function (error, html, Liveengage) {
+            processor.askBot(payloadInput, payloadInput, false, function (error, html, Liveengage) {
                 if (error) {
                     console.log("error occured while processing your Request") //change into some inline fancy display, show error in chat window.
                 }

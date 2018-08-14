@@ -32,10 +32,11 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                     "className": 'pull-right'
                 }));
             }
-            askBot(userInput, userText, callback) {
+            askBot(userInput, userText, isContextReset, callback) {
                 this.userSays(userText, callback);
                 var msg_container = $("ul#msg_container");
                 this.options.query = userInput;
+                this.options.resetContexts = isContextReset;
 
                 $.ajax({
                     type: "POST",

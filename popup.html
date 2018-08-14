@@ -1,5 +1,7 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script type="text/javascript" src="js/globals.js"></script>
+<script data-main="/js/require-setup" src="require.js"></script>
 
 <div class="menu pmd-floating-action" role="navigation" style="position:fixed !important;">
     <a id="btn-send-message" class="btn popover-html pmd-btn-fab pmd-btn-raised pmd-ripple-effect  btn-primary" data-trigger="click" data-toggle="popover"
@@ -10,6 +12,7 @@
 </div>
 
 <script>
+    var processor;       
     var today = Math.round((new Date()).getTime() / 1000);
     var chatTranscript = [];
     var searchQuery = Cookies.get('searches');
@@ -129,7 +132,11 @@
       
     })
 
-    function captureTranscript () {
+    function captureTranscript () {     
+        processor.askBot('Bye', 'Bye', true, function (error, html) {
+            console.log('Clear Context html-- ', html);
+            console.log('Clear Context error-- ', error);
+        });   
         var iframe = document.getElementById('iChatPopup');
         var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
         if (innerDoc.getElementById('msg_container') == null) {
@@ -209,6 +216,12 @@
         }
         return undefined;
     }
+
+    require(['jquery'], function ($) {
+			require(['bootstrap', 'apiService', 'utils', 'settings', 'moment', 'jqueryscoped'], function (bootstrap, apiService, utils, settings, moment, jqueryscoped) {
+                processor = apiService();
+            })
+		});
 
 
 </script>
