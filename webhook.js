@@ -15,6 +15,7 @@ fb.api('oauth/access_token', {
   client_secret: process.env.appSecret,
   grant_type: 'client_credentials'
 }, function (res) {
+  console.log("getting access token")
   if(!res || res.error) {
       console.log(!res ? 'error occurred' : res.error);
       return;
@@ -28,6 +29,7 @@ fb.setAccessToken(accessToken);
 fb.api(
   "/me/feed",
   function (response) {
+    console.log("Feed -->")
     console.log(response);
     if (response && !response.error) {
       /* handle the result */
