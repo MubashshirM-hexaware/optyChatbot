@@ -102,10 +102,10 @@
                 clickstatus = true;
             } else {
                 captureTranscript();
-                // processor.askBot('Bye', 'Bye', true, function (error, html) {
-                //     console.log('Clear Context html-- ', html);
-                //     console.log('Clear Context error-- ', error);
-                // });
+                processor.askBot('Bye', 'Bye', true, function (error, html) {
+                    console.log('Clear Context html-- ', html);
+                    console.log('Clear Context error-- ', error);
+                });
                 function get(url) {
                     return new Promise((resolve, reject) => {
                         const req = new XMLHttpRequest();
@@ -220,11 +220,11 @@
         if (dataList.length > 0) {
             captureTranscript();
         }
-        // processor.askBot('Bye', 'Bye', true, function (error, html) {
-        //     console.log('Clear Context html-- ', html);
-        //     console.log('Clear Context error-- ', error);
-        //     return undefined;
-        // });
+        processor.askBot('Bye', 'Bye', true, function (error, html) {
+            console.log('Clear Context html-- ', html);
+            console.log('Clear Context error-- ', error);
+            return undefined;
+        });
     }
 
     require(['jquery'], function ($) {

@@ -2040,12 +2040,12 @@
 					}
 					else {
 						captureTranscript();
-						// var processor = apiService();
-						// processor.askBot('Bye', 'Bye', true, function (error, html) {
-						// 	console.log('Clear Context html-- ', html);
-						// 	console.log('Clear Context error-- ', error);
-						// 	// return chat;
-						// });
+						var processor = apiService();
+						processor.askBot('Bye', 'Bye', true, function (error, html) {
+							console.log('Clear Context html-- ', html);
+							console.log('Clear Context error-- ', error);
+							// return chat;
+						});
 
 						function get(url) {
 							return new Promise((resolve, reject) => {
@@ -2077,11 +2077,11 @@
 					var today = Math.round((new Date()).getTime() / 1000);
 					$('[data-toggle="popover"]').popover();
 
-					// var processor = apiService();
-					// let url = new URL(window.location.href);
-					// let params = utils.getURLParameter('sessionstate');
-					// utils.initiateAjax("/updateSessionState", "POST", { params: params, sessionId: localStorage.getItem('uuid') }, function (data, err) {
-					// });
+					var processor = apiService();
+					let url = new URL(window.location.href);
+					let params = utils.getURLParameter('sessionstate');
+					utils.initiateAjax("/updateSessionState", "POST", { params: params, sessionId: localStorage.getItem('uuid') }, function (data, err) {
+					});
 
 				})
 
