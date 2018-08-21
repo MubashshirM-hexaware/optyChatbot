@@ -9,7 +9,7 @@ function showmesgtext(msg) {
     document.getElementById("btn-input").value += msg.childNodes[0].data;
 }
 
-define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], function (navigation, $, moment, moments,momentd) {
+define(['navigation', 'jquery', 'moment', 'momenttimzone', 'momentdata'], function (navigation, $, moment, moments, momentd) {
 
     var methods = {};
     var chatTranscript = [];
@@ -70,7 +70,8 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
             data: data,
             success: function (result) {
                 return callback(result, null);
-            }, error: function (err) {
+            },
+            error: function (err) {
                 return callback(null, err);
             }
         });
@@ -80,17 +81,23 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
     }
 
     methods.captureTranscript = (dataList) => {
-        
+
         var botObj = [];
         var userObj = [];
         var cardMsg = 'Card';
-        var objArr = { "Bot": "", "User": "" };
+        var carouselMsg = 'Broadband Carousel';
+        var objArr = {
+            "Bot": "",
+            "User": ""
+        };
         for (var index = 0; index < dataList.length; index++) {
             if (dataList[index].getElementsByClassName("list-group-item-text-user")[0] == undefined) {
                 if (dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined) {
                     botObj = dataList[index].getElementsByClassName("list-group-item-text-bot");
                 } else if (dataList[index].getElementsByClassName("card-body")[0] != undefined) {
                     botObj = cardMsg;
+                } else if (dataList[index].getElementsByClassName("carousel-inner")[0] != undefined) {
+                    botObj = carouselMsg;
                 } else if (dataList[index].getElementsByClassName("list-group-item-quick-reply-space")[0] != undefined) {
                     botObj = dataList[index].getElementsByClassName("list-group-item-quick-reply-space");
                 } else {
@@ -100,7 +107,10 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
             userObj = dataList[index].getElementsByClassName("list-group-item-text-user");
 
             if (dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined || dataList[index].getElementsByClassName("list-group-item-quick-reply-space")[0] != undefined || typeof botObj === 'string') {
-                objArr = { "Bot": "", "User": "" };
+                objArr = {
+                    "Bot": "",
+                    "User": ""
+                };
                 if (typeof botObj === 'string') {
                     console.log("----Bot", index);
                     objArr.Bot = $.trim(botObj);
@@ -125,7 +135,7 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
         console.log(chatTranscript);
         let jsonData = {
             "ChatSession": localStorage.getItem("hashUser"),
-            "ChatLESession":localStorage.getItem("chatLESession"),
+            "ChatLESession": localStorage.getItem("chatLESession"),
             "UserName": "Charlotte",
             "ChatPage": "PostLogin",
             "Conversation": chatTranscript
@@ -140,7 +150,8 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
             success: function (result) {
                 chatTranscript = [];
                 console.log('Writing files...');
-            }, error: function (err) {
+            },
+            error: function (err) {
                 console.log(err);
             }
         });
@@ -165,7 +176,8 @@ define(['navigation', 'jquery', 'moment', 'momenttimzone','momentdata'], functio
             success: function (result) {
                 console.log('Writing incomplete transacrion files...');
                 return callback(null, result);
-            }, error: function (err) {
+            },
+            error: function (err) {
                 console.log(err);
                 return callback(err, null);
             }
