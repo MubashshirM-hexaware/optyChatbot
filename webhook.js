@@ -4,26 +4,60 @@ var express = require('express'),
   httpServer = http.Server(app),
   passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy,
-  session  = require('express-session');
+  session = require('express-session'),
+  fb = require('fb');
+// fb = new facebook(options);
 const crypto = require('crypto');
 
+var accessToken;
+fb.api('oauth/access_token', {
+  client_id: process.env.appID,
+  client_secret: process.env.appSecret,
+  grant_type: 'client_credentials'
+}, function (res) {
+  console.log("getting access token")
+  if (!res || res.error) {
+    console.log(!res ? 'error occurred' : res.error);
+    return;
+  }
+  accessToken = res.access_token;
+  console.log(accessToken);
+});
+
+fb.setAccessToken(accessToken);
+
+fb.api(
+  "/me/feed",
+  function (response) {
+    console.log("Feed -->")
+    console.log(response);
+    if (response && !response.error) {
+      /* handle the result */
+
+    }
+  }
+);
+
 // Passport session setup.
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
 passport.use(new TwitterStrategy({
     consumerKey: process.env.consumer_key,
-    consumerSecret:process.env.consumer_secret,
+    consumerSecret: process.env.consumer_secret,
     callbackURL: "http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/auth/twitter/callback"
   },
-  function(token, tokenSecret, profile, done) {
+  function (token, tokenSecret, profile, done) {
     process.nextTick(function () {
       //Check whether the User exists or not using profile.id
+      // User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
+      // });
+
       return done(null, profile);
     });
   }
@@ -33,7 +67,10 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 const requestAPI = require('request');
 app.use(bodyParser.json());
-app.use(session({ secret: 'login', key: 'opty'}));
+app.use(session({
+  secret: 'login',
+  key: 'opty'
+}));
 app.use(express.static(__dirname));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -44,12 +81,14 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
 app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', {failureRedirect: '/roaming' }),
-  function(req, res) {
+  passport.authenticate('twitter', {
+    failureRedirect: '/roaming'
+  }),
+  function (req, res) {
     console.log('twitter auth');
     console.log('res -->', res);
     res.redirect('/chatwindow?sessionstate=true');
-});
+  });
 
 var jsonIncompleteTran = [];
 
@@ -63,7 +102,7 @@ app.post('/callPhone', function (req, res) {
   })
 })
 app.post('/updateSessionState', function (req, res) {
-  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Dev/updatesession", {
+  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Dev/updatesession-dev", {
     type: req.body.params,
     sessionID: req.body.sessionId,
   }, "POST", function (err, data) {
@@ -94,18 +133,18 @@ app.get('/getIncompleteStatus', function (req, res) {
   console.log('Chat ID', JSON.stringify(req.query.ChatId));
   let chatId = req.query.ChatId;
   var hasTran = false;
-    if (jsonIncompleteTran.length > 0) {
-      var jsonArr = jsonIncompleteTran;
-      jsonArr.forEach(function (arrayItem, arrayIndex) {
-        if (jsonArr[arrayIndex].ChatSession === chatId && jsonArr[arrayIndex].IsTransactionComplete == true) {
-          // jsonArr[arrayIndex].Conversation = req.body.Conversation;
-          hasTran = true;          
-        }
-      });
-      res.send(hasTran);
-    } else {
-      res.send(hasTran);
-    }
+  if (jsonIncompleteTran.length > 0) {
+    var jsonArr = jsonIncompleteTran;
+    jsonArr.forEach(function (arrayItem, arrayIndex) {
+      if (jsonArr[arrayIndex].ChatSession === chatId && jsonArr[arrayIndex].IsTransactionComplete == true) {
+        // jsonArr[arrayIndex].Conversation = req.body.Conversation;
+        hasTran = true;
+      }
+    });
+    res.send(hasTran);
+  } else {
+    res.send(hasTran);
+  }
 });
 
 app.get('/generateId', function (req, res) {
@@ -188,11 +227,11 @@ app.post('/writeIncompleteTran', function (req, res) {
         hasElement = true;
         jsonArr[arrayIndex].IsTransactionComplete = false;
         hasIncompleteTran = true;
-      }else if (jsonArr[arrayIndex].ChatSession === req.body.ChatSession && jsonArr[arrayIndex].IsTransactionComplete == false) {
+      } else if (jsonArr[arrayIndex].ChatSession === req.body.ChatSession && jsonArr[arrayIndex].IsTransactionComplete == false) {
         console.log('B');
         hasElement = true;
         jsonArr[arrayIndex].IsTransactionComplete = true;
-        hasIncompleteTran = false;          
+        hasIncompleteTran = false;
       }
     });
     console.log('After For each');
