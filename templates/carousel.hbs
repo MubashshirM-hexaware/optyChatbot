@@ -1,0 +1,58 @@
+<li class="list-group-item background-color-custom animated fadeInLeft">
+        <div id="{{uniqueId}}" class="carousel slide pmd-card pmd-card-default pmd-z-depth carousel-custom" data-ride="false">
+        <!-- Carousel items -->
+        <div class="carousel-inner">
+        {{#each payload}}       
+           
+             {{#if_eq type 1}}
+              {{#if_eq action "SampleInvoiceCarouselIntent"}}
+              <div class="item {{#if_eq @index 0}} {{toString 'active'}} {{else}} {{toString ''}}{{/if_eq}}">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="#" id="carousel-thumbnail-modal" class="thumbnail custom-image-wrap">
+                                <img data-target="#center-dialog" data-toggle="modal" class="img-circle"
+                                 src="{{imageUrl}}" data-src="{{imageUrl}}" alt="Image" style="max-width:100%;">
+                            </a>
+                            <h3 class="carousel-body"><p class="carousel-title">{{title}}</p>
+                            <p class="carousel-subtitle">{{{subtitle}}}</p>
+                     {{#if_eq type 1}}     
+                     {{#each buttons}} 
+                     <button type="button" class="btn-carousel btn-info pmd-btn-outline caroselresponsepayload button-custom" data-carouselpayloadButton = "${data.payload[i].buttons[j].postback}" >{{text}}</button>
+                     {{/each}}
+                      {{/if_eq}}
+                   </div>
+                    </div>
+                </div> 
+                {{else}}
+                 <div class="item {{#if_eq @index 0}} {{toString 'active'}} {{else}} {{toString ''}}{{/if_eq}}">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <a href="#" class="thumbnail custom-image-wrap">
+                              <img class="img-circle" src="{{imageUrl}}" alt="Image" style="max-width:100%;">
+                          </a>
+                          <h3 class="carousel-body"><p class="carousel-title">{{title}}</p>
+                          <p class="carousel-subtitle">{{{subtitle}}}</p>
+                     {{#if_eq type 1}}
+                       {{#each buttons}} 
+                        <button type="button" class="btn-carousel btn-info pmd-btn-outline caroselresponsepayload button-custom"
+                         data-carouselpayloadButton = "{{postback}}" >{{text}}</button>
+                         {{/each}}
+                     {{/if_eq}}
+                   </div>
+                  </div>
+              </div> 
+               
+            {{/if_eq}}
+            {{/if_eq}}
+    {{/each}}
+
+       </div><!--.carousel-inner-->
+
+		<a data-slide="prev" href="#{{uniqueId}}" class="left carousel-control custom-carousel-left"><span class="icon-prev" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span></a>
+		<a data-slide="next" href="#{{uniqueId}}" class="right carousel-control custom-carousel-right"><span class="icon-next" aria-hidden="true"></span>
+        <span class="sr-only">Next</span></a>
+	  </div><!--.Carousel--></div>
+      <p style="bottom: 10px;" class="bot-res-timestamp-card"><small>
+     <img style="border-radius:50%;border:2px solid white;" width="20" height="20" class="welcome-message"/>{{time}}</small></p></div></li>
+

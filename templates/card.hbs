@@ -1,0 +1,43 @@
+{{#if payload}}
+<li class="list-group-item background-color-custom animated fadeInLeft">
+    <div class="pmd-card pmd-card-default pmd-z-depth custom-infocard">
+        <!-- Card header -->
+
+{{#each payload}}
+        {{#if imageUrl}}
+        <div class="pmd-card-media">
+            <img src="{{imageUrl}}" width="1184" height="666" class="img-responsive">
+        </div>
+        {{/if}}
+{{#if title}}
+        <div class="pmd-card-title">
+            <h3 class="card-body">
+                <p class="card-title">{{title}}</p>
+              {{#if subtitle}}  <p class="card-subtitle">{{subtitle}}</p>  {{/if}}
+        </div>
+  {{/if}}
+        {{#if buttons}}
+        {{#if_eq type 1}}
+        <div class="pmd-card-actions">
+        {{#each buttons}}
+        {{#if_eq postback "other_queries_non_invoice"}}
+            <button type="button" class="btn btn-primary infocard-btn-custom cardresponsepayload" data-cardpayloadButton="{{postback}}"
+                onClick="window.location.href='https://server.iad.liveperson.net/hc/70994705/?cmd=file&file=visitorWantsToChat&site=70994705&byhref=1&SESSIONVAR!skill=MyRicohSupport&imageUrl=https://server.iad.liveperson.net/hcp/Gallery/ChatButton-Gallery/English/General/1a'; 'height=400,width=600'">
+                {{text}}
+            </button>
+            {{else}}
+            <button type="button" class="btn btn-primary infocard-btn-custom cardresponsepayload" data-cardpayloadButton="{{postback}}">{{text}}</button>
+        {{/if_eq}} 
+        {{/each}}
+        </div>
+     {{/if_eq}} 
+     {{/if}}
+{{/each}}
+
+ 
+    </div>
+       <p class="bot-res-timestamp-card">
+    <small><img style="border-radius:50%;border:2px solid white;" width="20" height="20" class="welcome-message" />{{time}}</small>
+    </p>
+    </li>
+    {{/if}}

@@ -33,7 +33,7 @@ border-radius: 20px;
 
 img.welcome-message{
  background-image: url('../avatar/bot-logo-image.png');
- background-size: 15px 16px;
+ background-size: 100%;
   background-repeat: no-repeat;
    -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
@@ -42,15 +42,13 @@ img.welcome-message{
 img.bot-logo-image{
 
 background-image: url(../avatar/logo-large.png);
-background-size: cover;
+background-size: 100%;
 background-position:center;
 background-repeat: no-repeat;
 width: 37px;
 min-height: 35px;
 outline: none;
 border-radius: 50%;
-
-    background-repeat: no-repeat;
   
 }
 img.welcome-message-big{
@@ -403,7 +401,7 @@ img.welcome-message-big{
   font-size: .875rem;
   overflow-wrap: break-word;
   background-color: #DEDEDE;
-  max-width: 75%;
+  max-width: 100%;
   border-radius: 10px;
   display: inline-block;
   position: relative;
