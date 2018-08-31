@@ -45,7 +45,7 @@ const crypto = require('crypto');
 
 var Facebook = require('facebook-node-sdk');
 
-var facebook = new Facebook({ appID: process.env.appID, secret: process.env.appSecret });
+var facebook = new Facebook({ appID: process.env.appID, secret: process.env.appSecret}).setAccessToken(2136382766578504|IFOD7m6Z46AVgwnIjAZgi_i216g);
 
 facebook.api('/'+process.env.appID, function(err, data) {
   console.log('err',err)
