@@ -22,21 +22,26 @@ fb.api('oauth/access_token', {
   }
   accessToken = res.access_token;
   console.log(accessToken);
+  fetchFeed();
 });
 
-fb.setAccessToken(accessToken);
 
-fb.api(
-  "/me/feed",
-  function (response) {
-    console.log("Feed -->")
-    console.log(response);
-    if (response && !response.error) {
-      /* handle the result */
+function fetchFeed () {
+  fb.setAccessToken(accessToken);
 
+  fb.api(
+    "/me/feed",
+    function (response) {
+      console.log("Feed -->")
+      console.log(response);
+      if (response && !response.error) {
+        /* handle the result */
+  
+      }
     }
-  }
-);
+  );
+}
+
 
 // Passport session setup.
 passport.serializeUser(function (user, done) {
