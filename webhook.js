@@ -47,8 +47,9 @@ var Facebook = require('facebook-node-sdk');
 
 var facebook = new Facebook({ appID: process.env.appID, secret: process.env.appSecret });
 
-facebook.api('/me', function(err, data) {
-  console.log(data); // => { id: ... }
+facebook.api('/'+process.env.appID, function(err, data) {
+  console.log('err',err)
+  console.log('user',data); // => { id: ... }
 });
 
 
