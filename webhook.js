@@ -24,6 +24,7 @@ fb.api('oauth/access_token', {
   console.log(accessToken);
 });
 
+accessToken = '6fb7a0e93f48b2b0c7c056a2cd6f1b6c'
 fb.setAccessToken(accessToken);
 
 fb.api(
