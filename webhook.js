@@ -10,11 +10,11 @@ var express = require('express'),
 const crypto = require('crypto');
 
 var accessToken;
-fb.init({appId: process.env.appID, 
-         status: true, 
-         cookie: true,
-         oauth:true,
-         xfbml: true});
+// fb.init({appId: process.env.appID, 
+//          status: true, 
+//          cookie: true,
+//          oauth:true,
+//          xfbml: true});
 fb.api('oauth/access_token', {
   client_id: process.env.appID,
   client_secret: process.env.appSecret,
