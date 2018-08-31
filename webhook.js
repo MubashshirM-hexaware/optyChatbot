@@ -45,9 +45,9 @@ const crypto = require('crypto');
 
 var Facebook = require('facebook-node-sdk');
 
-var facebook = new Facebook({ appID: process.env.appID, secret: process.env.appSecret}).setAccessToken(process.env.accessToken);
+var facebook = new Facebook({ appID: process.env.appID, secret: process.env.appSecret}).setAccessToken(process.env.fbaccessToken);
 
-facebook.api('/'+process.env.appID, function(err, data) {
+facebook.api('/me', function(err, data) {
   console.log('err',err)
   console.log('user',data); // => { id: ... }
 });
