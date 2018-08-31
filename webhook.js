@@ -10,6 +10,11 @@ var express = require('express'),
 const crypto = require('crypto');
 
 var accessToken;
+fb.init({appId: process.env.appID, 
+         status: true, 
+         cookie: true,
+         oauth:true,
+         xfbml: true});
 fb.api('oauth/access_token', {
   client_id: process.env.appID,
   client_secret: process.env.appSecret,
@@ -30,7 +35,7 @@ function fetchFeed () {
   fb.setAccessToken(accessToken);
 
   fb.api(
-    "/me/feed",
+    "/me", { fields: ['id', 'name'], access_token: accessToken },
     function (response) {
       console.log("Feed -->")
       console.log(response);
