@@ -4,48 +4,52 @@ var express = require('express'),
   httpServer = http.Server(app),
   passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy,
-  session = require('express-session'),
-  fb = require('fb');
+  session = require('express-session');
+  // fb = require('fb');
 // fb = new facebook(options);
 const crypto = require('crypto');
 
-var accessToken;
-// fb.init({appId: process.env.appID, 
-//          status: true, 
-//          cookie: true,
-//          oauth:true,
-//          xfbml: true});
-fb.api('oauth/access_token', {
-  client_id: process.env.appID,
-  client_secret: process.env.appSecret,
-  grant_type: 'client_credentials'
-}, function (res) {
-  console.log("getting access token")
-  if (!res || res.error) {
-    console.log(!res ? 'error occurred' : res.error);
-    return;
-  }
-  accessToken = res.access_token;
-  console.log(accessToken);
-  fetchFeed();
-});
+// var accessToken;
+
+// fb.api('oauth/access_token', {
+//   client_id: process.env.appID,
+//   client_secret: process.env.appSecret,
+//   grant_type: 'client_credentials'
+// }, function (res) {
+//   console.log("getting access token")
+//   if (!res || res.error) {
+//     console.log(!res ? 'error occurred' : res.error);
+//     return;
+//   }
+//   accessToken = res.access_token;
+//   console.log(accessToken);
+//   fetchFeed();
+// });
 
 
-function fetchFeed () {
-  fb.setAccessToken(accessToken);
+// function fetchFeed () {
+//   fb.setAccessToken(accessToken);
 
-  fb.api(
-    "/me", { fields: ['id', 'name'], access_token: accessToken },
-    function (response) {
-      console.log("Feed -->")
-      console.log(response);
-      if (response && !response.error) {
-        /* handle the result */
+//   fb.api(
+//     "/me", { fields: ['id', 'name'], access_token: accessToken },
+//     function (response) {
+//       console.log("Feed -->")
+//       console.log(response);
+//       if (response && !response.error) {
+//         /* handle the result */
   
-      }
-    }
-  );
-}
+//       }
+//     }
+//   );
+// }
+
+var Facebook = require('facebook-node-sdk');
+
+var facebook = new Facebook({ appID: process.env.appID, secret: process.env.appSecret });
+
+facebook.api('/me', function(err, data) {
+  console.log(data); // => { id: ... }
+});
 
 
 // Passport session setup.

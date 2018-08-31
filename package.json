@@ -13,6 +13,7 @@
     "crypto": "*",
     "express": "^4.15.4",
     "express-session": "1.15.6",
+    "facebook-node-sdk": "^0.2.0",
     "fb": "^2.0.0",
     "mongoose": "^5.1.6",
     "passport": "0.4.0",
