@@ -89,7 +89,7 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }));
 app.use(Facebook.middleware({appID: process.env.appID, secret: process.env.appSecret}));
 
-app.get('/fb',Facebook.loginRequired(),function(req,res){
+app.get('/feed',Facebook.loginRequired(),function(req,res){
   req.facebook.api('/me', function(err, data) {
     console.log('err',err)
     console.log('user',data);
