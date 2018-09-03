@@ -89,7 +89,16 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }));
 app.use(Facebook.middleware({appID: process.env.appID, secret: process.env.appSecret}));
 
-app.get('/feed',Facebook.loginRequired(),function(req,res){
+var app1 = express.createServer();
+
+app1.configure(function () {
+  app1.use(express.bodyParser());
+  app1.use(express.cookieParser());
+  app1.use(express.session({ secret: 'foo bar' }));
+  app1.use(Facebook.middleware({appID: process.env.appID, secret: process.env.appSecret}));
+});
+
+app1.get('/feed',Facebook.loginRequired(),function(req,res){
   req.facebook.api('/me', function(err, data) {
     console.log('err',err)
     console.log('user',data);
