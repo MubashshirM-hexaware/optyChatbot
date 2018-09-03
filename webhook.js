@@ -45,12 +45,7 @@ const crypto = require('crypto');
 
 var Facebook = require('facebook-node-sdk');
 
-var facebook = new Facebook({ appID: process.env.appID, secret: process.env.appSecret}).setAccessToken(process.env.fbaccessToken);
-
-facebook.api('/me', function(err, data) {
-  console.log('err',err)
-  console.log('user',data); // => { id: ... }
-});
+// var facebook = new Facebook({appID: process.env.appID, secret: process.env.appSecret}).setAccessToken(process.env.fbaccessToken);
 
 
 // Passport session setup.
@@ -92,7 +87,14 @@ app.use(passport.session());
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
+app.use(Facebook.middleware({appID: process.env.appID, secret: process.env.appSecret}));
 
+app.get('/fb',Facebook.loginRequired(),function(req,res){
+  req.facebook.api('/me', function(err, data) {
+    console.log('err',err)
+    console.log('user',data);
+  });
+})
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
