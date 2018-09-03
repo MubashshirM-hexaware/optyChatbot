@@ -1,5 +1,5 @@
 var express = require('express'),
-  app = express.createServer(),
+  app = express(),
   http = require('http'),
   httpServer = http.Server(app),
   passport = require('passport'),
