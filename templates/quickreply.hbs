@@ -1,0 +1,35 @@
+<li class="list-group-item background-color-custom">
+    <div class="media-body animated fadeInLeft">
+   
+        {{#each payload}} 
+        {{#if_eq platform "facebook"}} 
+        {{#key_value payload.facebook.quick_replies}}
+        {{#key_value payload.facebook.text}}  
+        <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+        <td style="vertical-align:top;"><img width="35" height="35" class="bot-logo-image" style="border:none;" /></td><td><p class="list-group-item-quick-reply-space">{{{payload.facebook.text}}}</p>{{/key_value}}
+        <div class="quick-replies-buttons">
+        {{#each payload.facebook.quick_replies}} 
+        {{#if payload}}
+        <button type="button" class="btn pmd-btn-outline pmd-ripple-effect btn-info QuickreplybtnPayload" 
+           data-quickRepliesPayload="{{payload}}">
+                {{title}}</button>
+            {{else if url}}
+            <button type="button" class="btn pmd-btn-outline pmd-ripple-effect btn-info QuickreplybtnPayload" 
+            onClick="window.location.href='{{url}}'; 'height=400,width=600'">{{title}}</button>
+            {{else if tab}}
+            <button type="button" class="btn pmd-btn-outline pmd-ripple-effect btn-info QuickreplybtnPayload" 
+            onClick="window.open('{{tab}}','_blank'); ">{{title}}</button>
+
+         {{/if}} {{/each}}
+         {{/key_value}}
+        </div>
+        </td></tr>
+        </table>
+         {{/if_eq}} {{/each}}
+        <p class="bot-res-timestamp-qr">
+            <small>
+                <img style="border-radius:50%;border:2px solid white;" width="20" height="20" class="welcome-message" />{{time}}</small>
+        </p>
+    </div>
+</li>

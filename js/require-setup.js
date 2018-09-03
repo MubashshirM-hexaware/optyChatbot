@@ -31,7 +31,8 @@ requirejs.config({
         moment: "lib/moment",
         momenttimzone: "lib/moment-timezone",
         momentdata: 'lib/moment-timezone-with-data',
-        jqueryscoped:'lib/jquery.scoped'
+        jqueryscoped:'lib/jquery.scoped',
+        handlebars:"lib/handlebars"
         // jq16: 'lib/jquery1.6.min',
         // facemicon:'lib/faceMocion'
     },

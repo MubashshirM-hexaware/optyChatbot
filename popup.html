@@ -1,15 +1,18 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script type="text/javascript" src="js/globals.js"></script>
+<script data-main="/js/require-setup" src="require.js"></script>
 
 <div class="menu pmd-floating-action" role="navigation" style="position:fixed !important;">
-    <a id="btn-send-message" class="btn popover-html pmd-btn-fab pmd-btn-raised pmd-ripple-effect  btn-primary" data-trigger="click" data-toggle="popover"
-        data-placement="top" data-html="true" href="javascript:void(0);"> 
-            <span class="pmd-floating-hidden">Primary</span>
-            <i class="material-icons md-light pmd-sm">chat</i>
-        </a>
+    <a id="btn-send-message" class="btn popover-html pmd-btn-fab pmd-btn-raised pmd-ripple-effect  btn-primary" data-trigger="click"
+        data-toggle="popover" data-placement="top" data-html="true" href="javascript:void(0);">
+        <span class="pmd-floating-hidden">Primary</span>
+        <i class="material-icons md-light pmd-sm">chat</i>
+    </a>
 </div>
 
 <script>
+    var processor;
     var today = Math.round((new Date()).getTime() / 1000);
     var chatTranscript = [];
     var searchQuery = Cookies.get('searches');
@@ -17,8 +20,11 @@
         let searchObj = [];
         Cookies.set('searches', JSON.stringify(searchObj))
     }
+
     function getURLParameter(name) {
-        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [
+            null, ''
+        ])[1].replace(/\+/g, '%20')) || null;
     }
     var clickstatus;
 
@@ -42,8 +48,7 @@
                 searchV.push(objSearch);
                 Cookies.set('searches', JSON.stringify(searchV))
 
-            }
-            else {
+            } else {
                 let getSearches = JSON.parse(Cookies.get('searches'))
                 getSearches[searchIndex]["count"] = getSearches[searchIndex]["count"] + 1
                 getSearches[searchIndex]["date"] = today;
@@ -52,11 +57,15 @@
             }
         }
         var host = window.location.origin;
-						//console.log(host);
+        //console.log(host);
         if (host == "http://localhost:9000")
-            $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+            $("div[role='navigation'] a").attr("data-content",
+                `<iframe onload="doIt()" id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`
+            )
         else
-            $("div[role='navigation'] a").attr("data-content", `<iframe onload="doIt()" id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+            $("div[role='navigation'] a").attr("data-content",
+                `<iframe onload="doIt()" id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`
+            )
     }
     // function triggerPopupHTML() {
     //     let popupHTML = $(value.contentDocument).find('body div.chat-body ul#msg_container');
@@ -91,45 +100,55 @@
         $("a.popover-html").click(function () {
             if (!clickstatus) {
                 var host = window.location.origin;
-						//console.log(host);
+                //console.log(host);
                 if (host == "http://localhost:9000")
-                    $("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
-                else 
-                    $("div[role='navigation'] a").attr("data-content", `<iframe id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`)
+                    $("div[role='navigation'] a").attr("data-content",
+                        `<iframe id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`
+                    )
+                else
+                    $("div[role='navigation'] a").attr("data-content",
+                        `<iframe id='iChatPopup' src='http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`
+                    )
                 clickstatus = true;
             } else {
                 captureTranscript();
+                processor.askBot('Bye', 'Bye', true, function (error, html) {
+                    console.log('Clear Context html-- ', html);
+                    console.log('Clear Context error-- ', error);
+                });
+
                 function get(url) {
                     return new Promise((resolve, reject) => {
                         const req = new XMLHttpRequest();
                         req.responseType = 'json';
                         req.open('GET', url);
-                        req.onload = () => req.status === 200 ? resolve(req.response) : reject(Error(req.statusText));
+                        req.onload = () => req.status === 200 ? resolve(req.response) : reject(
+                            Error(req.statusText));
                         req.onerror = (e) => reject(Error(`Network Error: ${e}`));
                         req.send();
                     });
                 }
 
                 get('/generateId')
-                .then((result) => {
-                    localStorage.setItem('hashUser', result.hash);
-                    localStorage.setItem('chatLESession', '');
-                    console.log('hashuser ',result.hash);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                    .then((result) => {
+                        localStorage.setItem('hashUser', result.hash);
+                        localStorage.setItem('chatLESession', '');
+                        console.log('hashuser ', result.hash);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
                 clickstatus = false;
             }
-                
-            
+
+
 
             clearInterval(intervals);
         })
-      
+
     })
 
-    function captureTranscript () {
+    function captureTranscript() {
         var iframe = document.getElementById('iChatPopup');
         var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
         if (innerDoc.getElementById('msg_container') == null) {
@@ -139,7 +158,11 @@
         var botObj = [];
         var userObj = [];
         var cardMsg = 'Card';
-        var objArr = {"Bot": "", "User" : ""};
+        var carouselMsg = 'Broadband Carousel';
+        var objArr = {
+            "Bot": "",
+            "User": ""
+        };
 
         for (var index = 0; index < dataList.length; index++) {
             if (dataList[index].getElementsByClassName("list-group-item-text-user")[0] == undefined) {
@@ -147,16 +170,22 @@
                     botObj = dataList[index].getElementsByClassName("list-group-item-text-bot");
                 } else if (dataList[index].getElementsByClassName("card-body")[0] != undefined) {
                     botObj = cardMsg;
+                } else if (dataList[index].getElementsByClassName("carousel-inner")[0] != undefined) {
+                    botObj = carouselMsg;
                 } else if (dataList[index].getElementsByClassName("list-group-item-quick-reply-space")[0] != undefined) {
                     botObj = dataList[index].getElementsByClassName("list-group-item-quick-reply-space");
                 } else {
                     botObj[0] = undefined;
                 }
-            }												
-            userObj = dataList[index].getElementsByClassName("list-group-item-text-user");												
+            }
+            userObj = dataList[index].getElementsByClassName("list-group-item-text-user");
 
-            if(dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined || dataList[index].getElementsByClassName("list-group-item-quick-reply-space")[0] != undefined || typeof botObj === 'string') {
-                objArr = {"Bot": "", "User" : ""};
+            if (dataList[index].getElementsByClassName("list-group-item-text-bot")[0] != undefined || dataList[index].getElementsByClassName(
+                    "list-group-item-quick-reply-space")[0] != undefined || typeof botObj === 'string') {
+                objArr = {
+                    "Bot": "",
+                    "User": ""
+                };
                 if (typeof botObj === 'string') {
                     console.log("----Bot", index);
                     objArr.Bot = $.trim(botObj);
@@ -167,7 +196,7 @@
                     objArr.Bot = $.trim(botObj[0].innerHTML);
                 }
                 chatTranscript.push(objArr);
-                
+
             } else {
                 console.log(userObj[0].innerHTML);
                 console.log("-----User", index);
@@ -180,11 +209,11 @@
 
         console.log(chatTranscript);
         let jsonData = {
-        "ChatSession" : localStorage.getItem("hashUser"),
-        "ChatLESession":localStorage.getItem("chatLESession"),
-        "UserName" : "Charlotte",
-        "ChatPage" : "RoamingPlans",
-        "Conversation" : chatTranscript
+            "ChatSession": localStorage.getItem("hashUser"),
+            "ChatLESession": localStorage.getItem("chatLESession"),
+            "UserName": "Charlotte",
+            "ChatPage": "RoamingPlans",
+            "Conversation": chatTranscript
         };
 
         console.log(jsonData);
@@ -196,22 +225,37 @@
             success: function (result) {
                 chatTranscript = [];
                 console.log('Writing files...');
-            }, error: function (err) {
+            },
+            error: function (err) {
                 console.log(err);
             }
         });
     }
 
-    window.onbeforeunload = function(event) {
+    window.onbeforeunload = function (event) {
         event = event || window.event;
-        if (chatTranscript.length > 0) {
+        var iframe = document.getElementById('iChatPopup');
+        var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        var dataList;
+        if (innerDoc.getElementById('msg_container') != null) {
+            dataList = innerDoc.getElementById('msg_container').getElementsByTagName("li");
+        }
+        if (dataList.length > 0) {
             captureTranscript();
         }
-        return undefined;
+        processor.askBot('Bye', 'Bye', true, function (error, html) {
+            console.log('Clear Context html-- ', html);
+            console.log('Clear Context error-- ', error);
+            return undefined;
+        });
     }
 
-
+    require(['jquery'], function ($) {
+        require(['bootstrap', 'apiService', 'utils', 'settings', 'moment', 'jqueryscoped'], function (bootstrap,
+            apiService, utils, settings, moment, jqueryscoped) {
+            processor = apiService();
+        })
+    });
 </script>
 <script>
-
 </script>

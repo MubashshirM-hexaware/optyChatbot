@@ -32,10 +32,11 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                     "className": 'pull-right'
                 }));
             }
-            askBot(userInput, userText, callback) {
+            askBot(userInput, userText, isContextReset, callback) {
                 this.userSays(userText, callback);
                 var msg_container = $("ul#msg_container");
                 this.options.query = userInput;
+                this.options.resetContexts = isContextReset;
 
                 $.ajax({
                     type: "POST",
@@ -53,7 +54,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         if (msg_container && msg_container.parent() && msg_container.parent().find("img.loading-gif-typing").html()) {
                             msg_container.parent().find("img.loading-gif-typing").remove();
                         }
-msg_container.parent().find("img.loading-gif-typing").remove();
+                        msg_container.parent().find("img.loading-gif-typing").remove();
                         let isCardorCarousel = false;
                         let isImage = false;
                         let isQuickReply = false;
@@ -101,11 +102,11 @@ msg_container.parent().find("img.loading-gif-typing").remove();
 
                         if (response.result.action == "Optus") {
                             utils.captureTranscript(dataList);
-                            fallbackCount,oFallbackCount = 0;
+                            fallbackCount, oFallbackCount = 0;
                             callback(null, "Liveengage");
                         } else if (fallbackCount > 2 || oFallbackCount > 10) {
                             utils.captureTranscript(dataList);
-                            fallbackCount,oFallbackCount = 0;
+                            fallbackCount, oFallbackCount = 0;
                             var html_div = `<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/logo-large.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">I can't understand your queries, so am transferring you to a human agent. Please wait...</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" width="20" height="20" src="./avatar/bot-logo-image.png"/>` + utils.currentTime() + `</small></p></div></td></tr></table></li>`;
                             if (msg_container.hasClass('hidden')) { // cans be optimimzed and removed from here
                                 msg_container.siblings("h1").addClass('hidden');
@@ -119,54 +120,52 @@ msg_container.parent().find("img.loading-gif-typing").remove();
                         } else if (response.result.fulfillment.messages) {
                             console.log(response.result.fulfillment.messages);
                             for (let i in response.result.fulfillment.messages) {
-                                if (response.result.fulfillment.messages[i].type == 0 && response.result.fulfillment.messages[i].speech != "") {
+                                if (response.result.fulfillment.messages[i] && response.result.fulfillment.messages[i].hasOwnProperty('type')) {
+                                    if (response.result.fulfillment.messages[i].type == 0 && response.result.fulfillment.messages[i].speech != "") {
 
-                                    let cardHTML = cards({
-                                        "payload": response.result.fulfillment.messages[i].speech,
-                                        "senderName": config.botTitle,
-                                        "senderAvatar": config.botAvatar,
-                                        "time": utils.currentTime(),
-                                        "className": ''
-                                    }, "plaintext");
-                                    callback(null, cardHTML);
-                                }
-                                console.log("-----Srini----------------");
-                                console.log(response.result.fulfillment.messages[i]);
-                                console.log("--------------------------");
-                                if (response.result.fulfillment.messages[i].type == 1) {
-                                    count = count + 1;
-                                    hasbutton = (response.result.fulfillment.messages[i].buttons.length > 0) ? true : false;
-                                    isCardorCarousel = true;
-                                }
-                                if (response.result.fulfillment.messages[i].type == 2) {
-                                    isQuickReplyFromApiai = true;
-                                }
-                                if (response.result.fulfillment.messages[i].type == 3) {
-                                    isImage = true;
-                                }
-                                let msgfulfill = response.result.fulfillment.messages[i];
-
-                                if (msgfulfill.type == 4 && msgfulfill.hasOwnProperty("payload") && msgfulfill.payload.hasOwnProperty("facebook")) {
-                                    //Quick Replies
-                                    if (msgfulfill.payload.facebook.hasOwnProperty("quick_replies")) {
-                                        isQuickReply = (msgfulfill.payload.facebook.quick_replies.length > 0) ? true : false;
-
+                                        let cardHTML = cards({
+                                            "payload": response.result.fulfillment.messages[i].speech,
+                                            "senderName": config.botTitle,
+                                            "senderAvatar": config.botAvatar,
+                                            "time": utils.currentTime(),
+                                            "className": ''
+                                        }, "plaintext");
+                                        callback(null, cardHTML);
                                     }
-
-                                    if (msgfulfill.payload.facebook.hasOwnProperty("attachment")) {
+                                    if (response.result.fulfillment.messages[i].type == 1) {
                                         count = count + 1;
-                                        response.result.fulfillment.messages = response.result.fulfillment.messages[i]["payload"]["facebook"]["attachment"]["payload"]["elements"]
-
-                                        for (let j in response.result.fulfillment.messages) {
-                                            response.result.fulfillment.messages[j]["type"] = 1
-                                            response.result.fulfillment.messages[j]["imageUrl"] = response.result.fulfillment.messages[j]["image_url"]
-                                        }
-
                                         hasbutton = (response.result.fulfillment.messages[i].buttons.length > 0) ? true : false;
                                         isCardorCarousel = true;
                                     }
-                                }
+                                    if (response.result.fulfillment.messages[i].type == 2) {
+                                        isQuickReplyFromApiai = true;
+                                    }
+                                    if (response.result.fulfillment.messages[i].type == 3) {
+                                        isImage = true;
+                                    }
+                                    let msgfulfill = response.result.fulfillment.messages[i];
 
+                                    if (msgfulfill && msgfulfill.type == 4 && msgfulfill.hasOwnProperty("payload") && msgfulfill.payload.hasOwnProperty("facebook")) {
+                                        //Quick Replies
+                                        if (msgfulfill.payload.facebook.hasOwnProperty("quick_replies")) {
+                                            isQuickReply = (msgfulfill.payload.facebook.quick_replies.length > 0) ? true : false;
+
+                                        }
+
+                                        if (msgfulfill.payload.facebook.hasOwnProperty("attachment")) {
+                                            count = count + 1;
+                                            response.result.fulfillment.messages = response.result.fulfillment.messages[i]["payload"]["facebook"]["attachment"]["payload"]["elements"]
+
+                                            for (let j in response.result.fulfillment.messages) {
+                                                response.result.fulfillment.messages[j]["type"] = 1
+                                                response.result.fulfillment.messages[j]["imageUrl"] = response.result.fulfillment.messages[j]["image_url"]
+                                            }
+
+                                            hasbutton = (response.result.fulfillment.messages[i] && response.result.fulfillment.messages[i].hasOwnProperty("buttons") && response.result.fulfillment.messages[i].buttons.length > 0) ? true : false;
+                                            isCardorCarousel = true;
+                                        }
+                                    }
+                                }
                             }
                         } else {
                             let cardHTML = cards({
