@@ -1,5 +1,5 @@
 var express = require('express'),
-  app = express(),
+  app = express().createServer(),
   http = require('http'),
   httpServer = http.Server(app),
   passport = require('passport'),
@@ -76,6 +76,7 @@ passport.use(new TwitterStrategy({
 var bodyParser = require('body-parser');
 var fs = require('fs');
 const requestAPI = require('request');
+
 app.use(bodyParser.json());
 app.use(session({
   secret: 'login',
@@ -87,18 +88,16 @@ app.use(passport.session());
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
-app.use(Facebook.middleware({appID: process.env.appID, secret: process.env.appSecret}));
+// app.use(Facebook.middleware({appID: process.env.appID, secret: process.env.appSecret}));
 
-var app1 = express.createServer();
-
-app1.configure(function () {
-  app1.use(express.bodyParser());
-  app1.use(express.cookieParser());
-  app1.use(express.session({ secret: 'foo bar' }));
-  app1.use(Facebook.middleware({appID: process.env.appID, secret: process.env.appSecret}));
+app.configure(function () {
+  app.use(express.bodyParser());
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: 'foo bar' }));
+  app.use(Facebook.middleware({appID: process.env.appID, secret: process.env.appSecret}));
 });
 
-app1.get('/feed',Facebook.loginRequired(),function(req,res){
+app.get('/feed',Facebook.loginRequired(),function(req,res){
   req.facebook.api('/me', function(err, data) {
     console.log('err',err)
     console.log('user',data);
