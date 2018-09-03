@@ -47,6 +47,19 @@ var Facebook = require('facebook-node-sdk');
 
 // var facebook = new Facebook({appID: process.env.appID, secret: process.env.appSecret}).setAccessToken(process.env.fbaccessToken);
 
+app.configure(function () {
+  app.use(express.bodyParser());
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: 'foo bar' }));
+  app.use(Facebook.middleware({appID: process.env.appID, secret: process.env.appSecret}));
+});
+
+app.get('/feed',Facebook.loginRequired(),function(req,res){
+  req.facebook.api('/me', function(err, data) {
+    console.log('err',err)
+    console.log('user',data);
+  });
+})
 
 // Passport session setup.
 passport.serializeUser(function (user, done) {
@@ -89,20 +102,6 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
 // app.use(Facebook.middleware({appID: process.env.appID, secret: process.env.appSecret}));
-
-app.configure(function () {
-  app.use(express.bodyParser());
-  app.use(express.cookieParser());
-  app.use(express.session({ secret: 'foo bar' }));
-  app.use(Facebook.middleware({appID: process.env.appID, secret: process.env.appSecret}));
-});
-
-app.get('/feed',Facebook.loginRequired(),function(req,res){
-  req.facebook.api('/me', function(err, data) {
-    console.log('err',err)
-    console.log('user',data);
-  });
-})
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
