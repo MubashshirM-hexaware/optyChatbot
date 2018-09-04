@@ -90,9 +90,12 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 app.use(Facebook.middleware({appId: process.env.appID, secret: process.env.appSecret}));
 
 app.get('/feed',Facebook.loginRequired(),function(req,res){
+  console.log("inside feed");
   req.facebook.api('/me', function(err, data) {
     console.log('err',err)
     console.log('user',data);
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Hello, ' + data + '!');
   });
 })
 
