@@ -40,7 +40,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
 
                 $.ajax({
                     type: "POST",
-                    url: config.chatServerURL + "query?v=20150910",
+                    url: "/webhook",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     headers: {

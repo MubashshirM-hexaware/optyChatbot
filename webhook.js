@@ -89,7 +89,7 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }));
 app.use(Facebook.middleware({appId: process.env.appID, secret: process.env.appSecret}));
 
-app.get('/feed',function(req,res){
+app.get('/feed',Facebook.loginRequired(),function(req,res){
   res.send("inside feed");
   req.facebook.api('/me', function(err, data) {
     console.log('err',err)
@@ -112,6 +112,20 @@ app.get('/auth/twitter/callback',
   });
 
 var jsonIncompleteTran = [];
+
+app.post("/webhook",async (req,res)=>{
+  var options = {
+    url: "https://api.dialogflow.com/v1/query?v=20150910",
+    method: "POST",
+    headers: { 'Authorization': 'Bearer ' + '58361045745b4b149d7002b4a44709d7', 'Content-Type': 'application/json'},
+    body: req.body,
+    json: true
+  };
+  await requestAPI(options, function (error, response, body) {
+   res.send(body);
+  });
+})
+
 
 app.get('/', function (req, res) {
   res.send("/richowebsites");
