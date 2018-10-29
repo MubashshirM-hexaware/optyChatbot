@@ -45,13 +45,7 @@ const crypto = require('crypto');
 
 var Facebook = require('facebook-node-sdk');
 
-var facebook = new Facebook({ appID: process.env.appID, secret: process.env.appSecret}).setAccessToken(process.env.fbaccessToken);
-
-facebook.api('/me', function(err, data) {
-  console.log('err',err)
-  console.log('user',data); // => { id: ... }
-});
-
+// var facebook = new Facebook({appID: process.env.appID, secret: process.env.appSecret}).setAccessToken(process.env.fbaccessToken);
 
 // Passport session setup.
 passport.serializeUser(function (user, done) {
@@ -81,6 +75,7 @@ passport.use(new TwitterStrategy({
 var bodyParser = require('body-parser');
 var fs = require('fs');
 const requestAPI = require('request');
+
 app.use(bodyParser.json());
 app.use(session({
   secret: 'login',
@@ -92,7 +87,17 @@ app.use(passport.session());
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
+app.use(Facebook.middleware({appId: process.env.appID, secret: process.env.appSecret}));
 
+app.get('/feed',Facebook.loginRequired(),function(req,res){
+  res.send("inside feed");
+  req.facebook.api('/me', function(err, data) {
+    console.log('err',err)
+    console.log('user',data);
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Hello, ' + data + '!');
+  });
+})
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
@@ -107,6 +112,20 @@ app.get('/auth/twitter/callback',
   });
 
 var jsonIncompleteTran = [];
+
+app.post("/webhook",async (req,res)=>{
+  var options = {
+    url: "https://api.dialogflow.com/v1/query?v=20150910",
+    method: "POST",
+    headers: { 'Authorization': 'Bearer ' + '04cfa3364e9a4649ab335f84a4b85ad7', 'Content-Type': 'application/json'},
+    body: req.body,
+    json: true
+  };
+  await requestAPI(options, function (error, response, body) {
+   res.send(body);
+  });
+})
+
 
 app.get('/', function (req, res) {
   res.send("/richowebsites");
