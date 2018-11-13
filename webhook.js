@@ -59,7 +59,7 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new TwitterStrategy({
     consumerKey: process.env.consumer_key,
     consumerSecret: process.env.consumer_secret,
-    callbackURL: "http://ec2-18-232-207-49.compute-1.amazonaws.com:9000/auth/twitter/callback"
+    callbackURL: "http://ec2-18-232-207-49.compute-1.amazonaws.com:7000/auth/twitter/callback"
   },
   function (token, tokenSecret, profile, done) {
     process.nextTick(function () {
@@ -132,12 +132,12 @@ app.get('/', function (req, res) {
 });
 
 app.post('/callPhone', function (req, res) {
-  callServiceNowApi("https://dev64379.service-now.com/api/now/table/u_servicerequest?sysparm_limit=1&sysparm_query=ORDERBYDESCsys_created_on&u_string3=9876543210&u_choice_1=in%20progress", null, "GET", function (err, data) {
+  callServiceNowApi("https://dev73035.service-now.com/api/now/table/u_servicerequest?sysparm_limit=1&sysparm_query=ORDERBYDESCsys_created_on&u_string3=9876543210&u_choice_1=in%20progress", null, "GET", function (err, data) {
     res.send(data);
   })
 })
 app.post('/updateSessionState', function (req, res) {
-  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Dev/updatesession-dev", {
+  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Dev/updatesession", {
     type: req.body.params,
     sessionID: req.body.sessionId,
   }, "POST", function (err, data) {
