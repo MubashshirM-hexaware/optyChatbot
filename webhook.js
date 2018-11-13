@@ -296,7 +296,7 @@ app.post('/writeIncompleteTran', function (req, res) {
   res.send(hasIncompleteTran);
 });
 
-app.listen(process.env.PORT || 9000);
+app.listen(process.env.PORT || 7000);
 
 function writeFile(data, fileName) {
   fs.writeFile(fileName, JSON.stringify(data), function (err) {
@@ -347,7 +347,7 @@ function callServiceNowApi(url, dataService, type, callback) {
       json: true,
       auth: {
         user: "admin",
-        password: "pj10GXYsUTej"
+        password: "jwdZ99WvqQSS"
       }
     };
 
