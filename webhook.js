@@ -134,6 +134,7 @@ app.get('/', function (req, res) {
 app.post('/callPhone', function (req, res) {
   console.log("inside callphone")
   callServiceNowApi("https://dev65171.service-now.com/api/now/table/u_servicerequest?sysparm_limit=1&sysparm_query=ORDERBYDESCsys_created_on&u_string3=9876543210&u_choice_1=in%20progress", null, "GET", function (err, data) {
+    console.log('inside call',data)
     res.send(data);
   })
 })
@@ -358,7 +359,7 @@ function callServiceNowApi(url, dataService, type, callback) {
         console.log('API ERROR', JSON.stringify(error));
         callback(error, null)
       } else {
-        // console.log('headers:', JSON.stringify(response.headers));
+        console.log('headers:', JSON.stringify(response.headers));
         console.log('body:', JSON.stringify(body));
         callback(null, body);
       }
