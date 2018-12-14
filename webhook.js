@@ -353,11 +353,11 @@ function callServiceNowApi(url, dataService, type, callback) {
 
     requestAPI(options, function (error, response, body) {
       if (error) {
-        // console.log('API ERROR', JSON.stringify(error));
+        console.log('API ERROR', JSON.stringify(error));
         callback(error, null)
       } else {
         // console.log('headers:', JSON.stringify(response.headers));
-        // console.log('status code:', JSON.stringify(response.statusCode));
+        console.log('body:', JSON.stringify(body));
         callback(null, body);
       }
     });
