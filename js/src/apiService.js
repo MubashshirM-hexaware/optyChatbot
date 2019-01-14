@@ -99,8 +99,56 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         } else {
                             fallbackCount = 0;
                         }
-
+                    
                         if (response.result.action == "Optus") {
+                            if(response.result.metadata.intentName == "CONNECT"){
+                                console.log("Inside connect", JSON.stringify(response.result));
+                                let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
+                                utils.initiateAjax("/connectToAgent", "POST", 
+                                {
+                                    userName : "",
+                                    userType : "Customer",
+                                    sessionId : sessionId
+                                }, function (data, err) {
+                            console.log("---------------Connection Established----------------------");                     
+                            if(err){
+                                console.log("Error ", JSON.stringify(err));
+                            }else{
+                                console.log("Data",JSON.stringify(data));
+                                console.log("messageConversation",JSON.stringify(botHistory));
+                                let agenthtml='';
+                                if(data.success){
+                                        console.log("connect true");
+                                        localStorage.setItem("connect", true);
+                                       // localStorage.setItem("botHistory", JSON.stringify(botHistory));
+                                        //console.log(JSON.parse(localStorage.getItem('botHistory')))
+                                        console.log("messageConversation qewry");
+                                        agenthtml=`<li class="animated fadeInLeft list-group-item background-color-custom">
+                <table border="0" cellpadding="0" cellspacing="0">
+                <tbody><tr>
+                <td style="vertical-align:top;">
+                    <img width="35" height="35" class="bot-logo-image" style="border:none;"></td>
+                    <td><div class="media-body bot-txt-space">
+                        <p class="list-group-item-text-bot">`+ data.message +`</p>
+                        <p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" class="welcome-message" width="20" height="20">12:37 pm</small></p>
+        
+                    </div></td>
+                    </tr>
+                </tbody></table>
+        
+        
+                </li>`;
+                     msg_container.append(agenthtml);
+                                         utils.scrollSmoothToBottom($('div.chat-body'));
+                                         setTimeout(() => {
+                                             msg_container.find("li:nth-last-child(2)").find("button").prop("disabled", true);
+                                             msg_container.find("li:nth-last-child(2)").find("a").prop("disabled", true);
+                                         }, 2000)
+                                   
+                                }
+                            }                        
+                             })
+                            }
                             utils.captureTranscript(dataList);
                             fallbackCount, oFallbackCount = 0;
                             callback(null, "Liveengage");
