@@ -12,51 +12,6 @@
          var globalLpChat;
          var chatFinalTranscript = [];
          var chatRequest;
-         var socket = io('https://contactcenterbot.herokuapp.com/');   
-
-         //============== socket =======================
-        socket.on('newMsg', function (data) {
-            console.log("Inside newMsg app.js...", data);
-          
-            var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/user-128.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' +
-                data.message + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" class="welcome-message" width="20" height="20">' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
-            if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
-                msg_container.siblings("h1").addClass('hidden');
-                msg_container.siblings("div.chat-text-para").addClass('hidden');
-                msg_container.siblings(".header-text-logo").removeClass('hidden');
-                msg_container.removeClass('hidden');
-
-            }
-            msg_container.parent().next().find("img").remove()
-            //msg_container.parent().remove();
-            msg_container.append(html_div);
-            utils.scrollSmoothToBottom($('div.chat-body'));
-            setTimeout(() => {
-                msg_container.find("li:nth-last-child(2)").find("button").prop("disabled", true);
-                msg_container.find("li:nth-last-child(2)").find("a").prop("disabled", true);
-            }, 2000)
-        });
-
-        socket.on('getHistory', function(data) {
-		alert('getHistory called');   
-        console.log('Actual local history',msgHistory);
-        console.log("Message%%%%%%%%%%%%%%%%%%%", msgHistory);    
-		socket.emit('sendMsgHistory', {uId : data.uId, userName : data.userName, msgHistory : msgHistory});
-	    });
-
-        socket.on('userSetUser', function(data) {
-            console.log("I am inside user set", data);
-		uId = data.uId;
-        userName = data.userName
-		socket.emit('subscribe', { uId : data.uId, userName : userName, userType : "customer" });
-		userWaitingListUpdate();
-	});
-
-        socket.on('endSocket', function(data){
-             localStorage.setItem('connect', "false");
-        });
-
-        //================socket end ======================
 
          function closeWin() {
              setTimeout(() => {
@@ -112,39 +67,10 @@
                  //Calling ApiaiService call
 
                  console.log('globalLpChat', globalLpChat);
-                 console.log('Connect status', localStorage.getItem("connect"));
-                 console.log('Text...........input------------',text);
-                //  if (globalLpChat) {
-                //      initDemo();
+                 if (globalLpChat) {
+                     initDemo();
 
-                //  } 
-                //msgHistory.push({uId: uId, message: text, userName: userName});
-			console.log("Testg "+JSON.stringify(msgHistory));
-			//socket.emit('msg', {uId: uId, message: text, userName: userName});
-                if (localStorage.getItem("connect") == "true") {
-                    let userhtml = '';
-                    userhtml = `<li class="list-group-item background-color-custom">
-    <div class="media-left pull-right animated fadeInRight">
-
-        <div class="media-body user-txt-space">
-            <img width="30" height="30" style="float:right;" class="user-logo-image">
-            <p class="list-group-item-text-user">${text}</p>
-            <p class="user-timestamp">
-                <small>` + utils.currentTime() +`</small>
-            </p>
-
-        </div>
-
-</div></li>`;
-                    msg_container.append(userhtml);
-                    utils.scrollSmoothToBottom($('div.chat-body'));
-                    setTimeout(() => {
-                        msg_container.find("li:nth-last-child(2)").find("button").prop("disabled", true);
-                        msg_container.find("li:nth-last-child(2)").find("a").prop("disabled", true);
-                    }, 2000)
-                    initDemo(text);
-                }
-                else {
+                 } else {
 
                      processor.askBot(checkEmoji(text) ? checkEmoji(text) : text, text, false, function (error, html) {
 
@@ -496,24 +422,20 @@
              chatArea;
 
          function initDemo() {
-
-            if (text) {
-                socket.emit('msg', { uId: uId, message: text, userName: userName, msgFrom : "user"});                       
-            }
-            //  $.ajax({
-            //      url: "/showChatTranscript",
-            //      type: "GET",
-            //      success: function (result) {
-            //          chatFinalTranscript = result;
-            //          console.log('********************* ', chatFinalTranscript);
-            //      },
-            //      error: function (err) {
-            //          console.log(err);
-            //      }
-            //  });
-            //  setTimeout(() => {
-            //      initChat(getEngagement);
-            //  }, 1000);
+             $.ajax({
+                 url: "/showChatTranscript",
+                 type: "GET",
+                 success: function (result) {
+                     chatFinalTranscript = result;
+                     console.log('********************* ', chatFinalTranscript);
+                 },
+                 error: function (err) {
+                     console.log(err);
+                 }
+             });
+             setTimeout(() => {
+                 initChat(getEngagement);
+             }, 1000);
 
          }
 
