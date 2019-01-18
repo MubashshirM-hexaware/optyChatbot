@@ -1,11 +1,12 @@
 var express = require('express'),
   app = express(),
+  server = app.listen(process.env.PORT || 7000);
   http = require('http'),
   httpServer = http.Server(app),
   passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy,
   session = require('express-session');
-var io = require('socket.io').listen(process.env.PORT || 7000);
+var io = require('socket.io').listen(server);
 var ioClient = require('socket.io-client')('https://contactcenterbot.herokuapp.com/');
 // fb = require('fb');
 // fb = new facebook(options);
@@ -312,8 +313,6 @@ app.post('/writeIncompleteTran', function (req, res) {
   }
   res.send(hasIncompleteTran);
 });
-
-// app.listen(process.env.PORT || 7000);
 
 function writeFile(data, fileName) {
   fs.writeFile(fileName, JSON.stringify(data), function (err) {
