@@ -1,7 +1,7 @@
 var express = require('express'),
   app = express(),
   server = app.listen(process.env.PORT || 7000);
-  http = require('http'),
+http = require('http'),
   httpServer = http.Server(app),
   passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy,
@@ -382,6 +382,28 @@ function callServiceNowApi(url, dataService, type, callback) {
     // console.log('RESPONSE ERROR', JSON.stringify(err));
   }
 };
+
+app.get('/agent', function (req, res) {
+  res.render(__dirname + "/agent.ejs");
+});
+app.post('/connectToAgent', function (req, res) {
+  ioClient.emit('setUserName', {
+    userName: "Shira",
+    userType: "customer",
+    uId: req.body.sessionId
+  });
+
+  res.status(200).send({
+    success: 'true',
+    message: 'Connection successful you can now chat with the agent'
+  })
+
+});
+app.post('/msgHistory', function (req, res) {
+  var response = localStorage.getItem('msgHistory');
+  console.log("i am inside msgHistory", response);
+  res.send(response);
+});
 
 //============================== Socket Connection Sarts ================================
 var customers = [];
