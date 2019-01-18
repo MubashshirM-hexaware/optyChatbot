@@ -12,12 +12,12 @@
          var globalLpChat;
          var chatFinalTranscript = [];
          var chatRequest;
-         var socket = io('https://contactcenterbot.herokuapp.com/'); 
+         var socket = io('https://optychatbot.herokuapp.com/'); 
 
          //============== socket =======================
         socket.on('newMsg', function (data) {
             console.log("Inside newMsg app.js...", data);
-
+          
             var html_div = '<li class="animated fadeInLeft list-group-item background-color-custom"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;"><img width="35" height="35" src="avatar/user-128.png"/></td><td><div class="media-body bot-txt-space"><p class="list-group-item-text-bot">' +
                 data.message + '</p><p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" class="welcome-message" width="20" height="20">' + utils.currentTime() + '</small></p></div></td></tr></table></li>';
             if (msg_container.hasClass('hidden')) { // can be optimimzed and removed from here
