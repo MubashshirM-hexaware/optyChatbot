@@ -85,6 +85,7 @@ app.use(session({
   key: 'opty'
 }));
 app.use(express.static(__dirname));
+app.set('view engine', 'ejs');
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
