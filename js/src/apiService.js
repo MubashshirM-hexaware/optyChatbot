@@ -112,7 +112,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                         console.log("Error ", JSON.stringify(err));
                                     } else {
                                         console.log("Data", JSON.stringify(data));
-                                        console.log("messageConversation", JSON.stringify(botHistory));
+                                        // console.log("messageConversation", JSON.stringify(botHistory));
                                         let agenthtml = '';
                                         if (data.success) {
                                             console.log("connect true");
