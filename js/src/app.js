@@ -12,7 +12,7 @@
          var globalLpChat;
          var chatFinalTranscript = [];
          var chatRequest;
-        //  localStorage.setItem("botHistory", JSON.stringify(chatFinalTranscript));
+         localStorage.setItem("botHistory", JSON.stringify(chatFinalTranscript));
          var socket = io('https://optychatbot.herokuapp.com/');
          let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
          var uId = sessionId
@@ -535,7 +535,9 @@
          }
 
          function userWaitingListUpdate() {
-            socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : msgHistory});
+             if (msgHistory.length > 0) {
+                socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : msgHistory});
+             }            
             // alert('OnlineList triger');
             }
 
