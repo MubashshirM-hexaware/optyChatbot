@@ -48,29 +48,29 @@ var Facebook = require('facebook-node-sdk');
 // var facebook = new Facebook({appID: process.env.appID, secret: process.env.appSecret}).setAccessToken(process.env.fbaccessToken);
 
 // Passport session setup.
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
+// passport.serializeUser(function (user, done) {
+//   done(null, user);
+// });
 
-passport.deserializeUser(function (obj, done) {
-  done(null, obj);
-});
+// passport.deserializeUser(function (obj, done) {
+//   done(null, obj);
+// });
 
-passport.use(new TwitterStrategy({
-    consumerKey: process.env.consumer_key,
-    consumerSecret: process.env.consumer_secret,
-    callbackURL: "http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/auth/twitter/callback"
-  },
-  function (token, tokenSecret, profile, done) {
-    process.nextTick(function () {
-      //Check whether the User exists or not using profile.id
-      // User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
-      // });
+// passport.use(new TwitterStrategy({
+//     consumerKey: process.env.consumer_key,
+//     consumerSecret: process.env.consumer_secret,
+//     callbackURL: "http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/auth/twitter/callback"
+//   },
+//   function (token, tokenSecret, profile, done) {
+//     process.nextTick(function () {
+//       //Check whether the User exists or not using profile.id
+//       // User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
+//       // });
 
-      return done(null, profile);
-    });
-  }
-));
+//       return done(null, profile);
+//     });
+//   }
+// ));
 
 var bodyParser = require('body-parser');
 var fs = require('fs');
@@ -160,6 +160,11 @@ app.get('/chatwindow', function (req, res) {
     res.sendfile(__dirname + '/chatwindow1.html');
   });
 });
+
+app.get('/roamingRate', function (req, res) {
+  res.sendfile(__dirname + '/roamingrates.html');
+});
+
 app.get('/roaming', function (req, res) {
   readFile("IncompleteTransaction.json", function (hasFile, data) {
     if (hasFile) {
