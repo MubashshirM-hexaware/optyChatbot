@@ -9,6 +9,7 @@
      $(function () {
          var msg_container = $("ul#msg_container");
          localStorage.setItem("connect", false);
+         localStorage.setItem("botHistory", []);
          var globalLpChat;
          var chatFinalTranscript = [];
          var chatRequest;
