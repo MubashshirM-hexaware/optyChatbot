@@ -4,13 +4,14 @@
   "version": "2.0.0",
   "main": "webhook.js",
   "scripts": {
-    "start": "forever start -a -o ./out.log -e ./err.log --uid 'opty-chatbot' webhook.js",
-    "test": "node webhook.js",
+    "test": "forever start -a -o ./out.log -e ./err.log --uid 'opty-chatbot' webhook.js",
+    "start": "node webhook.js",
     "stop": "forever stop opty-chatbot"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "crypto": "*",
+    "ejs": "^2.6.1",
     "express": "^4.15.4",
     "express-session": "1.15.6",
     "facebook-node-sdk": "^0.2.0",
@@ -19,7 +20,8 @@
     "passport": "0.4.0",
     "passport-twitter": "1.0.4",
     "redis": "^2.8.0",
-    "request": "^2.87.0"
+    "request": "^2.87.0",
+    "socket.io": "^2.1.1"
   },
   "description": "",
   "repository": {

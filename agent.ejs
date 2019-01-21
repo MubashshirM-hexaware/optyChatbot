@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>HexaLiveChatApp - Home </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+  <style type="text/css">
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+	
+	body{
+		background-color : grey;
+	}
+	
+    .navbar {
+		margin-bottom: 0;
+		border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {
+		height: 450px
+	}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+		padding-top: 20px;
+		background-color: #f1f1f1;
+		height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+		background-color: #555;
+		color: white;
+		padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+		.sidenav {
+			height: auto;
+			padding: 15px;
+		}
+      .row.content {height:auto;} 
+    }
+	
+	body{margin-top:20px;
+		background:grey;
+	}
+
+	.chat-widget{
+		-webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.3);
+		box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.3);
+	}
+
+	.panel-default > .panel-heading {
+		color: #333;
+		background-color: #fcfcfc;
+		border-color: #ddd;
+		border-color: rgba(221,221,221,0.85);
+	}
+	
+	.btn .btn-transfer{
+		    display: inline-block;
+    		padding: 6px 12px;
+    /* margin-bottom: 0; */
+    /* font-size: 14px; */
+    /* font-weight: 400; */
+    /* line-height: 1.42857143; */
+    /* text-align: center; */
+    /* white-space: nowrap; */
+    /* vertical-align: middle; */
+    		-ms-touch-action: manipulation;
+			touch-action: manipulation;
+			cursor: pointer;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			background-image: none;
+			border: 1px solid transparent;
+			border-radius: 4px;
+			/* line-height: 12px; */
+			width: 15%;
+			/* font-size: 8pt; */
+			/* font-family: tahoma; */
+			margin-top: 10px;
+			margin-right: 68px;
+			position: absolute;
+			top: 0;
+			right: 0;
+	}
+	/*Chat widget*/
+	.chat-widget .message {
+		display:block;
+		margin-bottom:20px;
+		
+	}
+
+	.chat-widget .message .avatar {
+		width:55px;
+		float:left;	
+	}
+
+	.chat-widget .message.message-right .avatar {
+		width:55px;
+		float:right;
+	}
+
+	.chat-widget .avatar img {
+		height:40px;
+		width:40px!important;
+	}
+
+	.chat-widget .message .message-text-wrapper {
+		display:table-cell;
+		width:1%;
+	}
+
+	.chat-widget .message .message-text {
+		padding:15px;
+		border-radius:4px;
+		border:1px solid #ddd;
+		border:1px solid rgba(221,221,221,0.68);
+		position:relative;
+		width:100%;
+		-webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+		box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+	}
+
+	.chat-widget .message.message-right .message-text {
+		background:#fbfbfb;
+	}
+
+	.chat-widget .message .message-text img {
+		width:200px;
+		height:150px;
+	}
+
+	.chat-widget .message .time-stamp {
+		margin-left:55px;
+	}
+
+	.chat-widget .message.message-right .time-stamp {
+		margin-left:0;
+		margin-right:55px;
+		display:block;
+		text-align:right;
+	}
+
+	.chat-widget .message .message-text:before,.chat-widget .message .message-text:after {
+		right:100%;
+		top:30px;
+		border:solid transparent;
+		content:" ";
+		height:0;
+		width:0;
+		position:absolute;
+		pointer-events:none;
+	}
+
+	.chat-widget .message .message-text:before {
+		border-color:rgba(0,0,0,0);
+		border-right-color:#ddd;
+		border-width:10px;
+		margin-top:-19px;
+	}
+
+	.chat-widget .message .message-text:after {
+		border-color:rgba(213,71,28,0);
+		border-right-color:#fff;
+		border-width:9px;
+		margin-top:-18px;
+	}
+
+	.chat-widget .message.message-right .message-text:before,.chat-widget .message.message-right .message-text:after {
+		left:100%;
+		top:30px;
+		border:solid transparent;
+		content:" ";
+		height:0;
+		width:0;
+		position:absolute;
+		pointer-events:none;
+	}
+
+	.chat-widget .message.message-right .message-text:before {
+		border-color:rgba(0,0,0,0);
+		border-left-color:#ddd;
+		border-width:10px;
+		margin-top:-19px;
+	}
+
+	.chat-widget .message.message-right .message-text:after {
+		border-left-color:#fbfbfb;
+		border-width:9px;
+		margin-top:-18px;
+	}
+
+	.chat-widget .panel-footer {
+		border:none;
+		margin-top: 5px;
+	}
+
+	.chat-widget .panel-footer .avatar {
+		width:55px;
+		float:left;
+		margin-top:-2px;
+	}
+
+	@media (max-width:767px) {
+		label.margin {
+			margin-top:25px;
+			margin-bottom:15px;
+		}
+	}
+
+	/* custom css */
+
+	.disabledbutton {
+		pointer-events: none;
+		opacity: 0.4;
+	}
+
+	.list-group-hover .list-group-item:hover {
+		background-color: #f5f5f5;
+	}
+
+	.borderless li {
+		border-top: none;
+	}
+  </style>
+</head>
+<body onbeforeunload="return windowClose()">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">HexaLiveChatApp</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="\agent\logout" onclick="onLogOut()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container-fluid text-center" style="min-height:600px;">    
+  <div class="row content">
+	<div id = "error-container" class="form-group"></div>
+    <div class="col-sm-12 text-left"> 
+	  
+	  <h1 class="text-center" style="color:white;">Chat with Customers</h1>
+	  
+	    <!-- chat box start -->
+		
+		<div class="col-md-3 col-lg-3">
+			<div  class="panel panel-default chat-widget">
+				<div class="panel-heading">
+					<h3 class="panel-title"><span class="badge badge-primary badge-pill" style="background-color:green;"><i class="glyphicon glyphicon-user"></i></span> Users online </h3>
+				</div>
+				
+				<div class="panel-body" id="users-online-container" style="height:340px; min-height: 340px; max-height:340px; overflow-y: scroll; padding:0px;">
+					<ul id="usersOnline" class="list-group list-group-hover" style="link-color:red;">
+					</ul>
+				</div>
+				
+				<div class="panel-footer" style="background-color:grey;">
+					<h4 style="color:white;">Total users waiting <span id="waitingUsersList" class="badge badge-primary badge-pill" style="background-color:yellow;color:black;"> 0 </span></h4>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-6">
+			<div id="chatbox" class="panel panel-default chat-widget" style="display:none;">
+			  
+			  <div id = "error-container" class="form-group"></div>
+			  
+			  <div class="panel-heading">
+				<h2 id="chatWithWhom" class="panel-title"> Chat <span><a data-toggle="collapse" href="#chatbox"  class="close" onclick="endChat()">&times </a></span>
+				<span>
+				<button class="btn btn-transfer" type="button" name="button" onclick="transferToBot()">Transfer</button>
+				</span>
+				</h2>
+				
+			  </div>
+				<div class="panel-body" id="message-container" style="height:300px; min-height: 300px; max-height:300px; overflow-y: scroll;">
+			  
+				  <!--
+				  <div class="message">
+						<div class="avatar">
+							<img class="img-circle avatar" alt="chat avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+						</div>
+						<div class="message-text-wrapper">
+							<div class="message-text">
+								<a href="#" title="Singapore cityscape" data-gallery="">
+									<img src="https://lorempixel.com/200/320/nature/3/" alt="singapore pic">								
+								</a>
+							</div>
+						</div>
+				  </div>
+				  -->
+				</div>
+				<div class="panel-footer" style="background-color:grey;">
+					<div class="avatar">
+						<img class="img-circle avatar" alt="chat avatar" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+					</div>
+					<div class="input-group">
+						<input type="text" id="message" placeholder="Press Enter" class="form-control primary">
+						<span class="input-group-btn">
+							<button class="btn btn-primary" type="button" name="button" onclick="sendMessageAgent()">Send</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3 col-lg-3" style="display:none;">
+			<div id="conversationInPgresContainer" class="panel panel-default chat-widget" style="">
+				<div class="panel-heading">
+					<h3 class="panel-title"><span class="badge badge-primary badge-pill" style="background-color:black;"><i class="glyphicon glyphicon-user"></i></span> Conversations in-progress</h3>
+				</div>
+				
+				<div class="panel-body" id="users-online-container" style="height:340px; min-height: 340px; max-height:340px; overflow-y: scroll; padding:0px;">
+					<ul id="conversationInPgresLst" class="list-group list-group-hover" style="link-color:red;">
+					</ul>
+				</div>
+				
+				<div class="panel-footer" style="background-color:grey;">
+					<h4 style="color:white;">Total users <span id="waitingUsersList" class="badge badge-primary badge-pill" style="background-color:yellow;color:black;"> 0 </span></h4>
+				</div>
+
+			</div>
+		</div>
+		<!-- chat box end -->
+
+	  
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center">
+  <p>&copy; All rights reserved <a href="http://www.hexaware.com">Hexaware Technologies Ltd.,</a></p>
+</footer>
+
+<script>	
+	var socket = io('http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/');
+
+	var chatWindowOpenCloseStatus = 0;
+	var agentName = 'Agent';
+	var aId = '';
+	var userType = 'agent';
+	var updatedText = '';
+	var currentCustomerUid	= '';
+	var previousCustomerUid		= '';
+	var currentCustomerName		= '';
+	var previousCustomerName	= '';
+	var history = [];
+	var historyPlaceHolder ;
+	
+	var lcl_cUname = localStorage.getItem("cUname");
+	
+		/*alert("before setUserName Called "+ isBlank(lcl_cUname)+' value :'+ lcl_cUname);*/
+	if( isBlank(lcl_cUname) ) {
+	//alert("setUserName Called");
+		setUserName();
+		//usersWaitingOnlineRoomSubscribe();
+		
+	
+	}
+	
+	socket.on('userExists', function(data) {
+		document.getElementById('error-container').innerHTML = data.errorMsg;
+	});
+	
+	socket.on('userSetAgent', function(data) {
+		console.log("I am inside userSet Agent", data);
+		agentName = data.userName;
+		aId = data.uId;
+	});
+	
+	socket.on('receiveHistory', function(data) {
+		
+		// history = localStorage.getItem('botHistory');
+		// console.log("history...........",typeof history , JSON.stringify(history) )
+		// for (var i=0; i < history.length; i++) {
+		
+		// 	if(history[i].userName) {
+		// 		if( agentName === data.msgHistory[i].userName ) {
+		// 			document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+		// 			   history[i].userName + '</b>: ' + history[i].message + '</div></div></div>';
+					
+		// 			scrollToBottom();
+		// 		} else {
+		// 			document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+		//    history[i].userName + '</b>: ' + history[i].message + '</div></div></div>';
+					
+		// 			scrollToBottom();
+		// 		}
+		// 	}
+		// }
+
+
+		var msgHistoryLength = data.msgHistory.length;
+		
+		for (var i=0; i < msgHistoryLength; i++) {
+		
+			if(data.msgHistory[i].userName) {
+				if( 'Bot' === data.msgHistory[i].userName ) {
+					document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+					   data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';			
+					scrollToBottom();
+				} else {
+					document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+		   data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';
+					
+					scrollToBottom();
+				}
+			}
+		}
+	});
+
+	function transferToBot(){
+		socket.emit('transfer', {uId : currentCustomerUid, userName : 'Nivetha'})
+	};
+
+	function selectUserForConversation() {
+		console.log("Inside selectUserForConversation");
+		//getHistory();
+		var botHistory = localStorage.getItem('botHistory');
+		console.log('botHistory', JSON.parse(botHistory));
+		var x = document.getElementsByClassName("list-group-item");
+		for (i = 0; i < x.length; i++) {
+			x[i].onclick = function(){
+			
+				currentCustomerName = $(this).text().trim();
+				currentCustomerUid = $(this).attr("id").trim();
+				
+				$("#chatbox").show("slow");
+				$("#usersOnline").addClass("disabledbutton");
+				chatWithWhomUpdate('Conversation with '+currentCustomerName);
+				
+				if(previousCustomerUid != ''){
+					socket.emit('unsubscribe', { uId : previousCustomerUid, userName : previousCustomerName, userType : 'customer' });
+					document.getElementById('message-container').innerHTML='';
+				}
+				socket.emit('getHistoryFromBot', { uId : currentCustomerUid, userName : currentCustomerName });
+				socket.emit('subscribe', { uId : currentCustomerUid, userName : currentCustomerName, userType : "customer" });
+				socket.emit('setAgentOnline',{ uId : currentCustomerUid, userName : currentCustomerName, userType : userType } )
+				/*
+				
+				$('#'+currentCustomerUid).remove();
+				
+				document.getElementById('conversationInPgresLst').innerHTML += '<li class="list-group-item list-group-item-action" onclick="selectUserForConversation()" id="'+currentCustomerUid+'"><a href="#"><span class="glyphicon glyphicon-user"></span>'+currentCustomerName+'</a></li>'; 
+				
+				*/
+				// document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/agents/images/avatar1.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+				//    history + '</b>: ' + history + '</div></div></div>';
+				
+				scrollToBottom();
+				previousCustomerUid = currentCustomerUid;
+				previousCustomerName = currentCustomerName;
+			}
+		}
+		
+	}
+	function getHistory(){
+		console.log('msgHistory', localStorage.getItem('msgHistory'));
+		history = localStorage.getItem('msgHistory');
+		//var historyArray = history.split(",").map(Number);
+		console.log("historyArray",historyPlaceHolder)
+	}
+	function usersWaitingOnlineRoomSubscribe() {
+		socket.emit('subscribe', { uId : 'usersWaitingOnlineRoom', userName : 'usersWaitingOnlineRoom', userType : userType });
+	}
+	
+	socket.on('userWaitingOnline1', function(data){
+		//alert('users list updated');
+		historyPlaceHolder = data.msgHistory;
+		console.log("inside userWaitingOnline1....", data);
+		document.getElementById('usersOnline').innerHTML += '<li class="list-group-item list-group-item-action" onclick="selectUserForConversation()" id="'+data.uId+'"><a href="#"><span class="glyphicon glyphicon-user"></span>'+data.userName+'</a></li>';
+		document.getElementById('waitingUsersList').innerHTML = ''+ data.totalWaitingUsers;
+	});
+	
+	socket.on('userLeft', function(data) {
+		$('#'+data.uId).remove();
+		document.getElementById('waitingUsersList').innerHTML = ''+ data.totalWaitingUsers;
+	});
+	
+	socket.on('userExists', function(data) {
+		document.getElementById('error-container').innerHTML = data.errorMsg;
+	});
+	
+	socket.on('newMsg', function(data) {
+		console.log("Inside newMsg Agent.....", data);
+		if(agentName) {
+			if( agentName === data.userName ) {
+				document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+				   data.userName + '</b>: ' + data.message + '</div></div></div>';
+				
+				scrollToBottom();
+			} else {
+				document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+	   data.userName + '</b>: ' + data.message + '</div></div></div>';
+				
+				scrollToBottom();
+			}
+		}
+	});
+
+	socket.on('newMsgAgent', function(data) {
+		console.log("Inside newMsg Agent.....", data);
+		if(agentName) {
+			if( agentName === data.userName ) {
+				document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+				   data.userName + '</b>: ' + data.message + '</div></div></div>';
+				
+				scrollToBottom();
+			} else {
+				document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+	   data.userName + '</b>: ' + data.message + '</div></div></div>';
+				
+				scrollToBottom();
+			}
+		}
+	});
+
+	
+	
+	$('#message').keypress(function(event){
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		
+		if(keycode == '13'){
+			sendMessageAgent();
+		}
+	});
+	
+	function chatWithWhomUpdate(updatedText) 
+	{
+		$span = $('#chatWithWhom').find('span')
+		$('#chatWithWhom').text(updatedText);
+		$('#chatWithWhom').append($span);
+	}
+	
+	function endChat()
+	{
+		$("#usersOnline").removeClass("disabledbutton");
+		$("#chatbox").hide("slow");
+		socket.emit('unsubscribe', { uId : currentCustomerUid, userName : currentCustomerName, userType : 'customer'});
+	}
+	
+	function onLogOut()
+	{
+		socket.emit('unsubscribe', { uId : currentCustomerUid, userName : currentCustomerName, userType : 'customer'});
+		socket.emit('unsubscribe', { uId : aId, userName : agentName, userType : 'agent'});
+		
+		localStorage.setItem("cUname", '');
+		// alert('onlogout called.');
+	}
+	
+	function sendMessageAgent() 
+	{
+		var msg = document.getElementById('message').value;
+		console.log("Typed message", msg);
+		if(msg) {
+			console.log('msg agent', msg);
+			socket.emit('msg', { uId: currentCustomerUid, message: msg, userName: agentName, msgFrom:"agent"});
+			document.getElementById('message').value='';
+		}
+	}
+	
+	function scrollToBottom() 
+	{
+		var div = $("#message-container");
+		div.scrollTop(div.prop('scrollHeight'));
+	}
+	
+	function setUserName() {
+		// alert("setUserName called in agent view.");
+		socket.emit('setUserName', {userName : agentName, userType : userType});
+	}
+		
+	function isBlank(str) {
+		return (!str || /^\s*$/.test(str));
+	}
+	
+	function windowClose(){
+		// alert('windowClose method called');
+		endChat();
+	}
+	
+</script>
+
+
+</body>
+</html>
