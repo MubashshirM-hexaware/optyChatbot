@@ -389,7 +389,7 @@ app.get('/agent', function (req, res) {
 });
 app.post('/connectToAgent', function (req, res) {
   ioClient.emit('setUserName', {
-    userName: "Shira",
+    userName: "Charlotte",
     userType: "customer",
     uId: req.body.sessionId
   });
