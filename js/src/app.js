@@ -135,7 +135,7 @@
                  //      initDemo();
 
                  //  } 
-                 //msgHistory.push({uId: uId, message: text, userName: userName});
+                 msgHistory.push({uId: uId, message: text, userName: userName});
                  console.log("Testg " + JSON.stringify(msgHistory));
                  //socket.emit('msg', {uId: uId, message: text, userName: userName});
                  if (localStorage.getItem("connect") == "true") {
@@ -508,7 +508,7 @@
              chatState,
              chatArea;
 
-         function initDemo() {
+         function initDemo(text) {
              if (text) {
                  socket.emit('msg', {
                      uId: uId,
