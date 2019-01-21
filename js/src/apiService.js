@@ -8,6 +8,9 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
     function ($, config, utils, messageTpl, cards, uuidv1) {
         var fallbackCount = 0;
         var oFallbackCount = 0;
+        let conversation = [];
+        let botHistory = [];
+        let messageConversation = "";
         class ApiHandler {
 
             constructor() {
@@ -35,6 +38,10 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                 var msg_container = $("ul#msg_container");
                 this.options.query = userInput;
                 this.options.resetContexts = isContextReset;
+                let history = {};
+                history.userInput = userInput;
+                messageConversation += `Shira: ${userInput}\n` 
+                botHistory.push({uId: '', message: userInput, userName: 'Shira'});  
 
                 $.ajax({
                     type: "POST",
@@ -90,6 +97,53 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         //     });
                         // }
 
+                        if (response.result.fulfillment.speech) {
+                            messageConversation += `Bot: ${response.result.fulfillment.speech}\n`;
+                            botHistory.push({uId: '', message: response.result.fulfillment.speech, userName: 'Bot'});
+                            //messageConversation.Bot = response.result.fulfillment.speech;
+                        }
+                        if (response.result.fulfillment.hasOwnProperty("displayText")) {
+                          messageConversation += `Bot: ${response.result.fulfillment.displayText}\n`;
+                          botHistory.push({uId: '', message: response.result.fulfillment.displayText, userName: 'Bot'});
+                            //messageConversation.Bot = response.result.fulfillment.displayText;
+                        }
+                        if (response.result.fulfillment.messages.length > 0) {
+                            if (response.result.fulfillment.messages[0].hasOwnProperty("title")) {
+                                history.botresponse = response.result.fulfillment.messages[0].title;
+                                messageConversation += `Bot: ${response.result.fulfillment.messages[0].title}\n`;
+                                botHistory.push({uId: '', message: response.result.fulfillment.messages[0].title, userName: 'Bot'});
+                                //messageConversation.Bot = response.result.fulfillment.messages[0].title;
+                            }
+                            if (response.result.fulfillment.messages[0].hasOwnProperty("payload") && response.result.fulfillment.messages[0].payload.hasOwnProperty("facebook") && response.result.fulfillment.messages[0].payload.facebook.hasOwnProperty("text")) {
+                                history.botresponse = response.result.fulfillment.messages[0].payload.facebook.text;
+                                messageConversation += `Bot: ${response.result.fulfillment.messages[0].payload.facebook.text}\n`;
+                                botHistory.push({uId: '', message: response.result.fulfillment.messages[0].payload.facebook.text, userName: 'Bot'});
+                                //messageConversation.Bot = response.result.fulfillment.messages[0].payload.facebook.text;
+                            }
+                        }
+                        if (localStorage.getItem('clientid')) {
+                            $.ajax({
+                                type: "POST",
+                                url: "/chathistory",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: JSON.stringify({
+                                    chattext: messageConversation,
+                                    custid: localStorage.getItem('clientid')
+                                }),
+                                success: function (response) {
+                                    console.log("success");
+                                    messageConversation = '';
+                                },
+                                error: function () {
+
+                                }
+                            });
+
+
+                        };
+                        conversation.push(history);
+
                         if (response.result.action == "input.unknown") {
                             fallbackCount++;
                             oFallbackCount++;
@@ -112,13 +166,13 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                         console.log("Error ", JSON.stringify(err));
                                     } else {
                                         console.log("Data", JSON.stringify(data));
-                                        // console.log("messageConversation", JSON.stringify(botHistory));
+                                        console.log("messageConversation", JSON.stringify(botHistory));
                                         let agenthtml = '';
                                         if (data.success) {
                                             console.log("connect true");
                                             localStorage.setItem("connect", true);
-                                            // localStorage.setItem("botHistory", JSON.stringify(botHistory));
-                                            //console.log(JSON.parse(localStorage.getItem('botHistory')))
+                                            localStorage.setItem("botHistory", JSON.stringify(botHistory));
+                                            console.log(JSON.parse(localStorage.getItem('botHistory')))
                                             console.log("messageConversation qewry");
                                             agenthtml = `<li class="animated fadeInLeft list-group-item background-color-custom">
                                                             <table border="0" cellpadding="0" cellspacing="0">

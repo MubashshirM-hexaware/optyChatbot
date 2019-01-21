@@ -542,6 +542,10 @@ io.sockets.on("connection", function (socket) {
 
 });
 
+app.post("/chathistory",async (req,res)=>{
+ 
+});
+
 
 
 //============================ Socket connection end =============================
