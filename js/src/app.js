@@ -8,11 +8,11 @@
  define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function ($, config, apiService, utils, io, uuidv1) {
      $(function () {
          var msg_container = $("ul#msg_container");
-         localStorage.setItem("connect", false);
-         localStorage.setItem("botHistory", []);
+         localStorage.setItem("connect", false);         
          var globalLpChat;
          var chatFinalTranscript = [];
          var chatRequest;
+         localStorage.setItem("botHistory", JSON.stringify(chatFinalTranscript));
          var socket = io('https://optychatbot.herokuapp.com/');
          let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
          var uId = sessionId
