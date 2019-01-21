@@ -5,7 +5,7 @@
  This file is part of the Innovation LAB - Offline Bot.
  ------------------------------------------------------------------- */
 
- define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function ($, config, apiService, utils, socket, uuidv1) {
+ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function ($, config, apiService, utils, io, uuidv1) {
      $(function () {
          var msg_container = $("ul#msg_container");
 
