@@ -1,13 +1,13 @@
 var express = require('express'),
   app = express(),
-  server = app.listen(process.env.PORT || 9000);
+  server = app.listen(process.env.PORT || 7000);
 http = require('http'),
   httpServer = http.Server(app),
   passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy,
   session = require('express-session');
 var io = require('socket.io').listen(server);
-var ioClient = require('socket.io-client')('https://optychatbot.herokuapp.com/');
+var ioClient = require('socket.io-client')('http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/');
 // fb = require('fb');
 // fb = new facebook(options);
 const crypto = require('crypto');
