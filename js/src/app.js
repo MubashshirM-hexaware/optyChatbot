@@ -8,7 +8,7 @@
  define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function ($, config, apiService, utils, io, uuidv1) {
      $(function () {
          var msg_container = $("ul#msg_container");
-
+         localStorage.setItem("connect", false);
          var globalLpChat;
          var chatFinalTranscript = [];
          var chatRequest;
@@ -43,7 +43,6 @@
          });
 
          socket.on('getHistory', function (data) {
-             alert('getHistory called');
              console.log('Actual local history', msgHistory);
              console.log("Message%%%%%%%%%%%%%%%%%%%", msgHistory);
              socket.emit('sendMsgHistory', {

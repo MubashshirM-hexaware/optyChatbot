@@ -40,8 +40,8 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                 this.options.resetContexts = isContextReset;
                 let history = {};
                 history.userInput = userInput;
-                messageConversation += `Shira: ${userInput}\n` 
-                botHistory.push({uId: '', message: userInput, userName: 'Shira'});  
+                messageConversation += `Charlotte: ${userInput}\n` 
+                botHistory.push({uId: '', message: userInput, userName: 'Charlotte'});  
 
                 $.ajax({
                     type: "POST",
