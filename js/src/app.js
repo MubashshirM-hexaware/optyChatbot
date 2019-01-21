@@ -534,6 +534,11 @@
 
          }
 
+         function userWaitingListUpdate() {
+            socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : msgHistory});
+            // alert('OnlineList triger');
+            }
+
          function createWindow() {
              startChat();
          }
