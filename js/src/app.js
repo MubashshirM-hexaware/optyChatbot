@@ -61,7 +61,7 @@
                  userName: userName,
                  userType: "customer"
              });
-             userWaitingListUpdate();
+            //  userWaitingListUpdate();
          });
 
          socket.on('endSocket', function (data) {
