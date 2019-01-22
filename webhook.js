@@ -530,6 +530,7 @@ io.sockets.on("connection", function (socket) {
   });
 
   socket.on('sendMsgHistory', function (data) {
+    console.log('i am inside sendmessagehistory')
     io.sockets.in(data.uId).emit('receiveHistory', data);
   });
 
