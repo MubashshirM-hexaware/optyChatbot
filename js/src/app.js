@@ -44,6 +44,7 @@
          });
 
          socket.on('getHistory', function (data) {
+            alert('getHistory called',msgHistory);   
              console.log('Actual local history', msgHistory);
              console.log("Message%%%%%%%%%%%%%%%%%%%", msgHistory);
              socket.emit('sendMsgHistory', {
