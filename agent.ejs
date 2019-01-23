@@ -415,7 +415,9 @@
 		// 	}
 		// }
 
-
+		document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+		data.msgHistory[i].userName + '</b>:  Hello testing </div></div></div>';			
+					scrollToBottom();
 		var msgHistoryLength = data.msgHistory.length;
 		console.log('Print history', data.msgHistory);
 		for (var i=0; i < msgHistoryLength; i++) {
