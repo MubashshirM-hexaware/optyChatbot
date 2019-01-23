@@ -442,6 +442,7 @@
 	function selectUserForConversation() {
 		console.log("Inside selectUserForConversation");
 		//getHistory();
+		var name = 'Test div element';
 		var botHistory = localStorage.getItem('botHistory');
 		console.log('botHistory', JSON.parse(botHistory));
 		var x = document.getElementsByClassName("list-group-item");
@@ -475,6 +476,11 @@
 				scrollToBottom();
 				previousCustomerUid = currentCustomerUid;
 				previousCustomerName = currentCustomerName;
+
+				document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+		   name + '</b>: ' + name + '</div></div></div>';
+					
+					scrollToBottom();
 			}
 		}
 		
