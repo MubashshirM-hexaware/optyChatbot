@@ -359,7 +359,7 @@
 </footer>
 
 <script>	
-	var socket = io('https://contactcenterbot.herokuapp.com/');
+	var socket = io('https://optychatbot.herokuapp.com/');
 
 	var chatWindowOpenCloseStatus = 0;
 	var agentName = 'Agent';
@@ -415,9 +415,11 @@
 		// 	}
 		// }
 
-
+		document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+		data.msgHistory[i].userName + '</b>:  Hello testing </div></div></div>';			
+					scrollToBottom();
 		var msgHistoryLength = data.msgHistory.length;
-		
+		console.log('Print history', data.msgHistory);
 		for (var i=0; i < msgHistoryLength; i++) {
 		
 			if(data.msgHistory[i].userName) {
@@ -442,7 +444,6 @@
 	function selectUserForConversation() {
 		console.log("Inside selectUserForConversation");
 		//getHistory();
-		var name = 'Test div element';
 		var botHistory = localStorage.getItem('botHistory');
 		console.log('botHistory', JSON.parse(botHistory));
 		var x = document.getElementsByClassName("list-group-item");
@@ -476,11 +477,6 @@
 				scrollToBottom();
 				previousCustomerUid = currentCustomerUid;
 				previousCustomerName = currentCustomerName;
-
-				document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
-		   name + '</b>: ' + name + '</div></div></div>';
-					
-					scrollToBottom();
 			}
 		}
 		
@@ -496,7 +492,7 @@
 	}
 	
 	socket.on('userWaitingOnline1', function(data){
-		//alert('users list updated');
+		alert('users list updated');
 		historyPlaceHolder = data.msgHistory;
 		console.log("inside userWaitingOnline1....", data);
 		document.getElementById('usersOnline').innerHTML += '<li class="list-group-item list-group-item-action" onclick="selectUserForConversation()" id="'+data.uId+'"><a href="#"><span class="glyphicon glyphicon-user"></span>'+data.userName+'</a></li>';
