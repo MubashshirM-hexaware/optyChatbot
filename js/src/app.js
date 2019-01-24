@@ -536,9 +536,9 @@
          }
 
          function userWaitingListUpdate() {
-            //  if (msgHistory.length > 0) {
+            if (msgHistory.length > 0) {
                 socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : msgHistory});
-            //  }            
+            }            
         alert('OnlineList triger');
             }
 
