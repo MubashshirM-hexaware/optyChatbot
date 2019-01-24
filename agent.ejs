@@ -414,11 +414,9 @@
 		// 		}
 		// 	}
 		// }
-		var count = 0;
 		var msgHistoryLength = data.msgHistory.length;
 		console.log('Print history', data.msgHistory);
 		for (var i=0; i < msgHistoryLength; i++) {
-			count +=1;
 			if(data.msgHistory[i].userName) {
 				if( 'Bot' === data.msgHistory[i].userName ) {
 					document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
@@ -440,8 +438,8 @@
 
 	function selectUserForConversation() {
 		console.log("Inside selectUserForConversation");
-		//getHistory();
-		var botHistory = localStorage.getItem('botHistory');
+		getHistory();
+		//var botHistory = localStorage.getItem('botHistory');
 		console.log('botHistory', JSON.parse(botHistory));
 		var x = document.getElementsByClassName("list-group-item");
 		for (i = 0; i < x.length; i++) {
@@ -479,10 +477,28 @@
 		
 	}
 	function getHistory(){
-		console.log('msgHistory', localStorage.getItem('msgHistory'));
+		var botHistory = localStorage.getItem('botHistory');
+		// console.log('msgHistory', localStorage.getItem('msgHistory'));
 		history = localStorage.getItem('msgHistory');
 		//var historyArray = history.split(",").map(Number);
 		console.log("historyArray",historyPlaceHolder)
+
+		var botHistoryLength = botHistory.length;
+		console.log('Print history', botHistory);
+		for (var i=0; i < botHistoryLength; i++) {
+			if(botHistory[i].userName) {
+				if( 'Bot' === botHistory[i].userName ) {
+					document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+					   botHistory[i].userName + '</b>: ' + botHistory[i].message + '</div></div></div>';			
+					scrollToBottom();
+				} else {
+					document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+		   botHistory[i].userName + '</b>: ' + botHistory[i].message + '</div></div></div>';
+					
+					scrollToBottom();
+				}
+			}
+		}
 	}
 	function usersWaitingOnlineRoomSubscribe() {
 		socket.emit('subscribe', { uId : 'usersWaitingOnlineRoom', userName : 'usersWaitingOnlineRoom', userType : userType });
