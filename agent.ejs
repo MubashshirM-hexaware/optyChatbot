@@ -414,6 +414,8 @@
 		// 		}
 		// 	}
 		// }
+		document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+		   data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';
 		var msgHistoryLength = data.msgHistory.length;
 		console.log('Print history', data.msgHistory);
 		for (var i=0; i < msgHistoryLength; i++) {
