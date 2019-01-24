@@ -54,17 +54,14 @@
              });
          });
 
-         socket.on('userSetUser', function (data) {
-             console.log("I am inside user set", data);
-             uId = data.uId;
-             userName = data.userName
-             socket.emit('subscribe', {
-                 uId: data.uId,
-                 userName: userName,
-                 userType: "customer"
-             });
-            userWaitingListUpdate();
-         });
+         socket.on('userSetUser', function(data) {
+            console.log("I am inside user set", data);
+		uId = data.uId;
+        userName = data.userName
+		socket.emit('subscribe', { uId : data.uId, userName : userName, userType : "customer" });
+		userWaitingListUpdate();
+	    });
+         
 
          socket.on('endSocket', function (data) {
              localStorage.setItem('connect', "false");
@@ -536,11 +533,9 @@
          }
 
          function userWaitingListUpdate() {
-            if (msgHistory.length > 0) {
-                socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : msgHistory});
-            }            
-        alert('OnlineList triger');
-            }
+		socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : msgHistory});
+		alert('OnlineList triger');
+	    }
 
          function createWindow() {
              startChat();
