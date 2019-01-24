@@ -493,6 +493,7 @@
 	
 	socket.on('userWaitingOnline1', function(data){
 		alert('users list updated');
+		console.log('users list updated');
 		historyPlaceHolder = data.msgHistory;
 		console.log("inside userWaitingOnline1....", data);
 		document.getElementById('usersOnline').innerHTML += '<li class="list-group-item list-group-item-action" onclick="selectUserForConversation()" id="'+data.uId+'"><a href="#"><span class="glyphicon glyphicon-user"></span>'+data.userName+'</a></li>';
