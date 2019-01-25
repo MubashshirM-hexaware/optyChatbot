@@ -175,8 +175,8 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                         if (data.success) {
                                             console.log("connect true");
                                             localStorage.setItem("connect", true);
-                                            localStorage.setItem("botHistory", JSON.stringify(botHistory));
-                                            console.log(JSON.parse(localStorage.getItem('botHistory')))
+                                            localStorage.setItem("chatTranscript", JSON.stringify(botHistory));
+                                            console.log(JSON.parse(localStorage.getItem('chatTranscript')))
                                             console.log("messageConversation qewry");
                                             agenthtml = `<li class="animated fadeInLeft list-group-item background-color-custom">
                                                             <table border="0" cellpadding="0" cellspacing="0">

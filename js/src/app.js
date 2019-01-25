@@ -17,7 +17,7 @@
          let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
          var uId = sessionId
          var userName = '';
-         var msgHistory = JSON.parse(localStorage.getItem('botHistory'));
+         var msgHistory = JSON.parse(localStorage.getItem('chatTranscript'));
 
 
          //============== socket =======================
@@ -45,8 +45,8 @@
 
          socket.on('getHistory', function (data) {
             alert('getHistory called');   
-            var history = JSON.parse(localStorage.getItem('botHistory'));
-             console.log('Actual local history', msgHistory);
+            var history = JSON.parse(localStorage.getItem('chatTranscript'));
+             console.log('Actual local history', history);
              console.log("Message%%%%%%%%%%%%%%%%%%%", msgHistory);
              socket.emit('sendMsgHistory', {
                  uId: data.uId,
