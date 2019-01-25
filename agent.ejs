@@ -414,6 +414,8 @@
 		// 		}
 		// 	}
 		// }
+		document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+				   data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';
 		document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
 		   data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';
 		var msgHistoryLength = data.msgHistory.length;
@@ -440,7 +442,7 @@
 
 	function selectUserForConversation() {
 		console.log("Inside selectUserForConversation");
-		getHistory();
+		// getHistory();
 		//var botHistory = localStorage.getItem('botHistory');
 		//console.log('botHistory', JSON.parse(botHistory));
 		var x = document.getElementsByClassName("list-group-item");
@@ -508,8 +510,9 @@
 	
 	socket.on('userWaitingOnline1', function(data){
 		alert('users list updated');
-		console.log('users list updated');
+		
 		historyPlaceHolder = data.msgHistory;
+		console.log('users list updated',historyPlaceHolder);
 		console.log("inside userWaitingOnline1....", data);
 		document.getElementById('usersOnline').innerHTML += '<li class="list-group-item list-group-item-action" onclick="selectUserForConversation()" id="'+data.uId+'"><a href="#"><span class="glyphicon glyphicon-user"></span>'+data.userName+'</a></li>';
 		document.getElementById('waitingUsersList').innerHTML = ''+ data.totalWaitingUsers;
