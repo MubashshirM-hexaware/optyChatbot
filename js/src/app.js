@@ -18,6 +18,7 @@
          var uId = sessionId
          var userName = '';
          var msgHistory = JSON.parse(localStorage.getItem('chatTranscript'));
+         var history = JSON.parse(localStorage.getItem('chatTranscript'));
 
 
          //============== socket =======================
@@ -45,7 +46,7 @@
 
          socket.on('getHistory', function (data) {
             alert('getHistory called');   
-            var history = JSON.parse(localStorage.getItem('chatTranscript'));
+            
              console.log('Actual local history', history);
              console.log("Message%%%%%%%%%%%%%%%%%%%", msgHistory);
              socket.emit('sendMsgHistory', {
@@ -134,7 +135,7 @@
                  //      initDemo();
 
                  //  } 
-                 //msgHistory.push({uId: uId, message: text, userName: userName});
+                 history.push({uId: uId, message: text, userName: userName});
                  console.log("Testg " + JSON.stringify(msgHistory));
                  //socket.emit('msg', {uId: uId, message: text, userName: userName});
                  if (localStorage.getItem("connect") == "true") {
