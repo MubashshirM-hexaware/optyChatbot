@@ -45,12 +45,13 @@
 
          socket.on('getHistory', function (data) {
             alert('getHistory called');   
+            var history = JSON.parse(localStorage.getItem('botHistory'));
              console.log('Actual local history', msgHistory);
              console.log("Message%%%%%%%%%%%%%%%%%%%", msgHistory);
              socket.emit('sendMsgHistory', {
                  uId: data.uId,
                  userName: data.userName,
-                 msgHistory: msgHistory
+                 msgHistory: history
              });
          });
 
