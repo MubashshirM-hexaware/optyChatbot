@@ -124,6 +124,13 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 console.log('Inside hasOwnProperty("payload")',botHistory);
                                 //messageConversation.Bot = response.result.fulfillment.messages[0].payload.facebook.text;
                             }
+                             if (response.result.fulfillment.messages[0].hasOwnProperty("speech") ) {
+                                history.botresponse = response.result.fulfillment.messages[0].speech;
+                                messageConversation += `Bot: ${response.result.fulfillment.messages[0].speech}\n`;
+                                botHistory.push({uId: '', message: response.result.fulfillment.messages[0].speech, userName: 'Bot'});
+                                console.log('Inside hasOwnProperty("payload")',botHistory);
+                                //messageConversation.Bot = response.result.fulfillment.messages[0].payload.facebook.text;
+                            }
                         }
                         if (localStorage.getItem('clientid')) {
                             $.ajax({
