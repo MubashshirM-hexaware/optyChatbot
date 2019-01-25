@@ -399,8 +399,17 @@
 		console.log("Data", data);
 		var len = data.msgHistory.length;
 		for (var i=0; i<len; i++){
-			document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
-				   userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';
+			if(data.msgHistory[i].userName) {
+				if( 'Bot' === data.msgHistory[i].userName ) {
+						document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+					   		data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';			
+					 	scrollToBottom();
+				}else {
+					document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
+		   				data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';
+					scrollToBottom();
+				}
+			}
 		}
 		
 		// var msgHistoryLength = data.msgHistory.length;
