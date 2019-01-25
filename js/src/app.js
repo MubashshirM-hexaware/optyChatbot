@@ -135,7 +135,7 @@
                  //      initDemo();
 
                  //  } 
-                 history.push({uId: uId, message: text, userName: userName});
+                 //history.push({uId: uId, message: text, userName: userName});
                  console.log("Testg " + JSON.stringify(msgHistory));
                  //socket.emit('msg', {uId: uId, message: text, userName: userName});
                  if (localStorage.getItem("connect") == "true") {
