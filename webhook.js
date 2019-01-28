@@ -389,6 +389,33 @@ function callServiceNowApi(url, dataService, type, callback) {
   }
 };
 
+function createSalesForceCase(){
+  console.log('inside sales force');
+  const header = {
+      api_key : 'application/json',
+      Authorization : 'Bearer 00D0o00000165Ry!ARsAQKA34f9tYlmQKVMPsoSKO.FTUt9OIW7zM7psMC1G0QjjCev8ETBGSqhLJFpRhmXUhG7hCQ4RHrr4xN6KzsDRT1F7Jqqo',
+      'Content-Type': 'application/json'
+    };
+    var options = {
+  "ContactId" : "",
+  "AccountId" : "",
+  "Type" : null,
+  "Status" : "New",
+  "Reason" : null,
+  "Origin" : "Email- Asia",	
+  "Subject" : "Test1 - Salesforce API tesing",
+  "Description": "Chat history",
+  "Priority" : "P3- Medium"
+};
+
+  requestAPI(header, options, function(error, response, body){
+    if(error){
+      console.log("error response", error);
+    }else{
+      console.log("Request success", response);
+    }
+  });
+}
 app.get('/agent', function (req, res) {
   res.render(__dirname + "/agent.ejs");
 });
@@ -398,7 +425,7 @@ app.post('/connectToAgent', function (req, res) {
     userType: "customer",
     uId: req.body.sessionId
   });
-
+  createSalesForceCase();
   res.status(200).send({
     success: 'true',
     message: 'Connection successful you can now chat with the agent'
