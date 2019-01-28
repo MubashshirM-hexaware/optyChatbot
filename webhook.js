@@ -396,7 +396,7 @@ function createSalesForceCase(){
       Authorization : 'Bearer 00D0o00000165Ry!ARsAQKA34f9tYlmQKVMPsoSKO.FTUt9OIW7zM7psMC1G0QjjCev8ETBGSqhLJFpRhmXUhG7hCQ4RHrr4xN6KzsDRT1F7Jqqo',
       'Content-Type': 'application/json'
     };
-    var options = {
+    var reqBody = {
   "ContactId" : "",
   "AccountId" : "",
   "Type" : null,
@@ -407,8 +407,15 @@ function createSalesForceCase(){
   "Description": "Chat history",
   "Priority" : "P3- Medium"
 };
+var options = {
+      url: 'https://ap8.salesforce.com/services/data/v41.0/sobjects/Case',
+      method: POST,
+      header: header,
+      body: reqBody,
+      json: true
+    };
 
-  requestAPI(header, options, function(error, response, body){
+  requestAPI(options, function(error, response, body){
     if(error){
       console.log("error response", error);
     }else{
