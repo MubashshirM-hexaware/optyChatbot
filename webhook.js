@@ -419,7 +419,7 @@ var options = {
     if(error){
       console.log("error response", error);
     }else{
-      console.log("Request success", response);
+      console.log("Request success", response.body);
     }
   });
 }
