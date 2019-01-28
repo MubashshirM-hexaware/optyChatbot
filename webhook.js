@@ -393,7 +393,7 @@ function createSalesForceCase(){
   console.log('inside sales force');
   const header = {
       api_key : 'application/json',
-      Authorization : 'Bearer 00D0o00000165Ry!ARsAQKA34f9tYlmQKVMPsoSKO.FTUt9OIW7zM7psMC1G0QjjCev8ETBGSqhLJFpRhmXUhG7hCQ4RHrr4xN6KzsDRT1F7Jqqo',
+      Authorization : 'Bearer 00D0o00000165Ry!ARsAQCIh5aOwc.ZEW6AsxCZx7axe.u8BfTQQnWPHIa4KqSGam2neO38X1_EQ30N1QXfuwnUlGi.MBzcjhUpMqndI88f94ZeZ',
       'Content-Type': 'application/json'
     };
     var reqBody = {
