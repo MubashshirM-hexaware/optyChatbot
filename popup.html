@@ -62,6 +62,10 @@
             $("div[role='navigation'] a").attr("data-content",
                 `<iframe onload="doIt()" id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`
             )
+        else if (host == "https://ethisalatweb.herokuapp.com")
+            $("div[role='navigation'] a").attr("data-content",
+                `<iframe onload="doIt()" id='iChatPopup' src='https://ethisalatweb.herokuapp.com/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`
+            )
         else
             $("div[role='navigation'] a").attr("data-content",
                 `<iframe onload="doIt()" id='iChatPopup' src='http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`
@@ -104,6 +108,10 @@
                 if (host == "http://localhost:9000")
                     $("div[role='navigation'] a").attr("data-content",
                         `<iframe id='iChatPopup' src='http://localhost:9000/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`
+                    )
+                else if (host == "https://ethisalatweb.herokuapp.com")
+                    $("div[role='navigation'] a").attr("data-content",
+                        `<iframe id='iChatPopup' src='https://ethisalatweb.herokuapp.com/?popup=1&search=${params}' height='530' width='300' style='border:none'></iframe>`
                     )
                 else
                     $("div[role='navigation'] a").attr("data-content",

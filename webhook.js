@@ -144,7 +144,7 @@ app.post('/callPhone', function (req, res) {
 })
 app.post('/updateSessionState', function (req, res) {
   console.log('update session called');
-  callServiceNowApi("https://p3ep1jeoz4.execute-api.us-east-1.amazonaws.com/Opty/updatesession", {
+  callServiceNowApi("https://obotintegration.herokuapp.com/updatesession", {
     type: req.body.params,
     sessionID: req.body.sessionId,
   }, "POST", function (err, data) {
