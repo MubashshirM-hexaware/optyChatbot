@@ -409,7 +409,7 @@ function createSalesForceCase(){
 };
 var options = {
       url: 'https://ap8.salesforce.com/services/data/v41.0/sobjects/Case',
-      method: POST,
+      method: "POST",
       header: header,
       body: reqBody,
       json: true
