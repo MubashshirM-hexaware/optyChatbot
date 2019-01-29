@@ -136,8 +136,8 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
                 //      initDemo();
 
                 //  } 
-                msgHistory.push({uId: uId, message: text, userName: userName});
-                console.log("Testg " + JSON.stringify(msgHistory));
+                //msgHistory.push({uId: uId, message: text, userName: userName});
+                console.log("Testg " + JSON.stringify(history));
                 //socket.emit('msg', {uId: uId, message: text, userName: userName});
                 if (localStorage.getItem("connect") == "true") {
                     let userhtml = '';
