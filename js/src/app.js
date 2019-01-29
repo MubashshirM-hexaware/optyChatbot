@@ -17,7 +17,8 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
         var uId = sessionId
         var userName = '';
-        var msgHistory = JSON.parse(localStorage.getItem('botHistory'));
+        var msgHistory = JSON.parse(localStorage.getItem('chatTranscript'));
+        var history = JSON.parse(localStorage.getItem('chatTranscript'));
 
 
         //============== socket =======================
@@ -49,7 +50,7 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
             socket.emit('sendMsgHistory', {
                 uId: data.uId,
                 userName: data.userName,
-                msgHistory: msgHistory
+                msgHistory: history
             });
         });
 
