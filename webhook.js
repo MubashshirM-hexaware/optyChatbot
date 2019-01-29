@@ -423,7 +423,7 @@ function createSalesForceCase(req) {
   getAccessToken(req);
   const header = {
     api_key: 'application/json',
-    Authorization: `Bearer `+_accessToken`; 
+    Authorization: `Bearer ${_accessToken}`,
     'Content-Type': 'application/json'
   };
   var reqBody = {
