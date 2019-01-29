@@ -12,9 +12,10 @@ const credentials = {
 const oauth2 = require('simple-oauth2').create(credentials);
 
 var getAuthUrl = function() {
+    console.log(`Generating auth url`);
   const returnVal = oauth2.authorizationCode.authorizeURL({
-    redirect_uri: process.env.REDIRECT_URI,
-    scope: process.env.APP_SCOPES
+    redirect_uri: 'https://optychatbot.herokuapp.com/',
+    scope: []
   });
   console.log(`Generated auth url: ${returnVal}`);
   return returnVal;
