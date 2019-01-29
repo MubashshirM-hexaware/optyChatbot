@@ -7,7 +7,8 @@ http = require('http'),
   TwitterStrategy = require('passport-twitter').Strategy,
   session = require('express-session');
 var io = require('socket.io').listen(server);
-var ioClient = require('socket.io-client')('https://optychatbot.herokuapp.com/');
+// var ioClient = require('socket.io-client')('https://optychatbot.herokuapp.com/');
+var ioClient = require('socket.io-client')('https://localhost:7000/');
 // fb = require('fb');
 // fb = new facebook(options);
 const crypto = require('crypto');
@@ -110,7 +111,7 @@ createApplication(({ app, callbackUrl }) => {
 
   // Authorization uri definition
   const authorizationUri = oauth2.authorizationCode.authorizeURL({
-    redirect_uri: 'https://optychatbot.herokuapp.com/callback',
+    redirect_uri: 'https://localhost:7000/callback',
     scope: 'User.Read',
   });
 
