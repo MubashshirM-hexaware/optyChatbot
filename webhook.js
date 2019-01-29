@@ -81,7 +81,9 @@ var Facebook = require('facebook-node-sdk');
 //------------ Oauth 2.0 -----------------------------------------------
 function getAccessToken(req) {
   console.log("Authurl =====================", authHelper.getAuthUrl());
-  const code = req.query.code;
+  var url_parts = url.parse(req.url, true);
+    var code = url_parts.query.code;
+    console.log('Code: ' + code);
   console.log('Code: ' + code);
   if(code){
     authHelper.getTokenFromCode(code, tokenReceived);
