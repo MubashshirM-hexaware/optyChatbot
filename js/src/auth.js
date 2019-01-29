@@ -14,8 +14,7 @@ const oauth2 = require('simple-oauth2').create(credentials);
 var getAuthUrl = function() {
     console.log(`Generating auth url`);
   const returnVal = oauth2.authorizationCode.authorizeURL({
-    redirect_uri: 'https://optychatbot.herokuapp.com/',
-    scope: []
+    redirect_uri: 'https://optychatbot.herokuapp.com/'
   });
   console.log(`Generated auth url: ${returnVal}`);
   return returnVal;
