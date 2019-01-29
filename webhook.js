@@ -1,11 +1,14 @@
 var express = require('express'),
   app = express(),
-  http = require('http'),
+  server = app.listen(process.env.PORT || 7000);
+http = require('http'),
   httpServer = http.Server(app),
   passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy,
   session = require('express-session');
-  // fb = require('fb');
+var io = require('socket.io').listen(server);
+var ioClient = require('socket.io-client')('http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/');
+// fb = require('fb');
 // fb = new facebook(options);
 const crypto = require('crypto');
 
@@ -37,7 +40,7 @@ const crypto = require('crypto');
 //       console.log(response);
 //       if (response && !response.error) {
 //         /* handle the result */
-  
+
 //       }
 //     }
 //   );
@@ -82,23 +85,29 @@ app.use(session({
   key: 'opty'
 }));
 app.use(express.static(__dirname));
+app.set('view engine', 'ejs');
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
-app.use(Facebook.middleware({appId: process.env.appID, secret: process.env.appSecret}));
-app.use(function(req, res, next) {
+app.use(Facebook.middleware({
+  appId: process.env.appID,
+  secret: process.env.appSecret
+}));
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-app.get('/feed',Facebook.loginRequired(),function(req,res){
+app.get('/feed', Facebook.loginRequired(), function (req, res) {
   res.send("inside feed");
-  req.facebook.api('/me', function(err, data) {
-    console.log('err',err)
-    console.log('user',data);
-    res.writeHead(200, {'Content-Type': 'text/plain'});
+  req.facebook.api('/me', function (err, data) {
+    console.log('err', err)
+    console.log('user', data);
+    res.writeHead(200, {
+      'Content-Type': 'text/plain'
+    });
     res.end('Hello, ' + data + '!');
   });
 })
@@ -117,7 +126,7 @@ app.get('/auth/twitter/callback',
 
 var jsonIncompleteTran = [];
 
-app.post("/webhook",async (req,res)=>{
+app.post("/webhook", async (req, res) => {
   var options = {
     url: "https://api.dialogflow.com/v1/query?v=20150910",
     method: "POST",
@@ -126,7 +135,7 @@ app.post("/webhook",async (req,res)=>{
     json: true
   };
   await requestAPI(options, function (error, response, body) {
-   res.send(body);
+    res.send(body);
   });
 })
 
@@ -138,7 +147,7 @@ app.get('/', function (req, res) {
 app.post('/callPhone', function (req, res) {
   console.log("inside callphone")
   callServiceNowApi("https://dev65171.service-now.com/api/now/table/u_servicerequest?sysparm_limit=1&sysparm_query=ORDERBYDESCsys_created_on&u_string3=9876543210&u_choice_1=in%20progress", null, "GET", function (err, data) {
-    console.log('inside call',data)
+    console.log('inside call', data)
     res.send(data);
   })
 })
@@ -264,7 +273,7 @@ app.post('/writeIncompleteTran', function (req, res) {
   var jsonArr = [];
   if (jsonIncompleteTran.length > 0) {
     // var data = fs.readFileSync("IncompleteTransaction.json", "utf8");
-    jsonArr = jsonIncompleteTran;    
+    jsonArr = jsonIncompleteTran;
     var index = null;
     var hasElement = false;
     console.log('Before For each');
@@ -307,8 +316,6 @@ app.post('/writeIncompleteTran', function (req, res) {
   }
   res.send(hasIncompleteTran);
 });
-
-app.listen(process.env.PORT || 7000);
 
 function writeFile(data, fileName) {
   fs.writeFile(fileName, JSON.stringify(data), function (err) {
@@ -378,3 +385,169 @@ function callServiceNowApi(url, dataService, type, callback) {
     // console.log('RESPONSE ERROR', JSON.stringify(err));
   }
 };
+
+app.get('/agent', function (req, res) {
+  res.render(__dirname + "/agent.ejs");
+});
+app.post('/connectToAgent', function (req, res) {
+  ioClient.emit('setUserName', {
+    userName: "Charlotte",
+    userType: "customer",
+    uId: req.body.sessionId
+  });
+
+  res.status(200).send({
+    success: 'true',
+    message: 'Connection successful you can now chat with the agent'
+  })
+
+});
+app.post('/msgHistory', function (req, res) {
+  var response = localStorage.getItem('msgHistory');
+  console.log("i am inside msgHistory", response);
+  res.send(response);
+});
+
+//============================== Socket Connection Sarts ================================
+var customers = [];
+var agents = [];
+io.set('transports', ['websocket', 'polling']);
+io.sockets.on("connection", function (socket) {
+  socket.on('subscribe', function (data) {
+
+    socket.join(data.uId);
+
+    console.log('\nUser ' + data.userName + ' has been joined in room ' + data.uId);
+    console.log('\n After subscribe :');
+    console.log('\n Customers :');
+
+    for (var i = 0; i < customers.length; i++) {
+      console.log('\n User Id :' + customers[i].uId + ' User name :' + customers[i].userName);
+    }
+
+    console.log('\n Agents :');
+
+    for (var i = 0; i < agents.length; i++) {
+      console.log('\n Agent Id :' + agents[i].uId + ' Agent name :' + agents[i].userName);
+    }
+
+    console.log('\n total agents : ' + agents.length);
+    console.log('\n total customers : ' + customers.length);
+    console.log('\n------------------------------------------------');
+  });
+  socket.on('unsubscribe', function (data) {
+    console.log('unsubscribe called. usertype :' + data.userType + ' userName :' + data.userName + ' uId :' + data.uId);
+
+    io.of('/').in(data.uId).clients(function (error, clients) {
+      if (clients.length > 0) {
+        console.log('Inside customer part');
+        clients.forEach(function (socket_id) {
+          io.sockets.sockets[socket_id].leave(data.uId);
+
+          var index = customers.map(function (e) {
+            return e.uId;
+          }).indexOf(data.uId);
+
+          if (index > -1) {
+            customers.splice(index, 1);
+            io.sockets.emit('userLeft', {
+              uId: data.uId,
+              totalWaitingUsers: customers.length
+            });
+
+            console.log('\nAfter unsubscribe :');
+            console.log('\n Customers :');
+
+            for (var i = 0; i < customers.length; i++) {
+              console.log('\n UserId :' + customers[i].uId + ' UserName :' + customers[i].userName);
+            }
+
+
+
+            console.log('\n Room for ' + data.userName + ' (' + data.uId + ') deleted successfully');
+
+            console.log('\n total customers : ' + customers.length);
+            console.log('\n------------------------------------------------');
+          }
+        });
+      }
+    });
+  });
+
+  socket.on('setUserName', function (data) {
+    console.log('I am inside setUserName : ', data.userType);
+    var uId = data.uId;
+
+    if (data.userType == "agent") {
+      console.log("setUserName agent", data);
+      agents.push({
+        uId: uId,
+        userName: data.userName
+      });
+      io.sockets.emit('userSetAgent', {
+        uId: uId,
+        userName: data.userName
+      });
+      console.log('\n' + data.userName + ' has been added to the agents list');
+
+    } else if (data.userType == 'customer') {
+
+      customers.push({
+        uId: uId,
+        userName: data.userName,
+        sockId: socket.id
+      });
+      io.sockets.emit('userSetUser', {
+        uId: uId,
+        userName: data.userName
+      });
+      console.log('\n ' + data.userName + ' has been added to the customers list');
+    }
+  });
+
+  socket.on('userWaitingOnline', function (data) {
+    console.log("I am inside userwaitingonline", data);
+    io.sockets.emit('userWaitingOnline1', {
+      uId: data.uId,
+      userName: data.userName,
+      totalWaitingUsers: customers.length,
+      msgHistory: data.msgHistory
+    });
+  });
+
+
+  socket.on('msg', function (data) {
+    debugger
+    console.log("on msg............", data);
+    if (data.msgFrom == 'agent') {
+      io.sockets.in(data.uId).emit('newMsg', data);
+    } else if (data.msgFrom == 'user') {
+      io.sockets.in(data.uId).emit('newMsgAgent', data);
+    }
+
+  });
+  socket.on('getHistoryFromBot', function (data) {
+    console.log('inside getHistoryFromBot for ' + data.uId + ' - ' + data.userName);
+    io.sockets.in(data.uId).emit('getHistory', data);
+  });
+
+  socket.on('sendMsgHistory', function (data) {
+    io.sockets.in(data.uId).emit('receiveHistory', data);
+  });
+
+  socket.on('transfer', function (data) {
+    console.log("I am inside transfer");
+    socket.conn.close();
+    io.sockets.in(data.uId).emit('endSocket', data);
+  });
+
+
+});
+
+app.post("/chathistory",async (req,res)=>{
+ 
+});
+
+
+
+//============================ Socket connection end =============================

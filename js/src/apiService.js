@@ -1,5 +1,3 @@
-
-
 /* -------------------------------------------------------------------
 Copyright (c) 2017-2017 Hexaware Technologies
 This file is part of the Innovation LAB - Offline Bot.
@@ -10,6 +8,9 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
     function ($, config, utils, messageTpl, cards, uuidv1) {
         var fallbackCount = 0;
         var oFallbackCount = 0;
+        let conversation = [];
+        let botHistory = [];
+        let messageConversation = "";
         class ApiHandler {
 
             constructor() {
@@ -37,6 +38,10 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                 var msg_container = $("ul#msg_container");
                 this.options.query = userInput;
                 this.options.resetContexts = isContextReset;
+                let history = {};
+                history.userInput = userInput;
+                messageConversation += `Charlotte: ${userInput}\n` 
+                botHistory.push({uId: '', message: userInput, userName: 'Charlotte'});  
 
                 $.ajax({
                     type: "POST",
@@ -92,6 +97,53 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         //     });
                         // }
 
+                        if (response.result.fulfillment.speech) {
+                            messageConversation += `Bot: ${response.result.fulfillment.speech}\n`;
+                            botHistory.push({uId: '', message: response.result.fulfillment.speech, userName: 'Bot'});
+                            //messageConversation.Bot = response.result.fulfillment.speech;
+                        }
+                        if (response.result.fulfillment.hasOwnProperty("displayText")) {
+                          messageConversation += `Bot: ${response.result.fulfillment.displayText}\n`;
+                          botHistory.push({uId: '', message: response.result.fulfillment.displayText, userName: 'Bot'});
+                            //messageConversation.Bot = response.result.fulfillment.displayText;
+                        }
+                        if (response.result.fulfillment.messages.length > 0) {
+                            if (response.result.fulfillment.messages[0].hasOwnProperty("title")) {
+                                history.botresponse = response.result.fulfillment.messages[0].title;
+                                messageConversation += `Bot: ${response.result.fulfillment.messages[0].title}\n`;
+                                botHistory.push({uId: '', message: response.result.fulfillment.messages[0].title, userName: 'Bot'});
+                                //messageConversation.Bot = response.result.fulfillment.messages[0].title;
+                            }
+                            if (response.result.fulfillment.messages[0].hasOwnProperty("payload") && response.result.fulfillment.messages[0].payload.hasOwnProperty("facebook") && response.result.fulfillment.messages[0].payload.facebook.hasOwnProperty("text")) {
+                                history.botresponse = response.result.fulfillment.messages[0].payload.facebook.text;
+                                messageConversation += `Bot: ${response.result.fulfillment.messages[0].payload.facebook.text}\n`;
+                                botHistory.push({uId: '', message: response.result.fulfillment.messages[0].payload.facebook.text, userName: 'Bot'});
+                                //messageConversation.Bot = response.result.fulfillment.messages[0].payload.facebook.text;
+                            }
+                        }
+                        if (localStorage.getItem('clientid')) {
+                            $.ajax({
+                                type: "POST",
+                                url: "/chathistory",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                data: JSON.stringify({
+                                    chattext: messageConversation,
+                                    custid: localStorage.getItem('clientid')
+                                }),
+                                success: function (response) {
+                                    console.log("success");
+                                    messageConversation = '';
+                                },
+                                error: function () {
+
+                                }
+                            });
+
+
+                        };
+                        conversation.push(history);
+
                         if (response.result.action == "input.unknown") {
                             fallbackCount++;
                             oFallbackCount++;
@@ -101,9 +153,54 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         }
 
                         if (response.result.action == "Optus") {
-                            utils.captureTranscript(dataList);
-                            fallbackCount, oFallbackCount = 0;
-                            callback(null, "Liveengage");
+                            // if (response.result.metadata.intentName == "CONNECT") {
+                                console.log("Inside connect", JSON.stringify(response.result));
+                                let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
+                                utils.initiateAjax("/connectToAgent", "POST", {
+                                    userName: "",
+                                    userType: "Customer",
+                                    sessionId: sessionId
+                                }, function (data, err) {
+                                    console.log("---------------Connection Established----------------------");
+                                    if (err) {
+                                        console.log("Error ", JSON.stringify(err));
+                                    } else {
+                                        console.log("Data", JSON.stringify(data));
+                                        console.log("messageConversation", JSON.stringify(botHistory));
+                                        let agenthtml = '';
+                                        if (data.success) {
+                                            console.log("connect true");
+                                            localStorage.setItem("connect", true);
+                                            localStorage.setItem("botHistory", JSON.stringify(botHistory));
+                                            console.log(JSON.parse(localStorage.getItem('botHistory')))
+                                            console.log("messageConversation qewry");
+                                            agenthtml = `<li class="animated fadeInLeft list-group-item background-color-custom">
+                                                            <table border="0" cellpadding="0" cellspacing="0">
+                                                            <tbody><tr>
+                                                            <td style="vertical-align:top;">
+                                                                <img width="35" height="35" class="bot-logo-image" style="border:none;"></td>
+                                                                <td><div class="media-body bot-txt-space">
+                                                                    <p class="list-group-item-text-bot">` + data.message + `</p>
+                                                                    <p class="bot-res-timestamp"><small> <img style="border-radius:50%;border:2px solid white;" class="welcome-message" width="20" height="20">12:37 pm</small></p>
+                                                    
+                                                                </div></td>
+                                                                </tr>
+                                                            </tbody></table>                
+                                                            </li>`;
+                                            msg_container.append(agenthtml);
+                                            utils.scrollSmoothToBottom($('div.chat-body'));
+                                            setTimeout(() => {
+                                                msg_container.find("li:nth-last-child(2)").find("button").prop("disabled", true);
+                                                msg_container.find("li:nth-last-child(2)").find("a").prop("disabled", true);
+                                            }, 2000)
+
+                                        }
+                                    }
+                                })
+                            // }
+                            // utils.captureTranscript(dataList);
+                            // fallbackCount, oFallbackCount = 0;
+                            // callback(null, "Liveengage");
                         } else if (fallbackCount > 2 || oFallbackCount > 10) {
                             utils.captureTranscript(dataList);
                             fallbackCount, oFallbackCount = 0;
