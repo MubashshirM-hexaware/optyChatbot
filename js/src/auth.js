@@ -11,7 +11,7 @@ const credentials = {
 };
 const oauth2 = require('simple-oauth2').create(credentials);
 
-var getAuthUrl = function(ab) {
+var getAuthUrl = function() {
   const returnVal = oauth2.authorizationCode.authorizeURL({
     redirect_uri: process.env.REDIRECT_URI,
     scope: process.env.APP_SCOPES
