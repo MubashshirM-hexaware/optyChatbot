@@ -91,7 +91,7 @@ var Facebook = require('facebook-node-sdk');
 // // Initialize the OAuth2 Library
 // const oauth2 = require('simple-oauth2').create(credentials);
 const createApplication = require('./');
-const simpleOauthModule = require('./..');
+const simpleOauthModule = require('./../');
 console.log('Create Application', createApplication);
 createApplication(({ app, callbackUrl }) => {
   const oauth2 = simpleOauthModule.create({
