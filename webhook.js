@@ -142,7 +142,7 @@ createApplication(({ app, callbackUrl }) => {
       return res.status(500).json('Authentication failed');
     }
   });
-
+});
 //------------ Oauth 2.0 -----------------------------------------------
 
 
