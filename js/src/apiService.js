@@ -100,13 +100,11 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         if (response.result.fulfillment.speech) {
                             messageConversation += `Bot: ${response.result.fulfillment.speech}\n`;
                             botHistory.push({uId: '', message: response.result.fulfillment.speech, userName: 'Bot'});
-                            console.log('Inside response.result.fulfillment.speech',botHistory);
                             //messageConversation.Bot = response.result.fulfillment.speech;
                         }
                         if (response.result.fulfillment.hasOwnProperty("displayText")) {
                           messageConversation += `Bot: ${response.result.fulfillment.displayText}\n`;
                           botHistory.push({uId: '', message: response.result.fulfillment.displayText, userName: 'Bot'});
-                          console.log('Inside response.result.fulfillment.hasOwnProperty("displayText")',botHistory);
                             //messageConversation.Bot = response.result.fulfillment.displayText;
                         }
                         if (response.result.fulfillment.messages.length > 0) {
@@ -114,14 +112,12 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 history.botresponse = response.result.fulfillment.messages[0].title;
                                 messageConversation += `Bot: ${response.result.fulfillment.messages[0].title}\n`;
                                 botHistory.push({uId: '', message: response.result.fulfillment.messages[0].title, userName: 'Bot'});
-                                console.log('Inside hasOwnProperty("title")',botHistory);
                                 //messageConversation.Bot = response.result.fulfillment.messages[0].title;
                             }
                             if (response.result.fulfillment.messages[0].hasOwnProperty("payload") && response.result.fulfillment.messages[0].payload.hasOwnProperty("facebook") && response.result.fulfillment.messages[0].payload.facebook.hasOwnProperty("text")) {
                                 history.botresponse = response.result.fulfillment.messages[0].payload.facebook.text;
                                 messageConversation += `Bot: ${response.result.fulfillment.messages[0].payload.facebook.text}\n`;
                                 botHistory.push({uId: '', message: response.result.fulfillment.messages[0].payload.facebook.text, userName: 'Bot'});
-                                console.log('Inside hasOwnProperty("payload")',botHistory);
                                 //messageConversation.Bot = response.result.fulfillment.messages[0].payload.facebook.text;
                             }
                         }
@@ -175,8 +171,8 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                         if (data.success) {
                                             console.log("connect true");
                                             localStorage.setItem("connect", true);
-                                            localStorage.setItem("chatTranscript", JSON.stringify(botHistory));
-                                            console.log(JSON.parse(localStorage.getItem('chatTranscript')))
+                                            localStorage.setItem("botHistory", JSON.stringify(botHistory));
+                                            console.log(JSON.parse(localStorage.getItem('botHistory')))
                                             console.log("messageConversation qewry");
                                             agenthtml = `<li class="animated fadeInLeft list-group-item background-color-custom">
                                                             <table border="0" cellpadding="0" cellspacing="0">
