@@ -79,7 +79,7 @@ var Facebook = require('facebook-node-sdk');
 
 //------------ Oauth 2.0 -----------------------------------------------
 
-console.log("Authurl =====================", authHelper.getAuthUrl());
+console.log("Authurl =====================", authHelper.getAuthUrl);
 
 //------------ Oauth 2.0 -----------------------------------------------
 
