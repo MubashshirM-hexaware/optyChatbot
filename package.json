@@ -21,7 +21,8 @@
     "passport-twitter": "1.0.4",
     "redis": "^2.8.0",
     "request": "^2.87.0",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "simple-oauth2" : "2.0.1"
   },
   "description": "",
   "repository": {
