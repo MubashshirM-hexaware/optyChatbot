@@ -20,4 +20,4 @@ var getAuthUrl = function() {
   return returnVal;
 }
 
-module.exports.getAuthUrl = getAuthUrl();
+module.exports.getAuthUrl = getAuthUrl;
