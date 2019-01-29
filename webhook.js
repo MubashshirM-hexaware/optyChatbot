@@ -5,7 +5,7 @@ http = require('http'),
   httpServer = http.Server(app),
   passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy,
-  session = require('express-session');  
+  session = require('express-session');
 var io = require('socket.io').listen(server);
 var ioClient = require('socket.io-client')('https://optychatbot.herokuapp.com/');
 // var ioClient = require('socket.io-client')('https://localhost:7000/');
@@ -13,6 +13,7 @@ var ioClient = require('socket.io-client')('https://optychatbot.herokuapp.com/')
 // fb = new facebook(options);
 var authHelper = require('./js/src/auth');
 const crypto = require('crypto');
+var _accessToken;
 
 // var accessToken;
 
@@ -78,8 +79,27 @@ var Facebook = require('facebook-node-sdk');
 // ));
 
 //------------ Oauth 2.0 -----------------------------------------------
+function getAccessToken(req) {
+  console.log("Authurl =====================", authHelper.getAuthUrl());
+  const code = req.query.code;
+  console.log('Code: ' + code);
+  if(code){
+    authHelper.getTokenFromCode(code, tokenReceived);
+  }else{
+    console.log("Error", code);
+  }
+  
+}
 
-console.log("Authurl =====================", authHelper.getAuthUrl());
+function tokenReceived(error, token){
+  if(error){
+    console.log("Error while receiving token from the code");
+  }else{
+    _accessToken = token;
+    console.log('_accessToken........', _accessToken);
+  }
+}
+
 
 //------------ Oauth 2.0 -----------------------------------------------
 
@@ -398,36 +418,37 @@ function callServiceNowApi(url, dataService, type, callback) {
   }
 };
 
-function createSalesForceCase(){
+function createSalesForceCase(req) {
   console.log('inside sales force');
+  getAccessToken(req);
   const header = {
-      api_key : 'application/json',
-      Authorization : 'Bearer 00D0o00000165Ry!ARsAQCIh5aOwc.ZEW6AsxCZx7axe.u8BfTQQnWPHIa4KqSGam2neO38X1_EQ30N1QXfuwnUlGi.MBzcjhUpMqndI88f94ZeZ',
-      'Content-Type': 'application/json'
-    };
-    var reqBody = {
-  "ContactId" : "",
-  "AccountId" : "",
-  "Type" : null,
-  "Status" : "New",
-  "Reason" : null,
-  "Origin" : "Email- Asia",	
-  "Subject" : "Test1 - Salesforce API tesing",
-  "Description": "Chat history",
-  "Priority" : "P3- Medium"
-};
-var options = {
-      url: 'https://ap8.salesforce.com/services/data/v41.0/sobjects/Case',
-      method: "POST",
-      header: header,
-      body: reqBody,
-      json: true
-    };
+    api_key: 'application/json',
+    Authorization: `Bearer `+_accessToken`; 
+    'Content-Type': 'application/json'
+  };
+  var reqBody = {
+    "ContactId": "",
+    "AccountId": "",
+    "Type": null,
+    "Status": "New",
+    "Reason": null,
+    "Origin": "Email- Asia",
+    "Subject": "Test1 - Salesforce API tesing",
+    "Description": "Chat history",
+    "Priority": "P3- Medium"
+  };
+  var options = {
+    url: 'https://ap8.salesforce.com/services/data/v41.0/sobjects/Case',
+    method: "POST",
+    header: header,
+    body: reqBody,
+    json: true
+  };
 
-  requestAPI(options, function(error, response, body){
-    if(error){
+  requestAPI(options, function (error, response, body) {
+    if (error) {
       console.log("error response", error);
-    }else{
+    } else {
       console.log("Request success", response.body);
     }
   });
@@ -441,7 +462,7 @@ app.post('/connectToAgent', function (req, res) {
     userType: "customer",
     uId: req.body.sessionId
   });
-  createSalesForceCase();
+  createSalesForceCase(req);
   res.status(200).send({
     success: 'true',
     message: 'Connection successful you can now chat with the agent'
@@ -591,8 +612,8 @@ io.sockets.on("connection", function (socket) {
 
 });
 
-app.post("/chathistory",async (req,res)=>{
- 
+app.post("/chathistory", async (req, res) => {
+
 });
 
 

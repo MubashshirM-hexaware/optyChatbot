@@ -20,4 +20,22 @@ var getAuthUrl = function() {
   return returnVal;
 }
 
+function getTokenFromCode(auth_code, callback) {
+    var token;
+    oauth2.authorizationCode.getToken({
+      code: auth_code,
+      redirect_uri: 'https://optychatbot.herokuapp.com/'
+    }, function (error, result) {
+      if (error) {
+        console.log('Access token error: ', error.message);
+        callback(error, null);
+      } else {
+        token = oauth2.accessToken.create(result);
+        console.log('Token created: ', token.token);
+        callback(null, token);
+      }
+    });
+  }
+
+exports.getTokenFromCode = getTokenFromCode;
 module.exports.getAuthUrl = getAuthUrl;
