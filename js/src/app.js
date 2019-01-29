@@ -8,7 +8,7 @@ This file is part of the Innovation LAB - Offline Bot.
 define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function ($, config, apiService, utils, io, uuidv1) {
     $(function () {
         var msg_container = $("ul#msg_container");
-        localStorage.setItem("connect", false);         
+        localStorage.setItem("connect", false);
         var globalLpChat;
         var chatFinalTranscript = [];
         var chatRequest;
@@ -58,12 +58,8 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
             console.log("I am inside user set", data);
             uId = data.uId;
             userName = data.userName
-            socket.emit('subscribe', {
-                uId: data.uId,
-                userName: userName,
-                userType: "customer"
-            });
-           userWaitingListUpdate();
+            socket.emit('subscribe', { uId: data.uId, userName: userName, userType: "customer" });
+            userWaitingListUpdate();
         });
 
         socket.on('endSocket', function (data) {
@@ -537,11 +533,11 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
 
         function userWaitingListUpdate() {
             if (msgHistory.length > 1) {
-               socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : msgHistory});
-            }            
-           // alert('OnlineList triger');
-           }
-
+                socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: msgHistory });
+            }
+            //    alert('OnlineList triger');
+        }
+        
         function createWindow() {
             startChat();
         }
