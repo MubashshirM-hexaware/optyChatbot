@@ -12,6 +12,7 @@ var ioClient = require('socket.io-client')('https://optychatbot.herokuapp.com/')
 // fb = require('fb');
 // fb = new facebook(options);
 var authHelper = require('./js/src/auth');
+var url = require('url');
 const crypto = require('crypto');
 var _accessToken;
 
