@@ -135,7 +135,7 @@
                  //      initDemo();
 
                  //  } 
-                 msgHistory.push({uId: uId, message: text, userName: userName});
+                 //msgHistory.push({uId: uId, message: text, userName: userName});
                  console.log("Testg " + JSON.stringify(msgHistory));
                  //socket.emit('msg', {uId: uId, message: text, userName: userName});
                  if (localStorage.getItem("connect") == "true") {
@@ -535,7 +535,7 @@
          }
 
          function userWaitingListUpdate() {
-             if (msgHistory.length > 0) {
+             if (msgHistory.length > 1) {
                 socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : msgHistory});
              }            
             // alert('OnlineList triger');
