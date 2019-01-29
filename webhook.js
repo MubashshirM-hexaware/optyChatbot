@@ -5,7 +5,8 @@ http = require('http'),
   httpServer = http.Server(app),
   passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy,
-  session = require('express-session');
+  session = require('express-session'),
+  authHelper = require('./js/src/auth');
 var io = require('socket.io').listen(server);
 // var ioClient = require('socket.io-client')('https://optychatbot.herokuapp.com/');
 var ioClient = require('socket.io-client')('https://localhost:7000/');
@@ -90,59 +91,62 @@ var Facebook = require('facebook-node-sdk');
  
 // // Initialize the OAuth2 Library
 // const oauth2 = require('simple-oauth2').create(credentials);
-const createApplication = require('./');
-const simpleOauthModule = require('./');
-console.log('Create Application', createApplication);
-createApplication(({ app, callbackUrl }) => {
-  const oauth2 = simpleOauthModule.create({
-    client: {
-      id:'3MVG9pe2TCoA1Pf4gOK_r9I_2WAlDC8GemGLa.XyQJxerdzIy1xU5OH.DuMkrTMc6hGkGPFakWN4YMzDAPTtE',
-      secret: '6917821745050784149'
-    },
-    auth: {
-      tokenHost: 'https://login.salesforce.com/',
-      tokenPath: '/services/oauth2/token',
-      authorizePath: '/services/oauth2/authorize',
-    },
-    options: {
-      authorizationMethod: 'body',
-    }
-  });
+// const createApplication = require('./');
+// const simpleOauthModule = require('./');
+// console.log('Create Application', createApplication);
+// createApplication(({ app, callbackUrl }) => {
+//   const oauth2 = simpleOauthModule.create({
+//     client: {
+//       id:'3MVG9pe2TCoA1Pf4gOK_r9I_2WAlDC8GemGLa.XyQJxerdzIy1xU5OH.DuMkrTMc6hGkGPFakWN4YMzDAPTtE',
+//       secret: '6917821745050784149'
+//     },
+//     auth: {
+//       tokenHost: 'https://login.salesforce.com/',
+//       tokenPath: '/services/oauth2/token',
+//       authorizePath: '/services/oauth2/authorize',
+//     },
+//     options: {
+//       authorizationMethod: 'body',
+//     }
+//   });
 
-  // Authorization uri definition
-  const authorizationUri = oauth2.authorizationCode.authorizeURL({
-    redirect_uri: 'https://localhost:7000/callback',
-    scope: 'User.Read',
-  });
+//   // Authorization uri definition
+//   const authorizationUri = oauth2.authorizationCode.authorizeURL({
+//     redirect_uri: 'https://localhost:7000/callback',
+//     scope: 'User.Read',
+//   });
 
-  // Initial page redirecting to Github
-  app.get('/auth', (req, res) => {
-    console.log(authorizationUri);
-    res.redirect(authorizationUri);
-  });
+//   // Initial page redirecting to Github
+//   app.get('/auth', (req, res) => {
+//     console.log(authorizationUri);
+//     res.redirect(authorizationUri);
+//   });
 
-  // Callback service parsing the authorization token and asking for the access token
-  app.get('/callback', async (req, res) => {
-    const code = req.query.code;
-    const options = {
-      code,
-      redirect_uri: callbackUrl,
-    };
+//   // Callback service parsing the authorization token and asking for the access token
+//   app.get('/callback', async (req, res) => {
+//     const code = req.query.code;
+//     const options = {
+//       code,
+//       redirect_uri: callbackUrl,
+//     };
 
-    try {
-      const result = await oauth2.authorizationCode.getToken(options);
+//     try {
+//       const result = await oauth2.authorizationCode.getToken(options);
 
-      console.log('The resulting token: ', result);
+//       console.log('The resulting token: ', result);
 
-      const token = oauth2.accessToken.create(result);
+//       const token = oauth2.accessToken.create(result);
 
-      return res.status(200).json(token)
-    } catch(error) {
-      console.error('Access Token Error', error.message);
-      return res.status(500).json('Authentication failed');
-    }
-  });
-});
+//       return res.status(200).json(token)
+//     } catch(error) {
+//       console.error('Access Token Error', error.message);
+//       return res.status(500).json('Authentication failed');
+//     }
+//   });
+// });
+
+console.log("Authurl =====================", authHelper.getAuthUrl());
+
 //------------ Oauth 2.0 -----------------------------------------------
 
 
