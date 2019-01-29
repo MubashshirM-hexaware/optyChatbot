@@ -7,8 +7,8 @@ http = require('http'),
   TwitterStrategy = require('passport-twitter').Strategy,
   session = require('express-session');  
 var io = require('socket.io').listen(server);
-// var ioClient = require('socket.io-client')('https://optychatbot.herokuapp.com/');
-var ioClient = require('socket.io-client')('https://localhost:7000/');
+var ioClient = require('socket.io-client')('https://optychatbot.herokuapp.com/');
+// var ioClient = require('socket.io-client')('https://localhost:7000/');
 // fb = require('fb');
 // fb = new facebook(options);
 var authHelper = require('./js/src/auth');
@@ -79,7 +79,7 @@ var Facebook = require('facebook-node-sdk');
 
 //------------ Oauth 2.0 -----------------------------------------------
 
-console.log("Authurl =====================", authHelper.getAuthUrl);
+console.log("Authurl =====================", authHelper.getAuthUrl());
 
 //------------ Oauth 2.0 -----------------------------------------------
 

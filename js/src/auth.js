@@ -9,7 +9,7 @@ const credentials = {
     tokenPath: '/services/oauth2/token'
   }
 };
-const oauth2 = require('simple-oauth2').create(credentials);
+var oauth2 = require('simple-oauth2').create(credentials);
 
 var getAuthUrl = function() {
     console.log(`Generating auth url`);
