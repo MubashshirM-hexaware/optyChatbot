@@ -47,6 +47,7 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         });
 
         socket.on('getHistory', function (data) {
+            alert('getHistory');
             console.log('Actual local history', getHistory());
             console.log("Message%%%%%%%%%%%%%%%%%%%", getHistory());
             socket.emit('sendMsgHistory', {
@@ -57,6 +58,7 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         });
 
         socket.on('userSetUser', function (data) {
+            alert("I am inside user set");
             console.log("I am inside user set", data);
             uId = data.uId;
             userName = data.userName
@@ -539,11 +541,12 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         }
 
         function userWaitingListUpdate() {
+            alert('OnlineList triger');
             var history = getHistory();
             if (history.length > 1) {
                 socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
             }
-            //    alert('OnlineList triger');
+             //alert('OnlineList triger');
         }
         
         function createWindow() {

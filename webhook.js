@@ -390,6 +390,7 @@ app.get('/agent', function (req, res) {
   res.render(__dirname + "/agent.ejs");
 });
 app.post('/connectToAgent', function (req, res) {
+  console.log('calling setUserName');
   ioClient.emit('setUserName', {
     userName: "Charlotte",
     userType: "customer",
@@ -491,7 +492,7 @@ io.sockets.on("connection", function (socket) {
       console.log('\n' + data.userName + ' has been added to the agents list');
 
     } else if (data.userType == 'customer') {
-
+      console.log('calling userSetUser');
       customers.push({
         uId: uId,
         userName: data.userName,
