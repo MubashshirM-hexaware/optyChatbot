@@ -17,7 +17,7 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
         var uId = sessionId
         var userName = '';
-        var msgHistory = JSON.parse(localStorage.getItem('chatTranscript'));
+        // var msgHistory = JSON.parse(localStorage.getItem('chatTranscript'));
         var history = JSON.parse(localStorage.getItem('chatTranscript'));
 
 
@@ -45,8 +45,8 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         });
 
         socket.on('getHistory', function (data) {
-            console.log('Actual local history', msgHistory);
-            console.log("Message%%%%%%%%%%%%%%%%%%%", msgHistory);
+            console.log('Actual local history', history);
+            console.log("Message%%%%%%%%%%%%%%%%%%%", history);
             socket.emit('sendMsgHistory', {
                 uId: data.uId,
                 userName: data.userName,
@@ -532,8 +532,8 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         }
 
         function userWaitingListUpdate() {
-            if (msgHistory.length > 1) {
-                socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: msgHistory });
+            if (history.length > 1) {
+                socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
             }
             //    alert('OnlineList triger');
         }
