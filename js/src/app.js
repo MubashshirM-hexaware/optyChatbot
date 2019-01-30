@@ -539,7 +539,7 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         }
 
         function userWaitingListUpdate() {
-            ver history = getHistory();
+            var history = getHistory();
             if (history.length > 1) {
                 socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
             }
