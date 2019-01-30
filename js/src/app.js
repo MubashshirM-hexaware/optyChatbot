@@ -13,12 +13,14 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         var chatFinalTranscript = [];
         var chatRequest;
         localStorage.setItem("botHistory", JSON.stringify(chatFinalTranscript));
+        localStorage.removeItem(chatTranscript);
         var socket = io('https://ethisalatweb.herokuapp.com/');
         let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
         var uId = sessionId
         var userName = '';
+
         // var msgHistory = JSON.parse(localStorage.getItem('chatTranscript'));
-        var history = JSON.parse(localStorage.getItem('chatTranscript'));
+        
 
 
         //============== socket =======================
@@ -45,12 +47,12 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         });
 
         socket.on('getHistory', function (data) {
-            console.log('Actual local history', history);
-            console.log("Message%%%%%%%%%%%%%%%%%%%", history);
+            console.log('Actual local history', getHistory());
+            console.log("Message%%%%%%%%%%%%%%%%%%%", getHistory());
             socket.emit('sendMsgHistory', {
                 uId: data.uId,
                 userName: data.userName,
-                msgHistory: history
+                msgHistory: getHistory()
             });
         });
 
@@ -72,6 +74,11 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
             setTimeout(() => {
                 window.parent.document.getElementById('btn-send-message').click();
             }, 2000);
+        }
+
+        function getHistory(){
+            var history = JSON.parse(localStorage.getItem('chatTranscript'));
+            return history;
         }
 
         function adjustPopups() {
@@ -133,7 +140,7 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
 
                 //  } 
                 //msgHistory.push({uId: uId, message: text, userName: userName});
-                console.log("Testg " + JSON.stringify(history));
+                console.log("Testg " + JSON.stringify(getHistory()));
                 //socket.emit('msg', {uId: uId, message: text, userName: userName});
                 if (localStorage.getItem("connect") == "true") {
                     let userhtml = '';
@@ -532,6 +539,7 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         }
 
         function userWaitingListUpdate() {
+            ver history = getHistory();
             if (history.length > 1) {
                 socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
             }
