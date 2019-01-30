@@ -13,7 +13,7 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
         var chatFinalTranscript = [];
         var chatRequest;
         localStorage.setItem("botHistory", JSON.stringify(chatFinalTranscript));
-        localStorage.removeItem(chatTranscript);
+        localStorage.removeItem('chatTranscript');
         var socket = io('https://ethisalatweb.herokuapp.com/');
         let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
         var uId = sessionId
