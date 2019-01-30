@@ -487,10 +487,10 @@
 		socket.emit('subscribe', { uId : 'usersWaitingOnlineRoom', userName : 'usersWaitingOnlineRoom', userType : userType });
 	}
 	
-	socket.on('userWaitingOnline1', function(data){
+	socket.on('userWaitingOnlineUpdate', function(data){
 		alert('users list updated');
 		historyPlaceHolder = data.msgHistory;
-		console.log("inside userWaitingOnline1....", data);
+		console.log("inside userWaitingOnlineUpdate....", data);
 		document.getElementById('usersOnline').innerHTML += '<li class="list-group-item list-group-item-action" onclick="selectUserForConversation()" id="'+data.uId+'"><a href="#"><span class="glyphicon glyphicon-user"></span>'+data.userName+'</a></li>';
 		document.getElementById('waitingUsersList').innerHTML = ''+ data.totalWaitingUsers;
 	});

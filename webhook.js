@@ -508,7 +508,7 @@ io.sockets.on("connection", function (socket) {
 
   socket.on('userWaitingOnline', function (data) {
     console.log("I am inside userwaitingonline", data);
-    io.sockets.emit('userWaitingOnline1', {
+    io.sockets.emit('userWaitingOnlineUpdate', {
       uId: data.uId,
       userName: data.userName,
       totalWaitingUsers: customers.length,
