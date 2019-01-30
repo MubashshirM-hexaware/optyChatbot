@@ -63,7 +63,11 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
             uId = data.uId;
             userName = data.userName
             socket.emit('subscribe', { uId: data.uId, userName: userName, userType: "customer" });
-            userWaitingListUpdate();
+            alert('OnlineList triger');
+            var history = getHistory();
+            if (history.length > 1) {
+                socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
+            }
         });
 
         socket.on('endSocket', function (data) {
@@ -523,31 +527,10 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
                     msgFrom: "user"
                 });
             }
-            //  $.ajax({
-            //      url: "/showChatTranscript",
-            //      type: "GET",
-            //      success: function (result) {
-            //          chatFinalTranscript = result;
-            //          console.log('********************* ', chatFinalTranscript);
-            //      },
-            //      error: function (err) {
-            //          console.log(err);
-            //      }
-            //  });
-            //  setTimeout(() => {
-            //      initChat(getEngagement);
-            //  }, 1000);
 
         }
 
-        function userWaitingListUpdate() {
-            alert('OnlineList triger');
-            var history = getHistory();
-            if (history.length > 1) {
-                socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
-            }
-             //alert('OnlineList triger');
-        }
+        
         
         function createWindow() {
             startChat();
