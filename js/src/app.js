@@ -65,7 +65,10 @@ define(['jquery', 'settings', 'apiService', 'utils', 'socket', 'uuid'], function
             socket.emit('subscribe', { uId: data.uId, userName: userName, userType: "customer" });
             alert('OnlineList triger');
             var history = getHistory();
+            console.log('history', history);
+            console.log('history len', history.length);
             if (history.length > 1) {
+                alert('inside history.length')
                 socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
             }
         });
