@@ -80,7 +80,7 @@ var Facebook = require('facebook-node-sdk');
 // ));
 
 //------------ Oauth 2.0 -----------------------------------------------
-function getAccessToken(req) {
+function authorize(response, request) {
   console.log("Authurl =====================", authHelper.getAuthUrl());
   var url_parts = url.parse(req.url, true);
     var code = url_parts.query.code;
@@ -103,6 +103,12 @@ function tokenReceived(error, token){
   }
 }
 
+function home(response, request) {
+  console.log('Request handler \'home\' was called.');
+  response.writeHead(200, {'Content-Type': 'text/html'});
+  response.write('<p>Please <a href="' + authHelper.getAuthUrl() + '">sign in</a> with your Office 365 or Outlook.com account.</p>');
+  response.end();
+}
 
 //------------ Oauth 2.0 -----------------------------------------------
 
