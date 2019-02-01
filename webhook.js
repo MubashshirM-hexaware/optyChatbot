@@ -8,6 +8,7 @@ http = require('http'),
   session = require('express-session');
 var io = require('socket.io').listen(server);
 var ioClient = require('socket.io-client')('https://optychatbot.herokuapp.com/');
+var BinaryServer = require('binaryjs').BinaryServer;
 // var ioClient = require('socket.io-client')('https://localhost:7000/');
 // fb = require('fb');
 // fb = new facebook(options);

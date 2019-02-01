@@ -22,7 +22,8 @@
     "redis": "^2.8.0",
     "request": "^2.87.0",
     "simple-oauth2": "^2.2.1",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "binaryjs": "^0.2.1"
   },
   "description": "",
   "repository": {
