@@ -17,8 +17,8 @@
          let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
          var uId = sessionId
          var userName = '';
-         var msgHistory = JSON.parse(localStorage.getItem('chatTranscript'));
-         var history = JSON.parse(localStorage.getItem('chatTranscript'));
+        //  var msgHistory = JSON.parse(localStorage.getItem('chatTranscript'));
+         
 
 
          //============== socket =======================
@@ -47,12 +47,12 @@
          socket.on('getHistory', function (data) {
             alert('getHistory called');   
             
-             console.log('Actual local history', history);
-             console.log("Message%%%%%%%%%%%%%%%%%%%", msgHistory);
+             console.log('Actual local history', getHistory());
+             console.log("Message%%%%%%%%%%%%%%%%%%%", getHistory());
              socket.emit('sendMsgHistory', {
                  uId: data.uId,
                  userName: data.userName,
-                 msgHistory: history
+                 msgHistory: getHistory()
              });
          });
 
@@ -77,6 +77,10 @@
              }, 2000);
          }
 
+        function getHistory(){
+            var history = JSON.parse(localStorage.getItem('chatTranscript'));
+            return history;
+        }
          function adjustPopups() {
              let msgboxh = $("div.header-popup").next().height();
              let chath = $("div.header-popup").next().next().height();
@@ -136,7 +140,7 @@
 
                  //  } 
                  //history.push({uId: uId, message: text, userName: userName});
-                 console.log("Testg " + JSON.stringify(msgHistory));
+                 console.log("Testg " + JSON.stringify(getHistory()));
                  //socket.emit('msg', {uId: uId, message: text, userName: userName});
                  if (localStorage.getItem("connect") == "true") {
                      let userhtml = '';
@@ -535,8 +539,9 @@
          }
 
          function userWaitingListUpdate() {
-             if(msgHistory.length>1){
-                 socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : msgHistory});
+             var history = getHistory();
+             if(history.length>1){
+                 socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : history});
              }
 		alert('OnlineList triger');
 	    }
