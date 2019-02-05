@@ -56,16 +56,16 @@
              });
          });
 
-         socket.on('userSetUser', function(data) {
+         socket.on('userSetUser', async function(data) {
             console.log("I am inside user set", data);
 		uId = data.uId;
         userName = data.userName
-		socket.emit('subscribe', { uId : data.uId, userName : userName, userType : "customer" });
-		 alert('OnlineList triger');
+		await socket.emit('subscribe', { uId : data.uId, userName : userName, userType : "customer" });
+		//  alert('OnlineList triger');
             var history = getHistory();
             if (history.length > 1) {
-                alert('inside history.length')
-                socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
+                // alert('inside history.length')
+                await socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
             }
 	    });
          
