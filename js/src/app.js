@@ -45,7 +45,7 @@
          });
 
          socket.on('getHistory', function (data) {
-            alert('getHistory called');   
+            // alert('getHistory called');   
             
              console.log('Actual local history', getHistory());
              console.log("Message%%%%%%%%%%%%%%%%%%%", getHistory());
@@ -67,6 +67,7 @@
 
          socket.on('endSocket', function (data) {
              localStorage.setItem('connect', "false");
+              
          });
 
          //================socket end ======================
@@ -538,13 +539,7 @@
 
          }
 
-         function userWaitingListUpdate() {
-             var history = getHistory();
-             if(history.length>1){
-                 socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : history});
-             }
-		alert('OnlineList triger');
-	    }
+        
 
          function createWindow() {
              startChat();

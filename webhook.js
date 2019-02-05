@@ -616,6 +616,9 @@ io.sockets.on("connection", function (socket) {
   socket.on('transfer', function (data) {
     console.log("I am inside transfer");
     socket.conn.close();
+     socket.removeAllListeners('userWaitingOnline');
+                // socket.removeAllListeners('disconnect');
+                io.removeAllListeners('connection');
     io.sockets.in(data.uId).emit('endSocket', data);
   });
 
