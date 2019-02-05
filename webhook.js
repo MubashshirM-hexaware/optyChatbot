@@ -472,7 +472,7 @@ app.post('/connectToAgent', function (req, res) {
     userType: "customer",
     uId: req.body.sessionId
   });
-  createSalesForceCase(req);
+  // createSalesForceCase(req);
   res.status(200).send({
     success: 'true',
     message: 'Connection successful you can now chat with the agent'
