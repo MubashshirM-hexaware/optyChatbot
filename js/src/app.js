@@ -46,13 +46,13 @@
 
          socket.on('getHistory', function (data) {
             // alert('getHistory called');   
-            
-             console.log('Actual local history', getHistory());
-             console.log("Message%%%%%%%%%%%%%%%%%%%", getHistory());
+            var history = getHistory();
+             console.log('Actual local history', history);
+             console.log("Message%%%%%%%%%%%%%%%%%%%", history);
              socket.emit('sendMsgHistory', {
                  uId: data.uId,
                  userName: data.userName,
-                 msgHistory: getHistory()
+                 msgHistory: history
              });
          });
 
@@ -61,7 +61,12 @@
 		uId = data.uId;
         userName = data.userName
 		socket.emit('subscribe', { uId : data.uId, userName : userName, userType : "customer" });
-		userWaitingListUpdate();
+		 alert('OnlineList triger');
+            var history = getHistory();
+            if (history.length > 1) {
+                alert('inside history.length')
+                socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
+            }
 	    });
          
 
