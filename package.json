@@ -4,8 +4,8 @@
   "version": "2.0.0",
   "main": "webhook.js",
   "scripts": {
-    "test": "forever start -a -o ./out.log -e ./err.log --uid 'opty-chatbot' webhook.js",
-    "start": "node webhook.js",
+    "start": "forever start -a -o ./out.log -e ./err.log --uid 'opty-chatbot' webhook.js",
+    "test": "node webhook.js",
     "stop": "forever stop opty-chatbot"
   },
   "dependencies": {
