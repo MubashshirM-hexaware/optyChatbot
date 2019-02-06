@@ -9,7 +9,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
-	<!--<script src="https://cdn.jsdelivr.net/binaryjs/0.2.1/binary.min.js"></script>-->
 	<style type="text/css">
 		/* Remove the navbar's default margin-bottom and rounded borders */
 
@@ -183,6 +182,10 @@
 			margin-top: -18px;
 		}
 
+		ul#usersOnline li:not(:nth-last-child(2)) {
+			display: none;
+		}
+
 		.chat-widget .message.message-right .message-text:before,
 		.chat-widget .message.message-right .message-text:after {
 			left: 100%;
@@ -283,12 +286,6 @@
 							<h3 class="panel-title"><span class="badge badge-primary badge-pill" style="background-color:green;"><i class="glyphicon glyphicon-user"></i></span>								Users online </h3>
 						</div>
 
-						<!--<div class="panel-body" id="record-button">
-							<button onclick="startRecording()">Start Recording</button>
-							<button onclick="stopRecording()">Stop Recording</button>
-							<script src="recorder.js"></script>
-						</div>-->
-
 						<div class="panel-body" id="users-online-container" style="height:340px; min-height: 340px; max-height:340px; overflow-y: scroll; padding:0px;">
 							<ul id="usersOnline" class="list-group list-group-hover" style="link-color:red;">
 							</ul>
@@ -297,8 +294,6 @@
 						<div class="panel-footer" style="background-color:grey;">
 							<h4 style="color:white;">Total users waiting <span id="waitingUsersList" class="badge badge-primary badge-pill" style="background-color:yellow;color:black;"> 0 </span></h4>
 						</div>
-
-
 
 					</div>
 				</div>
@@ -374,7 +369,7 @@
 	</footer>
 
 	<script>
-		var socket = io('https://optychatbot.herokuapp.com/');
+		var socket = io('http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/');
 
 		var chatWindowOpenCloseStatus = 0;
 		var agentName = 'Agent';
@@ -392,7 +387,7 @@
 
 		/*alert("before setUserName Called "+ isBlank(lcl_cUname)+' value :'+ lcl_cUname);*/
 		if (isBlank(lcl_cUname)) {
-			//alert("setUserName Called");
+			
 			setUserName();
 			//usersWaitingOnlineRoomSubscribe();
 
@@ -409,7 +404,9 @@
 			aId = data.uId;
 		});
 
+
 		socket.on('receiveHistory', function (data) {
+			document.getElementById('message-container').innerHTML = '';
 			var userName = 'Bot';
 			console.log("Data", data);
 			var len = data.msgHistory.length;
@@ -426,23 +423,6 @@
 					}
 				}
 			}
-
-			// var msgHistoryLength = data.msgHistory.length;
-			// console.log('Print history', data.msgHistory);
-			// for (var i=0; i < msgHistoryLength; i++) {
-			// 	if(data.msgHistory[i].userName) {
-			// 		if( 'Bot' === data.msgHistory[i].userName ) {
-			// 			document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
-			// 			   data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';			
-			// 			scrollToBottom();
-			// 		} else {
-			// 			document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
-			//    data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';
-
-			// 			scrollToBottom();
-			// 		}
-			// 	}
-			// }
 		});
 
 		function transferToBot() {
@@ -451,9 +431,7 @@
 
 		function selectUserForConversation() {
 			console.log("Inside selectUserForConversation");
-			// getHistory();
-			//var botHistory = localStorage.getItem('botHistory');
-			//console.log('botHistory', JSON.parse(botHistory));
+
 			var x = document.getElementsByClassName("list-group-item");
 			for (i = 0; i < x.length; i++) {
 				x[i].onclick = function () {
@@ -490,41 +468,20 @@
 
 		}
 		function getHistory() {
-			var botHistory = localStorage.getItem('botHistory');
-			// console.log('msgHistory', localStorage.getItem('msgHistory'));
+			console.log('msgHistory', localStorage.getItem('msgHistory'));
 			history = localStorage.getItem('msgHistory');
 			//var historyArray = history.split(",").map(Number);
 			console.log("historyArray", historyPlaceHolder)
-
-			var botHistoryLength = botHistory.length;
-			console.log('Print history', botHistory);
-			for (var i = 0; i < botHistoryLength; i++) {
-				if (botHistory[i].userName) {
-					if ('Bot' === botHistory[i].userName) {
-						document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' +
-							botHistory[i].userName + '</b>: ' + botHistory[i].message + '</div></div></div>';
-						scrollToBottom();
-					} else {
-						document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' +
-							botHistory[i].userName + '</b>: ' + botHistory[i].message + '</div></div></div>';
-
-						scrollToBottom();
-					}
-				}
-			}
 		}
 		function usersWaitingOnlineRoomSubscribe() {
 			socket.emit('subscribe', { uId: 'usersWaitingOnlineRoom', userName: 'usersWaitingOnlineRoom', userType: userType });
 		}
 
 		socket.on('userWaitingOnline1', function (data) {
-			alert('users list updated');
-
 			historyPlaceHolder = data.msgHistory;
-			console.log('users list updated', historyPlaceHolder);
 			console.log("inside userWaitingOnline1....", data);
 			document.getElementById('usersOnline').innerHTML += '<li class="list-group-item list-group-item-action" onclick="selectUserForConversation()" id="' + data.uId + '"><a href="#"><span class="glyphicon glyphicon-user"></span>' + data.userName + '</a></li>';
-			document.getElementById('waitingUsersList').innerHTML = '' + data.totalWaitingUsers;
+			document.getElementById('waitingUsersList').innerHTML = '' +1;
 		});
 
 		socket.on('userLeft', function (data) {

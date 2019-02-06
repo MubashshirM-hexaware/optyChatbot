@@ -7,15 +7,10 @@ http = require('http'),
   TwitterStrategy = require('passport-twitter').Strategy,
   session = require('express-session');
 var io = require('socket.io').listen(server);
-var ioClient = require('socket.io-client')('http://ec2-54-196-67-105.compute-1.amazonaws.com:7000');
-var BinaryServer = require('binaryjs').BinaryServer;
-// var ioClient = require('socket.io-client')('https://localhost:7000/');
+var ioClient = require('socket.io-client')('http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/');
 // fb = require('fb');
 // fb = new facebook(options);
-var authHelper = require('./js/src/auth');
-var url = require('url');
 const crypto = require('crypto');
-var _accessToken;
 
 // var accessToken;
 
@@ -79,40 +74,6 @@ var Facebook = require('facebook-node-sdk');
 //     });
 //   }
 // ));
-
-//------------ Oauth 2.0 -----------------------------------------------
-function authorize(response, request) {
-  console.log("Authurl =====================", authHelper.getAuthUrl());
-  var url_parts = url.parse(req.url, true);
-    var code = url_parts.query.code;
-    console.log('Code: ' + code);
-  console.log('Code: ' + code);
-  if(code){
-    authHelper.getTokenFromCode(code, tokenReceived);
-  }else{
-    console.log("Error", code);
-  }
-  
-}
-
-function tokenReceived(error, token){
-  if(error){
-    console.log("Error while receiving token from the code");
-  }else{
-    _accessToken = token;
-    console.log('_accessToken........', _accessToken);
-  }
-}
-
-function home(response, request) {
-  console.log('Request handler \'home\' was called.');
-  response.writeHead(200, {'Content-Type': 'text/html'});
-  response.write('<p>Please <a href="' + authHelper.getAuthUrl() + '">sign in</a> with your Office 365 or Outlook.com account.</p>');
-  response.end();
-}
-
-//------------ Oauth 2.0 -----------------------------------------------
-
 
 var bodyParser = require('body-parser');
 var fs = require('fs');
@@ -428,60 +389,16 @@ function callServiceNowApi(url, dataService, type, callback) {
   }
 };
 
-function createSalesForceCase(req) {
-  console.log('inside sales force');
-  getAccessToken(req);
-  const header = {
-    api_key: 'application/json',
-    Authorization: `Bearer ${_accessToken}`,
-    'Content-Type': 'application/json'
-  };
-  var reqBody = {
-    "ContactId": "",
-    "AccountId": "",
-    "Type": null,
-    "Status": "New",
-    "Reason": null,
-    "Origin": "Email- Asia",
-    "Subject": "Test1 - Salesforce API tesing",
-    "Description": "Chat history",
-    "Priority": "P3- Medium"
-  };
-  var options = {
-    url: 'https://ap8.salesforce.com/services/data/v41.0/sobjects/Case',
-    method: "POST",
-    header: header,
-    body: reqBody,
-    json: true
-  };
-
-  requestAPI(options, function (error, response, body) {
-    if (error) {
-      console.log("error response", error);
-    } else {
-      console.log("Request success", response.body);
-    }
-  });
-}
 app.get('/agent', function (req, res) {
   res.render(__dirname + "/agent.ejs");
 });
-app.post('/connectToAgent', function (req, res) {  
-      // customers.push({
-      //   uId: uId,
-      //   userName: 'Charlotte'
-      // });
-      // await io.sockets.emit('userSetUser', {
-      //   uId: uId,
-      //   userName: 'Charlotte'
-      // });
-      // console.log('\n ' + data.userName + ' has been added to the customers list');
-    ioClient.emit('setUserName', {
+app.post('/connectToAgent', function (req, res) {
+  ioClient.emit('setUserName', {
     userName: "Charlotte",
     userType: "customer",
     uId: req.body.sessionId
   });
-  // createSalesForceCase(req);
+
   res.status(200).send({
     success: 'true',
     message: 'Connection successful you can now chat with the agent'
@@ -603,8 +520,7 @@ io.sockets.on("connection", function (socket) {
 
 
   socket.on('msg', function (data) {
-    debugger
-    console.log("on msg............", data);
+  console.log("on msg............", data);
     if (data.msgFrom == 'agent') {
       io.sockets.in(data.uId).emit('newMsg', data);
     } else if (data.msgFrom == 'user') {
@@ -618,27 +534,25 @@ io.sockets.on("connection", function (socket) {
   });
 
   socket.on('sendMsgHistory', function (data) {
-    console.log('i am inside sendmessagehistory')
     io.sockets.in(data.uId).emit('receiveHistory', data);
   });
 
   socket.on('transfer', function (data) {
     console.log("I am inside transfer");
     socket.conn.close();
-     socket.removeAllListeners('userWaitingOnline');
-
-                socket.removeAllListeners('sendMsgHistory');
-                socket.removeAllListeners('getHistoryFromBot');
-                socket.removeAllListeners('userSetUser');
-                io.removeAllListeners('connection');
+    socket.removeAllListeners('userWaitingOnline');
+    socket.removeAllListeners('sendMsgHistory');
+    socket.removeAllListeners('getHistoryFromBot');
+    socket.removeAllListeners('userSetUser');
+    io.removeAllListeners('connection');
     io.sockets.in(data.uId).emit('endSocket', data);
   });
 
 
 });
 
-app.post("/chathistory", async (req, res) => {
-
+app.post("/chathistory",async (req,res)=>{
+ 
 });
 
 

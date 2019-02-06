@@ -13,12 +13,12 @@
          var chatFinalTranscript = [];
          var chatRequest;
          localStorage.setItem("botHistory", JSON.stringify(chatFinalTranscript));
-         var socket = io('http://ec2-54-196-67-105.compute-1.amazonaws.com:7000');
+         localStorage.removeItem('chatTranscript');
+         var socket = io('http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/');
          let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
          var uId = sessionId
          var userName = '';
-        //  var msgHistory = JSON.parse(localStorage.getItem('chatTranscript'));
-         
+        //  var msgHistory = JSON.parse(localStorage.getItem('botHistory'));
 
 
          //============== socket =======================
@@ -45,38 +45,41 @@
          });
 
          socket.on('getHistory', function (data) {
-            alert('getHistory called');   
-            var history = getHistory();
-             console.log('Actual local history', history);
-             console.log("Message%%%%%%%%%%%%%%%%%%%", history);
+             var chatHistory = getHistory();
+             console.log('Actual local history', chatHistory);
+             console.log("Message%%%%%%%%%%%%%%%%%%%", chatHistory);
              socket.emit('sendMsgHistory', {
                  uId: data.uId,
                  userName: data.userName,
-                 msgHistory: history
+                 msgHistory: chatHistory
              });
          });
 
-         socket.on('userSetUser', async function(data) {
-            console.log("I am inside user set", data);
-		uId = data.uId;
-        userName = data.userName
-	     socket.emit('subscribe', { uId : data.uId, userName : userName, userType : "customer" });
-		 alert('OnlineList triger');
-            var history = await getHistory();
-            console.log("History", history);
-            if (history.length > 1) {
-                // alert('inside history.length')
-                await socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
-            }
-	    });
-         
+         socket.on('userSetUser', async function (data) {
+             console.log("I am inside user set", data);
+             uId = data.uId;
+             userName = data.userName
+             socket.emit('subscribe', {
+                 uId: data.uId,
+                 userName: userName,
+                 userType: "customer"
+             });
+             var chatHistory = await getHistory();
+             if (chatHistory.length > 0) {
+               await  socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : chatHistory});
+             } 
+         });
 
          socket.on('endSocket', function (data) {
              localStorage.setItem('connect', "false");
-              
          });
 
          //================socket end ======================
+
+         function getHistory(){
+             var history = JSON.parse(localStorage.getItem('chatTranscript'));
+             return history;
+         }
 
          function closeWin() {
              setTimeout(() => {
@@ -84,10 +87,6 @@
              }, 2000);
          }
 
-        function getHistory(){
-            var history = JSON.parse(localStorage.getItem('chatTranscript'));
-            return history;
-        }
          function adjustPopups() {
              let msgboxh = $("div.header-popup").next().height();
              let chath = $("div.header-popup").next().next().height();
@@ -146,7 +145,7 @@
                  //      initDemo();
 
                  //  } 
-                 //history.push({uId: uId, message: text, userName: userName});
+                //  msgHistory.push({uId: uId, message: text, userName: userName});
                  console.log("Testg " + JSON.stringify(getHistory()));
                  //socket.emit('msg', {uId: uId, message: text, userName: userName});
                  if (localStorage.getItem("connect") == "true") {
@@ -545,7 +544,7 @@
 
          }
 
-        
+         
 
          function createWindow() {
              startChat();

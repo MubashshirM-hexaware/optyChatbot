@@ -4,8 +4,8 @@
   "version": "2.0.0",
   "main": "webhook.js",
   "scripts": {
-    "test": "forever start -a -o ./out.log -e ./err.log --uid 'opty-chatbot' webhook.js",
-    "start": "node webhook.js",
+    "start": "forever start -a -o ./out.log -e ./err.log --uid 'opty-chatbot' webhook.js",
+    "test": "node webhook.js",
     "stop": "forever stop opty-chatbot"
   },
   "dependencies": {
@@ -21,9 +21,7 @@
     "passport-twitter": "1.0.4",
     "redis": "^2.8.0",
     "request": "^2.87.0",
-    "simple-oauth2": "^2.2.1",
-    "socket.io": "^2.1.1",
-    "binaryjs": "^0.2.1"
+    "socket.io": "^2.1.1"
   },
   "description": "",
   "repository": {
@@ -32,9 +30,6 @@
   },
   "author": "CEXT Team",
   "license": "ISC",
-  "engines": {
-    "node": "8.7.0"
-  },
   "bugs": {
     "url": "https://github.com/AshwinG-41741/optyChatbot/issues"
   },
