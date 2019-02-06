@@ -76,7 +76,7 @@
          //================socket end ======================
 
          function getHistory(){
-             var history = localStorage.getItem('chatTranscript');
+             var history = JSON.parse(localStorage.getItem('chatTranscript'));
              return history;
          }
 
