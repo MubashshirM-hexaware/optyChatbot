@@ -574,9 +574,13 @@ io.sockets.on("connection", function (socket) {
         userName: data.userName,
         sockId: socket.id
       });
-      io.sockets.emit('userSetUser', {
-        uId: uId,
-        userName: data.userName
+      // io.sockets.emit('userSetUser', {
+      //   uId: uId,
+      //   userName: data.userName
+      // });
+      socket.emit('userSetUser', {
+        uId : uId,
+        userName : data.userName
       });
       console.log('\n ' + data.userName + ' has been added to the customers list');
     }
