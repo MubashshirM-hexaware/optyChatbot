@@ -108,6 +108,18 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                             //messageConversation.Bot = response.result.fulfillment.displayText;
                         }
                         if (response.result.fulfillment.messages.length > 0) {
+                            if(response.result.fulfillment.messages.length >1){
+                                if(response.result.fulfillment.messages[1].hasOwnProperty("subtitle")){
+                                history.botresponse = response.result.fulfillment.messages[1].subtitle;
+                                messageConversation += `Bot: ${response.result.fulfillment.messages[1].subtitle}\n`;
+                                botHistory.push({uId: '', message: response.result.fulfillment.messages[1].subtitle, userName: 'Bot'});
+                            }
+                            }
+                            if(response.result.fulfillment.messages[0].hasOwnProperty("speech")){
+                                history.botresponse = response.result.fulfillment.messages[0].speech;
+                                messageConversation += `Bot: ${response.result.fulfillment.messages[0].speech}\n`;
+                                botHistory.push({uId: '', message: response.result.fulfillment.messages[0].speech, userName: 'Bot'});
+                            }
                             if (response.result.fulfillment.messages[0].hasOwnProperty("title")) {
                                 history.botresponse = response.result.fulfillment.messages[0].title;
                                 messageConversation += `Bot: ${response.result.fulfillment.messages[0].title}\n`;
@@ -119,6 +131,13 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                 messageConversation += `Bot: ${response.result.fulfillment.messages[0].payload.facebook.text}\n`;
                                 botHistory.push({uId: '', message: response.result.fulfillment.messages[0].payload.facebook.text, userName: 'Bot'});
                                 //messageConversation.Bot = response.result.fulfillment.messages[0].payload.facebook.text;
+                            }
+                            if (response.result.fulfillment.messages[0].hasOwnProperty("payload") && response.result.fulfillment.messages[0].payload.hasOwnProperty("facebook") && response.result.fulfillment.messages[0].payload.facebook.hasOwnProperty("attachment")
+                                    && response.result.fulfillment.messages[0].payload.facebook.attachment.hasOwnProperty("payload") && response.result.fulfillment.messages[0].payload.facebook.attachment.payload.hasOwnProperty("elements")
+                                        && response.result.fulfillment.messages[0].payload.facebook.attachment.payload.elements[0].hasOwnProperty("subtitle")){
+                                         history.botresponse = response.result.fulfillment.messages[0].payload.facebook.attachment.payload.elements[0].subtitle;
+                                        messageConversation += `Bot: ${response.result.fulfillment.messages[0].payload.facebook.attachment.payload.elements[0].subtitle}\n`;
+                                        botHistory.push({uId: '', message: response.result.fulfillment.messages[0].payload.facebook.attachment.payload.elements[0].subtitle, userName: 'Bot'});   
                             }
                         }
                         if (localStorage.getItem('clientid')) {
