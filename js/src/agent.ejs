@@ -406,6 +406,7 @@
 
 
 		socket.on('receiveHistory', function (data) {
+			document.getElementById('message-container').innerHTML = '';
 			var userName = 'Bot';
 			console.log("Data", data);
 			var len = data.msgHistory.length;
