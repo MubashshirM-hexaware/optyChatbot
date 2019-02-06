@@ -620,6 +620,7 @@ io.sockets.on("connection", function (socket) {
 
                 socket.removeAllListeners('sendMsgHistory');
                 socket.removeAllListeners('getHistoryFromBot');
+                socket.removeAllListeners('userSetUser');
                 io.removeAllListeners('connection');
     io.sockets.in(data.uId).emit('endSocket', data);
   });
