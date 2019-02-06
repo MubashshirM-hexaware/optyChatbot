@@ -60,9 +60,10 @@
             console.log("I am inside user set", data);
 		uId = data.uId;
         userName = data.userName
-		await socket.emit('subscribe', { uId : data.uId, userName : userName, userType : "customer" });
+	     socket.emit('subscribe', { uId : data.uId, userName : userName, userType : "customer" });
 		 alert('OnlineList triger');
-            var history = getHistory();
+            var history = await getHistory();
+            console.log("History", history);
             if (history.length > 1) {
                 // alert('inside history.length')
                 await socket.emit('userWaitingOnline', { uId: uId, userName: userName, msgHistory: history });
