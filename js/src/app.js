@@ -13,7 +13,7 @@
          var chatFinalTranscript = [];
          var chatRequest;
          localStorage.setItem("botHistory", JSON.stringify(chatFinalTranscript));
-         var socket = io('https://optychatbot.herokuapp.com/');
+         var socket = io('https://ethisalatweb.herokuapp.com/');
          let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
          var uId = sessionId
          var userName = '';
