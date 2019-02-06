@@ -45,7 +45,7 @@
          });
 
          socket.on('getHistory', function (data) {
-            // alert('getHistory called');   
+            alert('getHistory called');   
             var history = getHistory();
              console.log('Actual local history', history);
              console.log("Message%%%%%%%%%%%%%%%%%%%", history);
@@ -61,7 +61,7 @@
 		uId = data.uId;
         userName = data.userName
 		await socket.emit('subscribe', { uId : data.uId, userName : userName, userType : "customer" });
-		//  alert('OnlineList triger');
+		 alert('OnlineList triger');
             var history = getHistory();
             if (history.length > 1) {
                 // alert('inside history.length')
