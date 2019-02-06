@@ -54,7 +54,7 @@
              });
          });
 
-         socket.on('userSetUser', function (data) {
+         socket.on('userSetUser', async function (data) {
              console.log("I am inside user set", data);
              uId = data.uId;
              userName = data.userName
@@ -63,9 +63,9 @@
                  userName: userName,
                  userType: "customer"
              });
-             var chatHistory = getHistory();
+             var chatHistory = await getHistory();
              if (chatHistory.length > 0) {
-                socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : chatHistory});
+               await  socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : chatHistory});
              } 
          });
 

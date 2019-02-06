@@ -520,8 +520,7 @@ io.sockets.on("connection", function (socket) {
 
 
   socket.on('msg', function (data) {
-    debugger
-    console.log("on msg............", data);
+  console.log("on msg............", data);
     if (data.msgFrom == 'agent') {
       io.sockets.in(data.uId).emit('newMsg', data);
     } else if (data.msgFrom == 'user') {
