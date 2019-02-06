@@ -466,12 +466,21 @@ function createSalesForceCase(req) {
 app.get('/agent', function (req, res) {
   res.render(__dirname + "/agent.ejs");
 });
-app.post('/connectToAgent', function (req, res) {
-  ioClient.emit('setUserName', {
-    userName: "Charlotte",
-    userType: "customer",
-    uId: req.body.sessionId
-  });
+app.post('/connectToAgent', async function (req, res) {  
+      customers.push({
+        uId: uId,
+        userName: 'Charlotte'
+      });
+      await io.sockets.emit('userSetUser', {
+        uId: uId,
+        userName: 'Charlotte'
+      });
+      console.log('\n ' + data.userName + ' has been added to the customers list');
+  // await ioClient.emit('setUserName', {
+  //   userName: "Charlotte",
+  //   userType: "customer",
+  //   uId: req.body.sessionId
+  // });
   // createSalesForceCase(req);
   res.status(200).send({
     success: 'true',
