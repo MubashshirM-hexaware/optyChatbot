@@ -359,7 +359,7 @@
 </footer>
 
 <script>	
-	var socket = io('https://contactcenterbot.herokuapp.com/');
+	var socket = io('https://optychatbot.herokuapp.com');
 
 	var chatWindowOpenCloseStatus = 0;
 	var agentName = 'Agent';
@@ -394,45 +394,24 @@
 		aId = data.uId;
 	});
 	
-	socket.on('receiveHistory', function(data) {
 		
-		// history = localStorage.getItem('botHistory');
-		// console.log("history...........",typeof history , JSON.stringify(history) )
-		// for (var i=0; i < history.length; i++) {
-		
-		// 	if(history[i].userName) {
-		// 		if( agentName === data.msgHistory[i].userName ) {
-		// 			document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
-		// 			   history[i].userName + '</b>: ' + history[i].message + '</div></div></div>';
-					
-		// 			scrollToBottom();
-		// 		} else {
-		// 			document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
-		//    history[i].userName + '</b>: ' + history[i].message + '</div></div></div>';
-					
-		// 			scrollToBottom();
-		// 		}
-		// 	}
-		// }
-
-
-		var msgHistoryLength = data.msgHistory.length;
-		
-		for (var i=0; i < msgHistoryLength; i++) {
-		
-			if(data.msgHistory[i].userName) {
-				if( 'Bot' === data.msgHistory[i].userName ) {
-					document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
-					   data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';			
-					scrollToBottom();
-				} else {
-					document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' + 
-		   data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';
-					
-					scrollToBottom();
+		socket.on('receiveHistory', function (data) {
+			var userName = 'Bot';
+			console.log("Data", data);
+			var len = data.msgHistory.length;
+			for (var i = 0; i < len; i++) {
+				if (data.msgHistory[i].userName) {
+					if ('Bot' === data.msgHistory[i].userName) {
+						document.getElementById('message-container').innerHTML += '<div class="message"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' +
+							data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';
+						scrollToBottom();
+					} else {
+						document.getElementById('message-container').innerHTML += '<div class="message message-right"><div class="avatar"><img class="img-circle avatar" alt="chat avatar" src="/avatar/user-128.png"></div><div class="message-text-wrapper"><div class="message-text"><b>' +
+							data.msgHistory[i].userName + '</b>: ' + data.msgHistory[i].message + '</div></div></div>';
+						scrollToBottom();
+					}
 				}
 			}
-		}
 	});
 
 	function transferToBot(){
@@ -441,9 +420,7 @@
 
 	function selectUserForConversation() {
 		console.log("Inside selectUserForConversation");
-		//getHistory();
-		var botHistory = localStorage.getItem('botHistory');
-		console.log('botHistory', JSON.parse(botHistory));
+		
 		var x = document.getElementsByClassName("list-group-item");
 		for (i = 0; i < x.length; i++) {
 			x[i].onclick = function(){

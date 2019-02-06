@@ -155,6 +155,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                         if (response.result.action == "Optus") {
                             // if (response.result.metadata.intentName == "CONNECT") {
                                 console.log("Inside connect", JSON.stringify(response.result));
+                                localStorage.setItem("chatTranscript", JSON.stringify(botHistory));
                                 let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
                                 utils.initiateAjax("/connectToAgent", "POST", {
                                     userName: "",
@@ -171,8 +172,7 @@ define(['jquery', 'settings', 'utils', 'messageTemplates', 'cards', 'uuid'],
                                         if (data.success) {
                                             console.log("connect true");
                                             localStorage.setItem("connect", true);
-                                            localStorage.setItem("botHistory", JSON.stringify(botHistory));
-                                            console.log(JSON.parse(localStorage.getItem('botHistory')))
+                                            console.log(JSON.parse(localStorage.getItem('chatTranscript')))
                                             console.log("messageConversation qewry");
                                             agenthtml = `<li class="animated fadeInLeft list-group-item background-color-custom">
                                                             <table border="0" cellpadding="0" cellspacing="0">

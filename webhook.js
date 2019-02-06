@@ -7,7 +7,7 @@ http = require('http'),
   TwitterStrategy = require('passport-twitter').Strategy,
   session = require('express-session');
 var io = require('socket.io').listen(server);
-var ioClient = require('socket.io-client')('http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/');
+var ioClient = require('socket.io-client')('https://optychatbot.herokuapp.com');
 // fb = require('fb');
 // fb = new facebook(options);
 const crypto = require('crypto');
@@ -541,6 +541,11 @@ io.sockets.on("connection", function (socket) {
   socket.on('transfer', function (data) {
     console.log("I am inside transfer");
     socket.conn.close();
+    socket.removeAllListeners('userWaitingOnline');
+    socket.removeAllListeners('sendMsgHistory');
+    socket.removeAllListeners('getHistoryFromBot');
+    socket.removeAllListeners('userSetUser');
+    io.removeAllListeners('connection');
     io.sockets.in(data.uId).emit('endSocket', data);
   });
 

@@ -13,11 +13,11 @@
          var chatFinalTranscript = [];
          var chatRequest;
          localStorage.setItem("botHistory", JSON.stringify(chatFinalTranscript));
-         var socket = io('http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/');
+         var socket = io('https://optychatbot.herokuapp.com');
          let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
          var uId = sessionId
          var userName = '';
-         var msgHistory = JSON.parse(localStorage.getItem('botHistory'));
+        //  var msgHistory = JSON.parse(localStorage.getItem('botHistory'));
 
 
          //============== socket =======================
@@ -44,12 +44,13 @@
          });
 
          socket.on('getHistory', function (data) {
-             console.log('Actual local history', msgHistory);
-             console.log("Message%%%%%%%%%%%%%%%%%%%", msgHistory);
+             var chatHistory = getHistory();
+             console.log('Actual local history', chatHistory);
+             console.log("Message%%%%%%%%%%%%%%%%%%%", chatHistory);
              socket.emit('sendMsgHistory', {
                  uId: data.uId,
                  userName: data.userName,
-                 msgHistory: msgHistory
+                 msgHistory: chatHistory
              });
          });
 
@@ -62,7 +63,10 @@
                  userName: userName,
                  userType: "customer"
              });
-            userWaitingListUpdate();
+             var chatHistory = getHistory();
+             if (chatHistory.length > 0) {
+                socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : chatHistory});
+             } 
          });
 
          socket.on('endSocket', function (data) {
@@ -70,6 +74,11 @@
          });
 
          //================socket end ======================
+
+         function getHistory(){
+             var history = localStorage.getItem('chatTranscript');
+             return history;
+         }
 
          function closeWin() {
              setTimeout(() => {
@@ -135,8 +144,8 @@
                  //      initDemo();
 
                  //  } 
-                 msgHistory.push({uId: uId, message: text, userName: userName});
-                 console.log("Testg " + JSON.stringify(msgHistory));
+                //  msgHistory.push({uId: uId, message: text, userName: userName});
+                 console.log("Testg " + JSON.stringify(chatHistory));
                  //socket.emit('msg', {uId: uId, message: text, userName: userName});
                  if (localStorage.getItem("connect") == "true") {
                      let userhtml = '';
@@ -534,12 +543,7 @@
 
          }
 
-         function userWaitingListUpdate() {
-             if (msgHistory.length > 0) {
-                socket.emit('userWaitingOnline', {uId : uId, userName : userName, msgHistory : msgHistory});
-             }            
-            // alert('OnlineList triger');
-            }
+         
 
          function createWindow() {
              startChat();
