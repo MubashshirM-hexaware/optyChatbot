@@ -1,13 +1,13 @@
 var express = require('express'),
   app = express(),
-  server = app.listen(process.env.PORT || 7000);
+  server = app.listen(process.env.PORT || 9000);
 http = require('http'),
   httpServer = http.Server(app),
   passport = require('passport'),
   TwitterStrategy = require('passport-twitter').Strategy,
   session = require('express-session');
 var io = require('socket.io').listen(server);
-var ioClient = require('socket.io-client')('http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/');
+var ioClient = require('socket.io-client')('http://ec2-3-84-25-177.compute-1.amazonaws.com:9000/');
 // fb = require('fb');
 // fb = new facebook(options);
 const crypto = require('crypto');
@@ -62,7 +62,7 @@ var Facebook = require('facebook-node-sdk');
 // passport.use(new TwitterStrategy({
 //     consumerKey: process.env.consumer_key,
 //     consumerSecret: process.env.consumer_secret,
-//     callbackURL: "http://ec2-54-196-67-105.compute-1.amazonaws.com:7000/auth/twitter/callback"
+//     callbackURL: "http://ec2-3-84-25-177.compute-1.amazonaws.com:9000/auth/twitter/callback"
 //   },
 //   function (token, tokenSecret, profile, done) {
 //     process.nextTick(function () {
