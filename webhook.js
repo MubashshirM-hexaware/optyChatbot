@@ -46,7 +46,7 @@ const crypto = require('crypto');
 //   );
 // }
 
-var Facebook = require('facebook-node-sdk');
+// var Facebook = require('facebook-node-sdk');
 
 // var facebook = new Facebook({appID: process.env.appID, secret: process.env.appSecret}).setAccessToken(process.env.fbaccessToken);
 
@@ -91,26 +91,26 @@ app.use(passport.session());
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
-app.use(Facebook.middleware({
-  appId: process.env.appID,
-  secret: process.env.appSecret
-}));
+// app.use(Facebook.middleware({
+//   appId: process.env.appID,
+//   secret: process.env.appSecret
+// }));
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-app.get('/feed', Facebook.loginRequired(), function (req, res) {
-  res.send("inside feed");
-  req.facebook.api('/me', function (err, data) {
-    console.log('err', err)
-    console.log('user', data);
-    res.writeHead(200, {
-      'Content-Type': 'text/plain'
-    });
-    res.end('Hello, ' + data + '!');
-  });
-})
+// app.get('/feed', Facebook.loginRequired(), function (req, res) {
+//   res.send("inside feed");
+//   req.facebook.api('/me', function (err, data) {
+//     console.log('err', err)
+//     console.log('user', data);
+//     res.writeHead(200, {
+//       'Content-Type': 'text/plain'
+//     });
+//     res.end('Hello, ' + data + '!');
+//   });
+// })
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
