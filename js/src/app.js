@@ -14,7 +14,7 @@
          var chatRequest;
          localStorage.setItem("botHistory", JSON.stringify(chatFinalTranscript));
          localStorage.removeItem('chatTranscript');
-         var socket = io('http://ec2-3-84-25-177.compute-1.amazonaws.com:9000/');
+         var socket = io('http://hexalivechat.herokuapp.com/');
          let sessionId = !localStorage.getItem('uuid') ? localStorage.setItem('uuid', uuidv1()) : localStorage.getItem('uuid');
          var uId = sessionId
          var userName = '';
