@@ -479,6 +479,7 @@ io.sockets.on("connection", function (socket) {
 
   socket.on('setUserName', function (data) {
     console.log('I am inside setUserName : ', data.userType);
+    console.log('SOCKET DATA----->', data);
     var uId = data.uId;
 
     if (data.userType == "agent") {
