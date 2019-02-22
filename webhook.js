@@ -417,7 +417,7 @@ var agents = [];
 io.set('transports', ['websocket', 'polling']);
 io.sockets.on("connection", function (socket) {
   socket.on('subscribe', function (data) {
-
+    console.log('Subscribe Data', data);
     socket.join(data.uId);
 
     console.log('\nUser ' + data.userName + ' has been joined in room ' + data.uId);
